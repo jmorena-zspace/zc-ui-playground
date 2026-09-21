@@ -7,7 +7,6 @@ import {
 import { BaseButton } from '@components/buttons/base-button/base-button';
 import { environment } from '@constants/environment';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { ARIA_LABELS, PAGE_TEXTS, useTranslation } from '@zcentral-v2/i18n';
 import clsx from 'clsx';
 import { FC, useCallback, useRef, useState } from 'react';
 import { BlurredModal } from './blurred-modal';
@@ -23,7 +22,6 @@ export const NoInternetConnectionModal: FC<NoInternetConnectionModalProps> = ({
   onClose,
   onRetry,
 }) => {
-  const { t } = useTranslation();
   const [isRetrying, setIsRetrying] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -57,31 +55,31 @@ export const NoInternetConnectionModal: FC<NoInternetConnectionModalProps> = ({
               className="text-content-primary text-[24px]"
             />
             <h2 className="text-body-lg font-bold text-content-primary">
-              {t(PAGE_TEXTS.HOME.NO_INTERNET_CONNECTION_MODAL_TITLE)}
+              No internet connection modal title
             </h2>
           </div>
           <button
             type="button"
             onClick={onClose}
             className="icon-btn icon-btn-on-surface text-content-secondary"
-            aria-label={t(ARIA_LABELS.UI.CLOSE_BUTTON)}
+            aria-label="Close"
           >
             <FontAwesomeIcon icon={faXmark} className="w-3 h-3" />
           </button>
         </div>
 
         <div className="flex flex-col gap-md text-body-md font-regular text-content-secondary text-center">
-          <p>{t(PAGE_TEXTS.HOME.NO_INTERNET_CONNECTION_MODAL_MESSAGE_1)}</p>
-          <p>{t(PAGE_TEXTS.HOME.NO_INTERNET_CONNECTION_MODAL_MESSAGE_2)}</p>
+          <p>No internet connection modal message 1</p>
+          <p>No internet connection modal message 2</p>
           <p>
-            {t(PAGE_TEXTS.HOME.NO_INTERNET_CONNECTION_MODAL_MESSAGE_3)}
+            No internet connection modal message 3
             <a
               href={environment.supportUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="text-content-brand-default underline"
             >
-              {t(PAGE_TEXTS.HOME.NO_INTERNET_CONNECTION_MODAL_MESSAGE_4)}
+              No internet connection modal message 4
             </a>
           </p>
         </div>
@@ -93,12 +91,12 @@ export const NoInternetConnectionModal: FC<NoInternetConnectionModalProps> = ({
               className={clsx({ 'animate-spin': isRetrying })}
             />
             <span className="text-body-md font-medium ">
-              {t(PAGE_TEXTS.HOME.RETRY_BUTTON)}
+              Retry button
             </span>
           </BaseButton>
           <BaseButton color="primary" size="md" onClick={onClose}>
             <span className="text-body-md font-medium ">
-              {t(PAGE_TEXTS.HOME.CONTINUE_OFFLINE_BUTTON)}
+              Continue offline button
             </span>
             <FontAwesomeIcon icon={faArrowRight} className="w-3 h-3" />
           </BaseButton>

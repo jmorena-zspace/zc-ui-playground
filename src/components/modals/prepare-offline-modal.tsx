@@ -9,7 +9,6 @@ import { BaseButton } from '@components/buttons/base-button/base-button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { useQuery } from '@tanstack/react-query';
-import { ARIA_LABELS, PAGE_TEXTS, useTranslation } from '@zcentral-v2/i18n';
 import clsx from 'clsx';
 import { FC, useCallback, useEffect, useRef, useState } from 'react';
 import { BlurredModal } from './blurred-modal';
@@ -27,7 +26,6 @@ export const PrepareOfflineModal: FC<PrepareOfflineModalProps> = ({
   show,
   onClose,
 }) => {
-  const { t } = useTranslation();
   const [syncState, setSyncState] = useState<SyncState>('syncing');
   const abortControllerRef = useRef<AbortController | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -84,7 +82,7 @@ export const PrepareOfflineModal: FC<PrepareOfflineModalProps> = ({
       onClick={handleClose}
       leftIcon={<FontAwesomeIcon icon={faXmark} />}
     >
-      {t(PAGE_TEXTS.SETTINGS.OFFLINE_CACHE_CLOSE)}
+      Offline cache close
     </BaseButton>
   );
 
@@ -108,14 +106,14 @@ export const PrepareOfflineModal: FC<PrepareOfflineModalProps> = ({
               className="text-content-primary text-[24px]"
             />
             <h2 className="text-body-lg font-bold text-content-primary">
-              {t(PAGE_TEXTS.SETTINGS.OFFLINE_CACHE_MODAL_TITLE)}
+              Offline cache modal title
             </h2>
           </div>
           <button
             type="button"
             onClick={handleClose}
             className="icon-btn icon-btn-on-surface text-content-secondary"
-            aria-label={t(ARIA_LABELS.UI.CLOSE_BUTTON)}
+            aria-label="Close"
           >
             <FontAwesomeIcon icon={faXmark} className="w-3 h-3" />
           </button>
@@ -124,7 +122,7 @@ export const PrepareOfflineModal: FC<PrepareOfflineModalProps> = ({
         {syncState === 'syncing' && (
           <>
             <p className="text-body-md font-regular text-content-secondary text-center">
-              {t(PAGE_TEXTS.SETTINGS.OFFLINE_CACHE_DOWNLOADING_MESSAGE)}
+              Offline cache downloading message
             </p>
 
             <div className="flex flex-col gap-lg items-center">
@@ -151,11 +149,9 @@ export const PrepareOfflineModal: FC<PrepareOfflineModalProps> = ({
             </div>
 
             <p className="text-body-md font-regular text-content-secondary text-center">
-              {t(
-                syncState === 'success'
-                  ? PAGE_TEXTS.SETTINGS.OFFLINE_CACHE_READY
-                  : PAGE_TEXTS.SETTINGS.OFFLINE_CACHE_ERROR_MESSAGE
-              )}
+              {syncState === 'success'
+                ? 'Your content is ready to use offline.'
+                : 'We could not prepare your content for offline use.'}
             </p>
 
             <div className="flex gap-lg justify-center">
@@ -170,11 +166,7 @@ export const PrepareOfflineModal: FC<PrepareOfflineModalProps> = ({
                   ) : undefined
                 }
               >
-                {t(
-                  syncState === 'success'
-                    ? PAGE_TEXTS.SETTINGS.OFFLINE_CACHE_CLOSE
-                    : PAGE_TEXTS.SETTINGS.OFFLINE_CACHE_RETRY
-                )}
+                {syncState === 'success' ? 'Close' : 'Try again'}
               </BaseButton>
             </div>
           </>

@@ -1,7 +1,6 @@
 import { faCheck } from '@awesome.me/kit-935ddc1468/icons/classic/solid';
 import { usePopoverContext } from '@components/ui/popover';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { ARIA_LABELS, useTranslation } from '@zcentral-v2/i18n';
 import clsx from 'clsx';
 import { FC, useCallback } from 'react';
 import { Language } from './language-switcher';
@@ -19,7 +18,6 @@ export const LanguageOption: FC<LanguageOptionProps> = ({
   isActive = false,
   onLanguageChange,
 }) => {
-  const { t } = useTranslation();
   const popover = usePopoverContext();
 
   const handleLanguageChange = useCallback(() => {
@@ -55,9 +53,7 @@ export const LanguageOption: FC<LanguageOptionProps> = ({
             src={language.flagIconUrl}
             width="20"
             height="20"
-            alt={t(ARIA_LABELS.UI.LANGUAGE_FLAG_ICON_ALT, {
-              name: language.name,
-            })}
+            alt="Language flag icon alt"
           />
           <span
             className={clsx(

@@ -16,14 +16,12 @@ import { useSpotlightShortcut } from '@hooks/spotlight-shortcut';
 import { useDesktopNativeAppStore } from '@stores/desktop-native-app';
 import { useInternetConnectionStore } from '@stores/internet-connection';
 import { Link, useMatchRoute } from '@tanstack/react-router';
-import { ARIA_LABELS, PAGE_TEXTS, useTranslation } from '@zcentral-v2/i18n';
 import { matchesAccelerator } from '@zcentral-v2/utils';
 import clsx from 'clsx';
 import { FC, useEffect, useState } from 'react';
 import { toast } from 'sonner';
 
 export const DesktopNavbar: FC = () => {
-  const { t } = useTranslation();
   const matchRoute = useMatchRoute();
   const [isGlobalSearchOpen, setIsGlobalSearchOpen] = useState(false);
   const { isDesktopNativeApp } = useDesktopNativeAppStore();
@@ -51,7 +49,7 @@ export const DesktopNavbar: FC = () => {
       setShowNoInternetConnectionModal(false);
       setHasNotifiedOffline(true);
     } else {
-      toast.error(t(PAGE_TEXTS.HOME.FAILED_TO_RECONNECT_MESSAGE));
+      toast.error('Failed to reconnect message');
     }
   };
 
@@ -76,7 +74,7 @@ export const DesktopNavbar: FC = () => {
     <>
       <nav
         className="hidden bg-transparent md:block"
-        aria-label={t(ARIA_LABELS.UI.NAVIGATION)}
+        aria-label="Navigation"
       >
         <div
           className={clsx(mainContainer, 'flex items-center px-lg pt-md pb-xl')}
@@ -104,14 +102,14 @@ export const DesktopNavbar: FC = () => {
               <Link
                 to="/settings"
                 className="icon-btn icon-btn-on-dark text-content-action-on-primary-default"
-                aria-label={t(ARIA_LABELS.UI.SETTINGS)}
+                aria-label="Settings"
               >
                 <FontAwesomeIcon className="h-4 w-4" icon={faCog} />
               </Link>
               <Link
                 to="/help"
                 className="icon-btn icon-btn-on-dark text-content-action-on-primary-default"
-                aria-label={t(ARIA_LABELS.UI.HELP_PAGE)}
+                aria-label="Help page"
               >
                 <FontAwesomeIcon icon={faCircleQuestion} />
               </Link>

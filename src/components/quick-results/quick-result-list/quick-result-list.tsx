@@ -1,5 +1,4 @@
 import { ApplicationCard, LessonCard } from '@components/cards';
-import { ARIA_LABELS, useTranslation } from '@zcentral-v2/i18n';
 import { ContentItem, ContentType } from '@zcentral-v2/types';
 import clsx from 'clsx';
 import { FC, useCallback } from 'react';
@@ -19,7 +18,6 @@ export const QuickResultList: FC<QuickResultListProps> = ({
   invertedHover = false,
   compact = false,
 }) => {
-  const { t } = useTranslation();
   const keyExtractor = useCallback((result: ContentItem) => {
     return result.id;
   }, []);
@@ -57,7 +55,7 @@ export const QuickResultList: FC<QuickResultListProps> = ({
         'pt-xs pb-xs': compact,
         'pt-sm px-sm pb-md': !compact,
       })}
-      aria-label={t(ARIA_LABELS.HOME.QUICK_RESULTS_LIST)}
+      aria-label="Quick results list"
     >
       {results.map((result) => (
         <li key={keyExtractor(result)} data-nav-item>

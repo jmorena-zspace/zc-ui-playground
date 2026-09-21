@@ -1,6 +1,5 @@
 import { faFilter } from '@awesome.me/kit-935ddc1468/icons/classic/solid';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { PAGE_TEXTS, useTranslation } from '@zcentral-v2/i18n';
 import { useState } from 'react';
 import { ClearButton } from './buttons/clear-button';
 import { FilterButton } from './buttons/filter-button';
@@ -26,7 +25,6 @@ export function Filter<T>({
   onFilterChange,
   onClearAllFilters,
 }: FilterProps<T>) {
-  const { t } = useTranslation();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const filterQuery = useFilterQuery();
 
@@ -126,7 +124,7 @@ export function Filter<T>({
       <div className="flex w-full md:hidden">
         <FilterButton fullSized onClick={() => setIsModalOpen(true)}>
           <FontAwesomeIcon icon={faFilter} className="h-3 w-3" />
-          <span>{t(PAGE_TEXTS.UI.FILTER)}</span>
+          <span>Filter</span>
           {totalFiltersApplied > 0 && <span> ({totalFiltersApplied})</span>}
         </FilterButton>
 
@@ -149,7 +147,7 @@ export function Filter<T>({
                 className="py-xxs"
                 onClick={onClearAllFiltersModalHandler}
               >
-                {t(PAGE_TEXTS.UI.CLEAR_ALL)}
+                Clear all
               </ClearButton>
             </div>
           )}
@@ -171,7 +169,7 @@ export function Filter<T>({
           ))}
           {hasFiltersApplied && (
             <ClearButton onClick={onClearAllFilters} className="px-sm py-xxs">
-              {t(PAGE_TEXTS.UI.CLEAR_ALL)}
+              Clear all
             </ClearButton>
           )}
         </div>

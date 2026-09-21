@@ -2,7 +2,6 @@ import { NoResultsIcon } from '@assets/no-results';
 import { faChevronDown } from '@awesome.me/kit-935ddc1468/icons/classic/solid';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { handleArrowNavigation } from '@shared/utils';
-import { PAGE_TEXTS, useTranslation } from '@zcentral-v2/i18n';
 import clsx from 'clsx';
 import { ClearButton } from '../buttons/clear-button';
 import { FilterButton } from '../buttons/filter-button';
@@ -32,7 +31,6 @@ export function FilterMultiSelectInput<T>({
   options,
   onFilterChange,
 }: FilterMultiSelectInputProps<T>) {
-  const { t } = useTranslation();
 
   const filterQuery = useFilterQuery();
 
@@ -112,7 +110,7 @@ export function FilterMultiSelectInput<T>({
           fixedSection={
             showClearButton && (
               <ClearButton onClick={handleClearClick}>
-                {t(PAGE_TEXTS.UI.CLEAR)}
+                Clear
               </ClearButton>
             )
           }
@@ -142,7 +140,7 @@ export function FilterMultiSelectInput<T>({
             <div className="flex flex-col items-center justify-center gap-xs p-xs">
               <NoResultsIcon className="w-10 h-10 text-content-inverse-tertiary" />
               <span className="text-body-md font-regular text-content-secondary">
-                {t(PAGE_TEXTS.UI.NO_RESULTS_FOR, { text: filterQuery.query })}
+                No results for
               </span>
             </div>
           )}

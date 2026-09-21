@@ -3,7 +3,6 @@ import {
   faXmark,
 } from '@awesome.me/kit-935ddc1468/icons/classic/solid';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { ARIA_LABELS, PAGE_TEXTS, useTranslation } from '@zcentral-v2/i18n';
 import clsx from 'clsx';
 import {
   ChangeEvent,
@@ -35,7 +34,6 @@ export function FilterQueryInput({
   onChange,
   onClear,
 }: FilterQueryInputProps) {
-  const { t } = useTranslation();
   const hasValue = typeof value === 'string' && value.length > 0;
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
@@ -79,7 +77,7 @@ export function FilterQueryInput({
         className="text-content-placeholder pointer-events-none absolute left-sm top-1/2 -translate-y-1/2"
       />
       <input
-        aria-label={t(ARIA_LABELS.UI.QUERY_INPUT)}
+        aria-label="Query input"
         type="text"
         className={clsx(
           'w-full h-full py-xxs pl-[42px]',
@@ -89,7 +87,7 @@ export function FilterQueryInput({
           'overflow-hidden whitespace-nowrap',
           { 'pr-[36px]': hasValue, 'pr-sm': !hasValue }
         )}
-        placeholder={t(PAGE_TEXTS.UI.SEARCH_SHORT_PLACEHOLDER)}
+        placeholder="Search short placeholder"
         name="query"
         onKeyDown={handleKeyDown}
         value={value}

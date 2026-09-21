@@ -1,5 +1,4 @@
 import { Accordion } from '@components/accordion';
-import { PAGE_TEXTS, useTranslation } from '@zcentral-v2/i18n';
 import clsx from 'clsx';
 import { ReactNode } from 'react';
 
@@ -14,7 +13,6 @@ export function CollectionCard({
   lessonsCount,
   children,
 }: CollectionCardProps) {
-  const { t } = useTranslation();
   return (
     <Accordion
       className={clsx(
@@ -38,9 +36,7 @@ export function CollectionCard({
           {title}
         </h2>
         <span className="text-body-sm text-content-primary font-regular">
-          {t(PAGE_TEXTS.CATEGORY.COLLECTION_LESSONS_COUNT, {
-            count: lessonsCount,
-          })}
+          Collection lessons count
         </span>
       </Accordion.Title>
       <Accordion.Content>

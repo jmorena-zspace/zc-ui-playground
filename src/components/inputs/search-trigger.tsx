@@ -3,7 +3,6 @@ import { KeyboardShortcut } from '@components/ui/keyboard-shortcut';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { usePressedKeys } from '@hooks/pressed-keys';
 import { useSpotlightShortcut } from '@hooks/spotlight-shortcut';
-import { PAGE_TEXTS, useTranslation } from '@zcentral-v2/i18n';
 import clsx from 'clsx';
 import { SearchVariant, searchInputTheme } from './theme';
 
@@ -18,7 +17,6 @@ export function SearchTrigger({
   variant = 'primary',
   className,
 }: SearchTriggerProps) {
-  const { t } = useTranslation();
   const accelerator = useSpotlightShortcut();
   const pressedTokens = usePressedKeys();
   const variantStyles = searchInputTheme.variant[variant];
@@ -45,7 +43,7 @@ export function SearchTrigger({
             variantStyles.input
           )}
         >
-          {t(PAGE_TEXTS.UI.SEARCH_SHORT_PLACEHOLDER)}
+          Search short placeholder
         </span>
         <KeyboardShortcut
           accelerator={accelerator}

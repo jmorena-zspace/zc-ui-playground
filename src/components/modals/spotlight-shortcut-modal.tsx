@@ -6,7 +6,6 @@ import {
 import { KeyboardShortcut } from '@components/ui/keyboard-shortcut';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { usePressedKeys } from '@hooks/pressed-keys';
-import { ARIA_LABELS, PAGE_TEXTS, useTranslation } from '@zcentral-v2/i18n';
 import type { SpotlightShortcutSetResult } from '@zcentral-v2/types';
 import {
   acceleratorPartsFromEvent,
@@ -66,7 +65,6 @@ export const SpotlightShortcutModal: FC<SpotlightShortcutModalProps> = ({
   currentAccelerator,
   onSave,
 }) => {
-  const { t } = useTranslation();
 
   const [modifiers, setModifiers] = useState<string[]>([]);
   const [capturedKey, setCapturedKey] = useState<string | null>(null);
@@ -191,7 +189,7 @@ export const SpotlightShortcutModal: FC<SpotlightShortcutModalProps> = ({
       size="xl"
       dismissible={!saving}
       initialFocus={captureRef}
-      ariaLabel={t(PAGE_TEXTS.SETTINGS.SHORTCUTS_MODAL_TITLE)}
+      ariaLabel="Shortcuts modal title"
     >
       <div className="flex flex-col gap-lg bg-bg-surface-default border border-border-system-subtle rounded-sm p-md shadow-lg outline-none">
         <div className="flex items-center justify-between border-b border-border-system-subtle pb-md">
@@ -201,7 +199,7 @@ export const SpotlightShortcutModal: FC<SpotlightShortcutModalProps> = ({
               className="text-content-primary text-[24px]"
             />
             <h2 className="text-body-lg font-bold text-content-primary">
-              {t(PAGE_TEXTS.SETTINGS.SHORTCUTS_MODAL_TITLE)}
+              Shortcuts modal title
             </h2>
           </div>
           <button
@@ -209,14 +207,14 @@ export const SpotlightShortcutModal: FC<SpotlightShortcutModalProps> = ({
             onClick={onClose}
             disabled={saving}
             className="icon-btn icon-btn-on-surface text-content-secondary"
-            aria-label={t(ARIA_LABELS.UI.CLOSE_BUTTON)}
+            aria-label="Close"
           >
             <FontAwesomeIcon icon={faXmark} className="w-3 h-3" />
           </button>
         </div>
 
         <p className="text-body-md font-regular text-content-secondary">
-          {t(PAGE_TEXTS.SETTINGS.SHORTCUTS_MODAL_DESCRIPTION)}
+          Shortcuts modal description
         </p>
 
         <div className="flex flex-col gap-xs">
@@ -225,7 +223,7 @@ export const SpotlightShortcutModal: FC<SpotlightShortcutModalProps> = ({
             role="textbox"
             tabIndex={0}
             aria-live="polite"
-            aria-label={t(ARIA_LABELS.SETTINGS.SHORTCUTS_SPOTLIGHT)}
+            aria-label="Shortcuts spotlight"
             onKeyDown={handleCaptureKeyDown}
             onFocus={() => setIsFocused(true)}
             onBlur={() => setIsFocused(false)}
@@ -239,7 +237,7 @@ export const SpotlightShortcutModal: FC<SpotlightShortcutModalProps> = ({
               />
             ) : (
               <span className="text-body-md font-regular text-content-tertiary">
-                {t(PAGE_TEXTS.SETTINGS.SHORTCUTS_MODAL_PLACEHOLDER)}
+                Shortcuts modal placeholder
               </span>
             )}
           </div>
@@ -259,8 +257,8 @@ export const SpotlightShortcutModal: FC<SpotlightShortcutModalProps> = ({
               )}
             >
               {tone !== 'neutral' && validationCode
-                ? messageForCode(t, validationCode)
-                : t(PAGE_TEXTS.SETTINGS.SHORTCUTS_MODAL_INSTRUCTIONS)}
+                ? messageForCode(validationCode)
+                : 'Shortcuts modal instructions'}
             </p>
           </div>
         </div>
@@ -269,19 +267,16 @@ export const SpotlightShortcutModal: FC<SpotlightShortcutModalProps> = ({
   );
 };
 
-function messageForCode(
-  t: ReturnType<typeof useTranslation>['t'],
-  code: ExternalCode
-): string {
+function messageForCode(code: ExternalCode): string {
   switch (code) {
     case 'missing-modifier':
-      return t(PAGE_TEXTS.SETTINGS.SHORTCUTS_ERROR_MISSING_MODIFIER);
+      return 'Add a modifier key, such as Ctrl or Cmd.';
     case 'missing-key':
-      return t(PAGE_TEXTS.SETTINGS.SHORTCUTS_ERROR_MISSING_KEY);
+      return 'Add a key to go with the modifier.';
     case 'reserved':
-      return t(PAGE_TEXTS.SETTINGS.SHORTCUTS_ERROR_RESERVED);
+      return 'That shortcut is reserved by the system.';
     case 'register-failed':
-      return t(PAGE_TEXTS.SETTINGS.SHORTCUTS_ERROR_REGISTER_FAILED);
+      return 'That shortcut could not be registered.';
     default:
       return '';
   }

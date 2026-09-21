@@ -1,7 +1,6 @@
 import { environment } from '@constants/environment';
 import { mainContainer } from '@constants/theme';
 import { useAppVersion } from '@hooks/app-version';
-import { ARIA_LABELS, PAGE_TEXTS, useTranslation } from '@zcentral-v2/i18n';
 import clsx from 'clsx';
 import { FC } from 'react';
 
@@ -9,7 +8,6 @@ const footerTextClass =
   'text-body-sm font-regular text-content-action-on-primary-default';
 
 export const Footer: FC = () => {
-  const { t } = useTranslation();
   const displayVersion = useAppVersion();
   return (
     <footer className="bg-bg-surface-inverse-default">
@@ -34,19 +32,19 @@ export const Footer: FC = () => {
             <li>
               <FooterLink
                 href={environment.termsOfUseUrl}
-                label={t(PAGE_TEXTS.UI.TERMS_OF_USE)}
+                label="Terms of use"
               />
             </li>
             <li>
               <FooterLink
                 href={environment.privacyPolicyUrl}
-                label={t(PAGE_TEXTS.UI.PRIVACY_POLICY)}
+                label="Privacy policy"
               />
             </li>
             <li>
               <FooterLink
                 href={environment.legalUrl}
-                label={t(PAGE_TEXTS.UI.LEGAL)}
+                label="Legal"
               />
             </li>
           </ul>
@@ -72,7 +70,6 @@ type FooterLinkProps = {
 };
 
 const FooterLink: FC<FooterLinkProps> = ({ href, label }) => {
-  const { t } = useTranslation();
 
   return (
     <a
@@ -80,7 +77,7 @@ const FooterLink: FC<FooterLinkProps> = ({ href, label }) => {
       className="text-content-action-on-primary-default hover:underline"
       target="_blank"
       rel="noopener noreferrer"
-      aria-label={t(ARIA_LABELS.UI.EXTERNAL_LINK, { label })}
+      aria-label="External link"
     >
       {label}
     </a>

@@ -7,14 +7,12 @@ import { BaseButton } from '@components/buttons/base-button/base-button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useDeepLink } from '@hooks/deep-link';
 import { useDesktopNativeAppStore } from '@stores/desktop-native-app';
-import { ARIA_LABELS, PAGE_TEXTS, useTranslation } from '@zcentral-v2/i18n';
 import { FC, useCallback, useEffect, useRef, useState } from 'react';
 import { BlurredModal } from './blurred-modal';
 
 const SHOW_DELAY_MS = 1000;
 
 export const DesktopPromptModal: FC = () => {
-  const { t } = useTranslation();
   const { launchZcentralDesktopApp } = useDeepLink();
   const { isDesktopNativeApp } = useDesktopNativeAppStore();
   const [show, setShow] = useState(false);
@@ -55,21 +53,21 @@ export const DesktopPromptModal: FC = () => {
               className="text-content-primary text-[24px]"
             />
             <h2 className="text-body-lg font-bold text-content-primary">
-              {t(PAGE_TEXTS.APPLICATIONS.DESKTOP_PROMPT_MODAL_TITLE)}
+              Desktop prompt modal title
             </h2>
           </div>
           <button
             type="button"
             onClick={onClose}
             className="icon-btn icon-btn-on-surface text-content-secondary"
-            aria-label={t(ARIA_LABELS.UI.CLOSE_BUTTON)}
+            aria-label="Close"
           >
             <FontAwesomeIcon icon={faXmark} className="w-3 h-3" />
           </button>
         </div>
 
         <p className="text-body-md font-regular text-content-secondary text-center">
-          {t(PAGE_TEXTS.APPLICATIONS.DESKTOP_PROMPT_MODAL_DESCRIPTION)}
+          Desktop prompt modal description
         </p>
 
         <div className="flex flex-col items-center gap-lg">
@@ -79,7 +77,7 @@ export const DesktopPromptModal: FC = () => {
             onClick={launchZcentralDesktopApp}
           >
             <span className="text-body-md font-medium ">
-              {t(PAGE_TEXTS.APPLICATIONS.LAUNCH_ZCENTRAL_DESKTOP)}
+              Launch zcentral desktop
             </span>
             <FontAwesomeIcon
               icon={faArrowUpRightFromSquare}
@@ -92,9 +90,7 @@ export const DesktopPromptModal: FC = () => {
             onClick={onClose}
             className="text-body-md font-medium text-content-primary underline hover:text-content-link-action-hover transition-colors duration-200 cursor-pointer"
           >
-            {t(
-              PAGE_TEXTS.APPLICATIONS.DESKTOP_PROMPT_MODAL_CONTINUE_IN_BROWSER
-            )}
+            Desktop prompt modal continue in browser
           </button>
         </div>
       </div>

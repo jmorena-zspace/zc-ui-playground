@@ -8,7 +8,6 @@ import {
 import { BaseButton } from '@components/buttons/base-button/base-button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useDesktopNativeAppStore } from '@stores/desktop-native-app';
-import { ARIA_LABELS, PAGE_TEXTS, useTranslation } from '@zcentral-v2/i18n';
 import clsx from 'clsx';
 import { FC, useCallback, useEffect, useRef, useState } from 'react';
 import { BlurredModal } from './blurred-modal';
@@ -24,7 +23,6 @@ export const RescanContentModal: FC<RescanContentModalProps> = ({
   show,
   onClose,
 }) => {
-  const { t } = useTranslation();
   const { refreshAvailability } = useDesktopNativeAppStore();
   const [scanState, setScanState] = useState<ScanState>('scanning');
   const abortControllerRef = useRef<AbortController | null>(null);
@@ -67,7 +65,7 @@ export const RescanContentModal: FC<RescanContentModalProps> = ({
       onClick={handleClose}
       leftIcon={<FontAwesomeIcon icon={faXmark} />}
     >
-      {t(PAGE_TEXTS.SETTINGS.RESCAN_CLOSE)}
+      Rescan close
     </BaseButton>
   );
 
@@ -91,7 +89,7 @@ export const RescanContentModal: FC<RescanContentModalProps> = ({
               className="text-content-primary text-[24px]"
             />
             <h2 className="text-body-lg font-bold text-content-primary">
-              {t(PAGE_TEXTS.SETTINGS.RESCAN_MODAL_TITLE)}
+              Rescan modal title
             </h2>
           </div>
           {scanState !== 'scanning' && (
@@ -99,7 +97,7 @@ export const RescanContentModal: FC<RescanContentModalProps> = ({
               type="button"
               onClick={handleClose}
               className="icon-btn icon-btn-on-surface text-content-secondary"
-              aria-label={t(ARIA_LABELS.UI.CLOSE_BUTTON)}
+              aria-label="Close"
             >
               <FontAwesomeIcon icon={faXmark} className="w-3 h-3" />
             </button>
@@ -109,7 +107,7 @@ export const RescanContentModal: FC<RescanContentModalProps> = ({
         {scanState === 'scanning' && (
           <>
             <p className="text-body-md font-regular text-content-secondary text-center">
-              {t(PAGE_TEXTS.SETTINGS.RESCAN_SCANNING_MESSAGE)}
+              Rescan scanning message
             </p>
 
             <div className="flex flex-col gap-lg items-center">
@@ -136,11 +134,9 @@ export const RescanContentModal: FC<RescanContentModalProps> = ({
             </div>
 
             <p className="text-body-md font-regular text-content-secondary text-center">
-              {t(
-                scanState === 'success'
-                  ? PAGE_TEXTS.SETTINGS.RESCAN_SUCCESS_MESSAGE
-                  : PAGE_TEXTS.SETTINGS.RESCAN_ERROR_MESSAGE
-              )}
+              {scanState === 'success'
+                ? 'Your content is up to date.'
+                : 'We could not rescan your content.'}
             </p>
 
             <div className="flex gap-lg justify-center">
@@ -153,11 +149,7 @@ export const RescanContentModal: FC<RescanContentModalProps> = ({
                   leftIcon: <FontAwesomeIcon icon={faArrowRotateLeft} />,
                 })}
               >
-                {t(
-                  scanState === 'success'
-                    ? PAGE_TEXTS.SETTINGS.RESCAN_CLOSE
-                    : PAGE_TEXTS.SETTINGS.RESCAN_RETRY
-                )}
+                {scanState === 'success' ? 'Close' : 'Try again'}
               </BaseButton>
             </div>
           </>

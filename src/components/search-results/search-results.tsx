@@ -1,6 +1,5 @@
 import { ApplicationCard, LessonCard } from '@components/cards';
 import { ArrowNavigableContainer } from '@components/ui/arrow-navigable-container';
-import { ARIA_LABELS, useTranslation } from '@zcentral-v2/i18n';
 import { ContentItem, ContentType } from '@zcentral-v2/types';
 import { FC, useCallback } from 'react';
 
@@ -13,7 +12,6 @@ export const SearchResults: FC<SearchResultsProps> = ({
   results,
   onLessonClick,
 }) => {
-  const { t } = useTranslation();
   const keyExtractor = useCallback((result: ContentItem) => {
     return result.id;
   }, []);
@@ -41,7 +39,7 @@ export const SearchResults: FC<SearchResultsProps> = ({
     <ArrowNavigableContainer>
       <ul
         className="flex flex-col gap-md"
-        aria-label={t(ARIA_LABELS.SEARCH.RESULTS_LIST)}
+        aria-label="Results list"
       >
         {results.map((result) => (
           <li key={keyExtractor(result)} data-nav-item>

@@ -3,7 +3,6 @@ import {
   faChevronRight,
 } from '@awesome.me/kit-935ddc1468/icons/classic/solid';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { ARIA_LABELS, useTranslation } from '@zcentral-v2/i18n';
 import clsx from 'clsx';
 import { FC } from 'react';
 
@@ -20,7 +19,6 @@ export const ChevronButton: FC<ChevronButtonProps> = ({
   disabled = false,
   className,
 }) => {
-  const { t } = useTranslation();
   const icon = direction === 'left' ? faChevronLeft : faChevronRight;
 
   return (
@@ -36,8 +34,8 @@ export const ChevronButton: FC<ChevronButtonProps> = ({
       disabled={disabled}
       aria-label={
         direction === 'left'
-          ? t(ARIA_LABELS.UI.PREVIOUS_PAGE)
-          : t(ARIA_LABELS.UI.NEXT_PAGE)
+          ? 'Previous page'
+          : 'Next page'
       }
       aria-disabled={disabled}
     >

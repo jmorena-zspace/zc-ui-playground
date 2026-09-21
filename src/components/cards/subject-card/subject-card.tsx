@@ -1,4 +1,3 @@
-import { ARIA_LABELS, useTranslation } from '@zcentral-v2/i18n';
 import { Subject } from '@zcentral-v2/types';
 import clsx from 'clsx';
 import { FC, PropsWithChildren } from 'react';
@@ -13,7 +12,6 @@ export const SubjectCard: FC<SubjectCardProps> = ({
   subject: { name, iconUrl },
   onClick,
 }) => {
-  const { t } = useTranslation();
 
   return (
     <div
@@ -36,7 +34,7 @@ export const SubjectCard: FC<SubjectCardProps> = ({
     >
       <Icon
         src={iconUrl}
-        alt={t(ARIA_LABELS.UI.SUBJECT_ICON_ALT, { name })}
+        alt={`${name} subject icon`}
         width={64}
         height={64}
       />

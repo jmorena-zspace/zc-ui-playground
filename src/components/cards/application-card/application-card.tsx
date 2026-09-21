@@ -8,7 +8,6 @@ import {
 import { LaunchCodeBadge } from '@components/badges/launch-code-badge';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useLaunch } from '@hooks/launch';
-import { ARIA_LABELS, PAGE_TEXTS, useTranslation } from '@zcentral-v2/i18n';
 import { ContentItem, ContentPlatform } from '@zcentral-v2/types';
 import clsx from 'clsx';
 import { FC } from 'react';
@@ -29,14 +28,13 @@ export const ApplicationCard: FC<ApplicationCardProps> = ({
 }) => {
   const { name, launchCode, platform } = application;
   const { canLaunchApplication, launchApplication } = useLaunch();
-  const { t } = useTranslation();
 
   const isLaunchable = canLaunchApplication(application);
   const isWeb = platform === ContentPlatform.WEB;
 
   const handleLaunch = () => {
     launchApplication(application).catch((error) => {
-      toast.error(t(PAGE_TEXTS.UI.FAILED_TO_LAUNCH_CONTENT_MESSAGE));
+      toast.error('Failed to launch content');
       console.error('Failed to launch content:', error);
     });
   };
@@ -79,7 +77,7 @@ export const ApplicationCard: FC<ApplicationCardProps> = ({
           (application.iconUrl ? (
             <img
               src={application.iconUrl}
-              alt={t(ARIA_LABELS.UI.APPLICATION_IMAGE_ALT, { name })}
+              alt="Application image alt"
               className="w-24 h-24 shrink-0 rounded-sm border border-border-system-subtle object-cover"
             />
           ) : (
@@ -115,7 +113,7 @@ export const ApplicationCard: FC<ApplicationCardProps> = ({
 
         <div className="shrink-0 ml-auto flex items-center relative z-10">
           <button
-            aria-label={t(ARIA_LABELS.UI.LAUNCH_BUTTON, { name })}
+            aria-label="Launch button"
             disabled={!isLaunchable}
             onClick={handleLaunch}
             className={clsx(
@@ -131,7 +129,7 @@ export const ApplicationCard: FC<ApplicationCardProps> = ({
               }
             )}
           >
-            <span>{t(PAGE_TEXTS.UI.LAUNCH)}</span>
+            <span>Launch</span>
             {isWeb && isLaunchable && (
               <FontAwesomeIcon
                 icon={faArrowUpRightFromSquare}

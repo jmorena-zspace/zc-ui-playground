@@ -11,7 +11,6 @@ import {
 } from '@components/ui/tooltip';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useTruncatedTooltip } from '@hooks/truncated-tooltip';
-import { ARIA_LABELS, useTranslation } from '@zcentral-v2/i18n';
 import { ContentItem, ContentPlatform } from '@zcentral-v2/types';
 import clsx from 'clsx';
 import { FC, FocusEvent, KeyboardEvent, useCallback } from 'react';
@@ -32,7 +31,6 @@ export const ApplicationLauncherCard: FC<ApplicationLauncherCardProps> = ({
   hidden = false,
 }) => {
   const { name, iconUrl, platform } = application;
-  const { t } = useTranslation();
   const { ref, tooltipOpen, onMouseEnter, onOpenChange } =
     useTruncatedTooltip();
 
@@ -69,9 +67,7 @@ export const ApplicationLauncherCard: FC<ApplicationLauncherCardProps> = ({
       <div
         data-nav-item
         aria-hidden={hidden}
-        aria-label={t(ARIA_LABELS.APPLICATIONS.APPLICATION_LAUNCHER_CARD, {
-          name,
-        })}
+        aria-label="Application launcher card"
         role={isLaunchable ? 'button' : undefined}
         tabIndex={isLaunchable ? 0 : undefined}
         onClick={isLaunchable ? onLaunch : undefined}
@@ -107,7 +103,7 @@ export const ApplicationLauncherCard: FC<ApplicationLauncherCardProps> = ({
           {iconUrl && (
             <img
               src={iconUrl}
-              alt={t(ARIA_LABELS.UI.APPLICATION_ICON_ALT, { name })}
+              alt={`${name} icon`}
               className="w-10 h-10 object-contain"
             />
           )}
@@ -138,11 +134,7 @@ export const ApplicationLauncherCard: FC<ApplicationLauncherCardProps> = ({
 
         <div
           className="flex items-center shrink-0"
-          aria-label={t(
-            isWeb
-              ? ARIA_LABELS.APPLICATIONS.WEB_PLATFORM_BADGE
-              : ARIA_LABELS.APPLICATIONS.DESKTOP_PLATFORM_BADGE
-          )}
+          aria-label={isWeb ? 'Web application' : 'Desktop application'}
         >
           <FontAwesomeIcon
             icon={isWeb ? faGlobe : faLaptop}

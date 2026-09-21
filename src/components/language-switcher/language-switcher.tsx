@@ -20,14 +20,7 @@ import {
   usePopoverContext,
 } from '@components/ui/popover';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  ARIA_LABELS,
-  SupportedLanguage,
-  supportedLanguages,
-  useTranslation,
-} from '@zcentral-v2/i18n';
 import { FC, KeyboardEvent, useCallback, useMemo } from 'react';
-import { changeLanguage, getLanguageName } from '../../i18n';
 import { LanguageOption } from './language-option';
 
 const FLAG_ICONS: Record<SupportedLanguage, string> = {
@@ -72,8 +65,8 @@ export const LanguageSwitcher: FC<LanguageSwitcherProps> = ({
   onChangeLanguage,
   variant = 'dark',
 }) => {
-  const { t, i18n } = useTranslation();
-  const currentLanguageCode = i18n.language as SupportedLanguage;
+  const language = 'en-US';
+  const currentLanguageCode = language as SupportedLanguage;
 
   // Recalculated when current language changes to update names
   const availableLanguages: Language[] = useMemo(
@@ -123,7 +116,7 @@ export const LanguageSwitcher: FC<LanguageSwitcherProps> = ({
       <PopoverTrigger asChild>
         <button
           className={VARIANT_CLASSES[variant]}
-          aria-label={t(ARIA_LABELS.UI.LANGUAGE_SWITCHER_BUTTON)}
+          aria-label="Language switcher button"
         >
           <FontAwesomeIcon className="h-4 w-4" icon={faGlobe} />
         </button>
@@ -146,7 +139,6 @@ function LanguageListbox({
   currentLanguage: Language | undefined;
   onLanguageChange: (language: Language) => void;
 }) {
-  const { t } = useTranslation();
   const popover = usePopoverContext();
 
   const handleKeyDown = useCallback(
@@ -183,7 +175,7 @@ function LanguageListbox({
     <PopoverContent align="end" className="max-h-[250px] overflow-y-auto">
       <div
         role="listbox"
-        aria-label={t(ARIA_LABELS.UI.LANGUAGE_SWITCHER_CONTENT)}
+        aria-label="Language switcher content"
         tabIndex={-1}
         onKeyDown={handleKeyDown}
       >

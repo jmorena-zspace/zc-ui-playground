@@ -7,7 +7,6 @@ import {
   FitToViewportOptions,
   useFitToViewport,
 } from '@hooks/use-fit-to-viewport';
-import { ARIA_LABELS, PAGE_TEXTS, useTranslation } from '@zcentral-v2/i18n';
 import { ContentItem } from '@zcentral-v2/types';
 import clsx from 'clsx';
 import { forwardRef, useRef } from 'react';
@@ -41,8 +40,7 @@ export const QuickResults = forwardRef<HTMLDivElement, QuickResultsProps>(
     },
     ref
   ) => {
-    const { t } = useTranslation();
-    const containerRef = useRef<HTMLDivElement>(null);
+      const containerRef = useRef<HTMLDivElement>(null);
 
     useFitToViewport(containerRef, results?.length ?? 0, fitOptions);
 
@@ -80,7 +78,7 @@ export const QuickResults = forwardRef<HTMLDivElement, QuickResultsProps>(
                 >
                   <button
                     data-nav-item
-                    aria-label={t(ARIA_LABELS.HOME.VIEW_ALL_RESULTS_BUTTON)}
+                    aria-label="View all results button"
                     className="group relative inline-flex items-center gap-xs cursor-pointer"
                     onClick={onViewAllSearchResults}
                   >
@@ -91,7 +89,7 @@ export const QuickResults = forwardRef<HTMLDivElement, QuickResultsProps>(
                           'text-content-link-inline-default': !transparent,
                         })}
                       >
-                        {t(PAGE_TEXTS.HOME.VIEW_ALL_RESULTS, { count: total })}
+                        View all results
                       </span>
                     </AnimatedTitle>
                     <FontAwesomeIcon
@@ -126,7 +124,7 @@ export const QuickResults = forwardRef<HTMLDivElement, QuickResultsProps>(
                     'text-content-secondary': !transparent,
                   })}
                 >
-                  {t(PAGE_TEXTS.UI.NO_RESULTS_FOR, { text: search.trim() })}
+                  No results for
                 </span>
               </div>
             )}

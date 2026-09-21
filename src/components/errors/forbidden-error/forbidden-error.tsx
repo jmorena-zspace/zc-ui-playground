@@ -1,4 +1,3 @@
-import { PAGE_TEXTS, useTranslation } from '@zcentral-v2/i18n';
 import { type FC } from 'react';
 
 type ForbiddenErrorProps = {
@@ -8,12 +7,11 @@ type ForbiddenErrorProps = {
 const isDevelopment = import.meta.env.DEV;
 
 export const ForbiddenError: FC<ForbiddenErrorProps> = ({ message }) => {
-  const { t } = useTranslation();
 
   return (
     <div className="flex flex-col text-center items-center justify-center gap-md">
       <h2 className="text-display-lg md:text-display-xl font-bold text-content-inverse-primary">
-        {t(PAGE_TEXTS.UI.FORBIDDEN_ERROR_TITLE)}
+        Forbidden error title
       </h2>
 
       {isDevelopment && (
@@ -23,7 +21,7 @@ export const ForbiddenError: FC<ForbiddenErrorProps> = ({ message }) => {
       )}
 
       <p className="text-body-lg md:text-display-xs text-content-inverse-secondary">
-        {t(PAGE_TEXTS.UI.FORBIDDEN_ERROR_MESSAGE)}
+        Forbidden error message
       </p>
     </div>
   );

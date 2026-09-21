@@ -5,7 +5,6 @@ import {
   TooltipTrigger,
 } from '@components/ui/tooltip';
 import { useTruncatedTooltip } from '@hooks/truncated-tooltip';
-import { ARIA_LABELS, useTranslation } from '@zcentral-v2/i18n';
 import { RecentlyLaunchedApp } from '@zcentral-v2/types';
 import clsx from 'clsx';
 import { FC, useCallback } from 'react';
@@ -19,7 +18,6 @@ export const RecentlyLaunchedAppItem: FC<RecentlyLaunchedAppItemProps> = ({
   app,
   onLaunch,
 }) => {
-  const { t } = useTranslation();
   const { ref, tooltipOpen, onMouseEnter, onOpenChange } =
     useTruncatedTooltip();
 
@@ -32,9 +30,7 @@ export const RecentlyLaunchedAppItem: FC<RecentlyLaunchedAppItemProps> = ({
       <TooltipTrigger asChild>
         <button
           type="button"
-          aria-label={t(ARIA_LABELS.HOME.RECENTLY_LAUNCHED_APP_BUTTON, {
-            name: app.name,
-          })}
+          aria-label="Recently launched app button"
           onClick={handleClick}
           onMouseEnter={onMouseEnter}
           className={clsx(

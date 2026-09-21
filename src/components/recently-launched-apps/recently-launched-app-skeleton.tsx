@@ -1,5 +1,4 @@
 import { Skeleton } from '@components/ui/skeleton';
-import { ARIA_LABELS, useTranslation } from '@zcentral-v2/i18n';
 import { RecentlyLaunchedApp } from '@zcentral-v2/types';
 import { FC } from 'react';
 
@@ -10,14 +9,11 @@ type RecentlyLaunchedAppSkeletonProps = {
 export const RecentlyLaunchedAppSkeleton: FC<
   RecentlyLaunchedAppSkeletonProps
 > = ({ app }) => {
-  const { t } = useTranslation();
 
   return (
     <div
       role="status"
-      aria-label={t(ARIA_LABELS.HOME.RECENTLY_LAUNCHED_APP_LOADING, {
-        name: app.name,
-      })}
+      aria-label="Recently launched app loading"
       className="flex w-[128px] shrink-0 flex-col items-center gap-xs rounded-sm"
     >
       <Skeleton inverse className="flex size-12 items-center justify-center rounded-full p-xs" />

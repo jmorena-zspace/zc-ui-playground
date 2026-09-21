@@ -12,13 +12,11 @@ import { mainContainer } from '@constants/theme';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useGlobalSearch } from '@hooks/global-search';
 import { Link, useMatchRoute, useNavigate } from '@tanstack/react-router';
-import { ARIA_LABELS, useTranslation } from '@zcentral-v2/i18n';
 import clsx from 'clsx';
 import { FC, useState } from 'react';
 import { SearchInput } from '../inputs/search-input';
 
 export const MobileNavbar: FC = () => {
-  const { t } = useTranslation();
   const matchRoute = useMatchRoute();
   const navigate = useNavigate();
 
@@ -47,7 +45,7 @@ export const MobileNavbar: FC = () => {
   return (
     <nav
       className="bg-transparent md:hidden"
-      aria-label={t(ARIA_LABELS.UI.NAVIGATION)}
+      aria-label="Navigation"
     >
       <div className={clsx(mainContainer, 'flex flex-col px-md pt-xs pb-md')}>
         <div className="flex flex-1 items-center">
@@ -62,8 +60,8 @@ export const MobileNavbar: FC = () => {
                 className={clsx(navbarButtonClassname, 'relative w-8 h-8')}
                 aria-label={
                   searchOpen
-                    ? t(ARIA_LABELS.UI.CLOSE_GLOBAL_SEARCH)
-                    : t(ARIA_LABELS.UI.GLOBAL_SEARCH_BUTTON)
+                    ? 'Close global search'
+                    : 'Global search button'
                 }
                 onClick={toggleSearch}
               >
@@ -87,14 +85,14 @@ export const MobileNavbar: FC = () => {
             <Link
               to="/settings"
               className="icon-btn icon-btn-on-dark text-content-action-on-primary-default"
-              aria-label={t(ARIA_LABELS.UI.SETTINGS)}
+              aria-label="Settings"
             >
               <FontAwesomeIcon className="h-4 w-4" icon={faCog} />
             </Link>
             <Link
               to="/help"
               className="icon-btn icon-btn-on-dark text-content-action-on-primary-default"
-              aria-label={t(ARIA_LABELS.UI.HELP_PAGE)}
+              aria-label="Help page"
             >
               <FontAwesomeIcon icon={faCircleQuestion} />
             </Link>

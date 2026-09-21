@@ -5,7 +5,6 @@ import {
   getCoreRowModel,
   useReactTable,
 } from '@tanstack/react-table';
-import { ARIA_LABELS, useTranslation } from '@zcentral-v2/i18n';
 import { Lesson } from '@zcentral-v2/types';
 import clsx from 'clsx';
 import { FC, useMemo } from 'react';
@@ -16,7 +15,6 @@ type LessonTableProps = {
 };
 
 export const LessonTable: FC<LessonTableProps> = ({ data }) => {
-  const { t } = useTranslation();
 
   const columns = useMemo<ColumnDef<Lesson>[]>(
     () => [
@@ -57,7 +55,7 @@ export const LessonTable: FC<LessonTableProps> = ({ data }) => {
                 >
                   <img
                     src={app.iconUrl}
-                    alt={t(ARIA_LABELS.UI.APPLICATION_ICON_ALT, { name: app.name })}
+                    alt={`${app.name} icon`}
                     className="w-[20px] h-[20px] object-contain"
                   />
                   <span
@@ -95,7 +93,7 @@ export const LessonTable: FC<LessonTableProps> = ({ data }) => {
         },
       },
     ],
-    [t]
+    []
   );
 
   const table = useReactTable({

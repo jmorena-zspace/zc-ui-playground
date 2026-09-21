@@ -1,5 +1,4 @@
 import { useMainScrollContainer } from '@hooks/main-scroll-container';
-import { ARIA_LABELS, useTranslation } from '@zcentral-v2/i18n';
 import { FC, useCallback, useEffect, useMemo, useRef } from 'react';
 import { ChevronButton } from './chevron-button';
 import { Ellipsis } from './ellipsis';
@@ -37,7 +36,6 @@ export const Pagination: FC<PaginationProps> = ({
   onPageChange,
   resetScrollAfterPageChange = true,
 }) => {
-  const { t } = useTranslation();
   const scrollContainerRef = useMainScrollContainer();
   const prevPageRef = useRef(currentPage);
 
@@ -69,7 +67,7 @@ export const Pagination: FC<PaginationProps> = ({
   }, [onPageChange, canGoNext, page]);
 
   return (
-    <nav role="navigation" aria-label={t(ARIA_LABELS.UI.PAGINATION)}>
+    <nav role="navigation" aria-label="Pagination">
       <ul className="flex items-center overflow-hidden border-default border-border-system-subtle rounded-xs pagination-separators text-content-secondary">
         <li>
           <ChevronButton

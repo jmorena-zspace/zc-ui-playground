@@ -3,7 +3,6 @@ import {
   faXmark,
 } from '@awesome.me/kit-935ddc1468/icons/classic/solid';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { ARIA_LABELS, PAGE_TEXTS, useTranslation } from '@zcentral-v2/i18n';
 import { Dialog, VisuallyHidden } from 'radix-ui';
 import { PropsWithChildren, ReactNode } from 'react';
 
@@ -21,7 +20,6 @@ export function FilterModal({
   header,
   hasFiltersApplied,
 }: FilterModalProps) {
-  const { t } = useTranslation();
 
   return (
     <Dialog.Root open={show} onOpenChange={(open) => !open && onClose()}>
@@ -31,13 +29,13 @@ export function FilterModal({
           className="fixed inset-0 z-20 md:hidden p-sm bg-bg-surface-default flex flex-col gap-md outline-none overflow-y-auto data-[state=open]:animate-filter-modal-enter data-[state=closed]:animate-filter-modal-exit"
         >
           <VisuallyHidden.Root asChild>
-            <Dialog.Title>{t(PAGE_TEXTS.UI.FILTER)}</Dialog.Title>
+            <Dialog.Title>Filter</Dialog.Title>
           </VisuallyHidden.Root>
           <div className="flex items-center gap-md">
             {header}
             <button
               type="button"
-              aria-label={t(ARIA_LABELS.UI.CLOSE_BUTTON)}
+              aria-label="Close"
               onClick={onClose}
               className="flex items-center justify-center p-xs rounded-full hover:bg-bg-action-tertiary-hover transition-colors cursor-pointer shrink-0"
             >

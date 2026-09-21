@@ -1,7 +1,6 @@
 import { faMagnifyingGlass } from '@awesome.me/kit-935ddc1468/icons/classic/solid';
 import { Spinner } from '@components/ui/spinner';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { ARIA_LABELS, PAGE_TEXTS, useTranslation } from '@zcentral-v2/i18n';
 import { MAX_SEARCH_QUERY_LENGTH } from '@zcentral-v2/search';
 import clsx from 'clsx';
 import { InputHTMLAttributes, KeyboardEvent, useState } from 'react';
@@ -56,7 +55,6 @@ export function SearchInput({
   showEscHint = false,
   inputRef,
 }: SearchInputProps) {
-  const { t } = useTranslation();
   const variantStyles = searchInputTheme.variant[variant];
   const [escPressed, setEscPressed] = useState(false);
 
@@ -79,9 +77,9 @@ export function SearchInput({
           <input
             ref={inputRef}
             type="search"
-            aria-label={t(ARIA_LABELS.UI.SEARCH_INPUT)}
+            aria-label="Search input"
             className={clsx(searchInputTheme.input, variantStyles.input)}
-            placeholder={t(PAGE_TEXTS.UI.SEARCH_LONG_PLACEHOLDER)}
+            placeholder="Search long placeholder"
             value={value}
             onChange={onChange}
             onKeyDown={handleKeyDown}

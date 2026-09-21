@@ -1,7 +1,6 @@
 import { faXmark } from '@awesome.me/kit-935ddc1468/icons/classic/solid';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useDesktopNativeAppStore } from '@stores/desktop-native-app';
-import { ARIA_LABELS, PAGE_TEXTS, useTranslation } from '@zcentral-v2/i18n';
 import { Spinner } from '@components/ui/spinner';
 import { FC, useEffect, useRef } from 'react';
 import { BlurredModal } from './blurred-modal';
@@ -16,7 +15,6 @@ export const LaunchingAppModal: FC = () => {
   const show = !!launchedContent;
   const contentName = launchedContent?.contentName ?? '';
 
-  const { t } = useTranslation();
   const containerRef = useRef<HTMLDivElement>(null);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const clearRef = useRef(clearLaunchedContent);
@@ -50,7 +48,7 @@ export const LaunchingAppModal: FC = () => {
           type="button"
           onClick={clearLaunchedContent}
           className="absolute top-sm right-sm icon-btn icon-btn-on-surface text-content-secondary"
-          aria-label={t(ARIA_LABELS.UI.CLOSE_BUTTON)}
+          aria-label="Close"
         >
           <FontAwesomeIcon icon={faXmark} className="w-3 h-3" />
         </button>
@@ -58,7 +56,7 @@ export const LaunchingAppModal: FC = () => {
         <Spinner className="size-[68px]" />
 
         <p className="font-body text-body-md font-regular text-content-secondary text-center">
-          {t(PAGE_TEXTS.UI.LAUNCHING_CONTENT, { contentName })}
+          Launching content
         </p>
       </div>
     </BlurredModal>
