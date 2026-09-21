@@ -1,13 +1,33 @@
-import { andOrCircuits } from '@fixtures/content-items';
+import {
+  andOrCircuits,
+  bioDigitalHuman,
+  lessonSingleApp,
+} from '@fixtures/content-items';
 import { LessonCard } from '@components/cards/lesson-card/lesson-card';
 import { ArrowLeft } from 'lucide-react';
 import { useState, type FC } from 'react';
 import { toast } from 'sonner';
 
+const lessons = [andOrCircuits, lessonSingleApp, bioDigitalHuman];
+
 export const LessonCardPlayground: FC<{ onBack: () => void }> = ({
   onBack,
 }) => {
-  const [selected, setSelected] = useState(false);
+  const [selectedIds, setSelectedIds] = useState<ReadonlySet<string>>(
+    new Set()
+  );
+
+  const toggleSelected = (id: string, selected: boolean) => {
+    setSelectedIds((current) => {
+      const next = new Set(current);
+      if (selected) {
+        next.add(id);
+      } else {
+        next.delete(id);
+      }
+      return next;
+    });
+  };
 
   return (
     <div className="h-full overflow-y-auto">
@@ -21,13 +41,20 @@ export const LessonCardPlayground: FC<{ onBack: () => void }> = ({
           Back
         </button>
 
-        <LessonCard
-          lesson={andOrCircuits}
-          selectable
-          selected={selected}
-          onSelectedChange={setSelected}
-          onClick={() => toast(`Opened ${andOrCircuits.name}`)}
-        />
+        <div className="flex flex-col gap-xs">
+          {lessons.map((lesson) => (
+            <LessonCard
+              key={lesson.id}
+              lesson={lesson}
+              selectable
+              selected={selectedIds.has(lesson.id)}
+              onSelectedChange={(selected) =>
+                toggleSelected(lesson.id, selected)
+              }
+              onClick={() => toast(`Opened ${lesson.name}`)}
+            />
+          ))}
+        </div>
       </div>
     </div>
   );
