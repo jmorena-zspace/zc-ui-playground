@@ -65,6 +65,7 @@ export const ARIA_LABELS = withFallback({
     LAUNCH_IN_APPLICATION_BUTTON: 'Launch {{lessonName}} in {{appName}}',
     LAUNCH_CODE: 'Launch code',
     SUBJECT_ICON_ALT: '{{name}} subject icon',
+    SELECT_ITEM: 'Select {{name}}',
   },
 });
 

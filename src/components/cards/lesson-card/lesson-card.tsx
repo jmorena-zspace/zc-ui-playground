@@ -25,6 +25,10 @@ export type LessonCardProps = {
   compact?: boolean;
   /** Uses a stronger hover background for dark/inverse surfaces. */
   invertedHover?: boolean;
+  /** Shows a checkbox left of the title. */
+  selectable?: boolean;
+  selected?: boolean;
+  onSelectedChange?: (selected: boolean) => void;
   onClick: () => void;
 };
 
@@ -32,6 +36,9 @@ export const LessonCard: FC<LessonCardProps> = ({
   lesson,
   compact = false,
   invertedHover = false,
+  selectable = false,
+  selected = false,
+  onSelectedChange,
   onClick,
 }) => {
   const { subjects, name, apps, imageUrl } = lesson;
@@ -70,16 +77,26 @@ export const LessonCard: FC<LessonCardProps> = ({
       className={clsx(
         'group/card relative overflow-clip isolate',
         'bg-bg-surface-subtle rounded-md p-md',
+        // A border is always present so selecting does not shift the layout;
+        // the two colours are mutually exclusive because same-property
+        // utilities resolve by stylesheet order, not by source order.
+        'border',
         'transition-all duration-300 ease-out',
-        'cursor-pointer',
+        // The palette gives hover, selected and pressed the same surface, so
+        // the press reads as a slight depression instead of a colour change.
+        'cursor-pointer active:scale-[0.99] active:duration-75',
         {
           'hover:bg-bg-surface-inverse-hover focus-within:bg-bg-surface-inverse-hover':
             invertedHover,
           'hover:bg-bg-surface-hover focus-within:bg-bg-surface-hover':
             !invertedHover,
+          'border-transparent': !selected,
+          'bg-bg-action-primary-selected border-border-action-primary-selected':
+            selected,
         }
       )}
       aria-label={t(ARIA_LABELS.UI.OPEN_DETAILS, { name })}
+      aria-selected={selectable ? selected : undefined}
       onClick={onClick}
       role="button"
       tabIndex={0}
@@ -96,6 +113,26 @@ export const LessonCard: FC<LessonCardProps> = ({
       {/* Mobile layout */}
       <div className="flex flex-col gap-sm items-start md:hidden">
         <div className="flex items-start gap-xs w-full">
+          {selectable && (
+            <button
+              type="button"
+              role="checkbox"
+              aria-checked={selected}
+              aria-label={t(ARIA_LABELS.UI.SELECT_ITEM, { name })}
+              onClick={(e) => {
+                e.stopPropagation();
+                onSelectedChange?.(!selected);
+              }}
+              className="shrink-0 cursor-pointer py-xxs"
+            >
+              <span
+                aria-hidden="true"
+                className={clsx('filter-checkbox block', {
+                  'filter-checkbox-checked': selected,
+                })}
+              />
+            </button>
+          )}
           <AnimatedTitle
             className="line-clamp-2 wrap-break-word text-body-lg font-medium text-content-primary"
             as="h2"
@@ -161,6 +198,26 @@ export const LessonCard: FC<LessonCardProps> = ({
           ))}
         <div className="flex flex-col gap-sm justify-center min-w-0 flex-1 relative z-10">
           <div className="flex items-start gap-xs">
+            {selectable && (
+              <button
+                type="button"
+                role="checkbox"
+                aria-checked={selected}
+                aria-label={t(ARIA_LABELS.UI.SELECT_ITEM, { name })}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onSelectedChange?.(!selected);
+                }}
+                className="shrink-0 cursor-pointer py-xxs"
+              >
+                <span
+                  aria-hidden="true"
+                  className={clsx('filter-checkbox block', {
+                    'filter-checkbox-checked': selected,
+                  })}
+                />
+              </button>
+            )}
             <AnimatedTitle
               className="line-clamp-2 wrap-break-word text-body-lg font-medium text-content-primary"
               as="h2"

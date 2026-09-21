@@ -109,7 +109,10 @@ Fonts: `font-body` (Inter, the default) and `font-display` (Lexend).
 | Route | Component |
 | --- | --- |
 | `#/` | landing |
-| `#/lesson-card` | `LessonCard` — 6 variants (default, single app, no image, no apps, compact, inverted hover) |
+| `#/lesson-card` | `LessonCard` |
+
+One interactive instance per page, no variant galleries or explanatory copy —
+see CLAUDE.md.
 
 Routing is a hash switch in `src/App.tsx` (`src/lib/use-hash-route.ts`), not a
 real router. Vendored components that want `@tanstack/react-router` will need
