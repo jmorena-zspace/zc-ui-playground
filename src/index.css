@@ -1,0 +1,1534 @@
+/* Bundled locally via @fontsource-variable so the app renders with the
+   intended typography offline and on a cold HTTP cache — avoiding the
+   fallback-font flash that Google Fonts' `display=swap` produces. */
+@import '@fontsource-variable/inter/opsz.css';
+@import '@fontsource-variable/inter/opsz-italic.css';
+@import '@fontsource-variable/lexend';
+
+@import 'tailwindcss';
+@import 'tw-animate-css';
+
+@theme {
+  /* -------------
+  Custom Breakpoints
+  ------------- */
+  --breakpoint-3xl: 1920px;
+  --breakpoint-4xl: 2560px;
+
+  /* -------------
+  Primitives zSpace-DS-Core-Foundations
+  https://www.figma.com/design/fbQNp2Z09G54JKgcw4Zsbs/zSpace-DS-Core-Foundations?node-id=22-5&t=JUSEkRnLUD8aHbA0-1
+  ------------- */
+  --color-neutral-white: #ffffffff;
+  --color-neutral-black: #000000ff;
+  --color-neutral-50: #fafafaff;
+  --color-neutral-100: #f5f5f5ff;
+  --color-neutral-150: #e5e5e5ff;
+  --color-neutral-200: #dbdbdbff;
+  --color-neutral-300: #b5b5b5ff;
+  --color-neutral-400: #7a7a7aff;
+  --color-neutral-500: #5e5e5eff;
+  --color-neutral-600: #4a4a4aff;
+  --color-neutral-700: #363636ff;
+  --color-neutral-800: #242424ff;
+  --color-neutral-900: #121212ff;
+  --color-neutral-950: #0a0a0aff;
+  --color-blue-50: #f3f8fcff;
+  --color-cyan-25: #fafeffff;
+  --color-cyan-50: #e0fbffff;
+  --color-cyan-100: #d5edf1ff;
+  --color-cyan-200: #8af0ffff;
+  --color-cyan-300: #5ceaffff;
+  --color-cyan-400: #14e0ffff;
+  --color-cyan-500: #00c1deff;
+  --color-cyan-600: #00b1ccff;
+  --color-cyan-700: #00a0b8ff;
+  --color-cyan-800: #008ea3ff;
+  --color-cyan-900: #005966ff;
+  --color-cyan-950: #00353dff;
+  --color-blue-100: #e3f1fdff;
+  --color-blue-200: #c8e2f9ff;
+  --color-blue-300: #94c7f0ff;
+  --color-blue-400: #6fb4eaff;
+  --color-blue-500: #3598e9ff;
+  --color-blue-600: #0072ceff;
+  --color-blue-700: #005aa3ff;
+  --color-blue-800: #00447aff;
+  --color-blue-900: #002d52ff;
+  --color-blue-950: #001629ff;
+  --color-red-50: #fcefeeff;
+  --color-red-100: #f7d6d4ff;
+  --color-red-200: #eea5a0ff;
+  --color-red-300: #e77c74ff;
+  --color-red-400: #df5349ff;
+  --color-red-500: #d03025ff;
+  --color-red-600: #ba2b21ff;
+  --color-red-700: #a5261dff;
+  --color-red-800: #8f2119ff;
+  --color-red-900: #821e17ff;
+  --color-red-950: #45100cff;
+  --color-orange-50: #fdf3edff;
+  --color-orange-100: #fae4d6ff;
+  --color-orange-200: #f4bc9aff;
+  --color-orange-300: #ef9e6cff;
+  --color-orange-400: #ea803eff;
+  --color-orange-500: #dc6418ff;
+  --color-orange-600: #c55916ff;
+  --color-orange-700: #af4f13ff;
+  --color-orange-800: #a14811ff;
+  --color-orange-900: #7c370dff;
+  --color-orange-950: #4a2108ff;
+  --color-yellow-50: #fffcf0ff;
+  --color-yellow-100: #fff9e0ff;
+  --color-yellow-200: #ffefadff;
+  --color-yellow-300: #ffe785ff;
+  --color-yellow-400: #ffde5cff;
+  --color-yellow-500: #f5c400ff;
+  --color-yellow-600: #dbaf00ff;
+  --color-yellow-700: #c7a000ff;
+  --color-yellow-800: #b28f00ff;
+  --color-yellow-900: #665200ff;
+  --color-yellow-950: #3d3100ff;
+  --color-green-50: #effbf3ff;
+  --color-green-100: #d6f5e0ff;
+  --color-green-200: #9de7b6ff;
+  --color-green-300: #7cde9dff;
+  --color-green-400: #47d175ff;
+  --color-green-500: #30c060ff;
+  --color-green-600: #2bab56ff;
+  --color-green-700: #279b4eff;
+  --color-green-800: #228743ff;
+  --color-teal-50: #e5fbf7ff;
+  --color-green-900: #15562bff;
+  --color-green-950: #0c3119ff;
+  --color-teal-100: #dcf9f4ff;
+  --color-teal-200: #91eddcff;
+  --color-teal-300: #72e8d3ff;
+  --color-teal-400: #39dfc1ff;
+  --color-teal-500: #22d3b2ff;
+  --color-teal-600: #1ebda0ff;
+  --color-teal-700: #1cb095ff;
+  --color-teal-800: #199a82ff;
+  --color-teal-900: #0f5c4eff;
+  --color-teal-950: #072c25ff;
+  --color-purple-50: #ede7f8ff;
+  --color-purple-100: #dbcff2ff;
+  --color-purple-200: #bca7e7ff;
+  --color-purple-300: #9e7fdcff;
+  --color-purple-400: #7f57d1ff;
+  --color-purple-500: #6335c0ff;
+  --color-purple-600: #572ea8ff;
+  --color-purple-700: #4e2a98ff;
+  --color-purple-800: #422380ff;
+  --color-pink-50: #fbe5f3ff;
+  --color-purple-900: #301b60ff;
+  --color-purple-950: #100920ff;
+  --color-violet-50: #f5f3ff;
+  --color-violet-100: #ede9fe;
+  --color-violet-200: #ddd6fe;
+  --color-violet-300: #c4b5fd;
+  --color-violet-400: #a78bfa;
+  --color-violet-500: #8b5cf6;
+  --color-violet-600: #7c3aed;
+  --color-violet-700: #6d28d9;
+  --color-violet-800: #5b21b6;
+  --color-violet-900: #4c1d95;
+  --color-violet-950: #2e1065;
+  --color-pink-100: #f4bee1ff;
+  --color-pink-200: #eea0d4ff;
+  --color-pink-300: #e363b9ff;
+  --color-pink-400: #dd3ca7ff;
+  --color-pink-500: #d02597ff;
+  --color-pink-600: #ad1f7eff;
+  --color-pink-700: #981b6eff;
+  --color-pink-800: #82175eff;
+  --color-pink-900: #68124bff;
+  --color-pink-950: #340926ff;
+  --color-z-blue-50: #ebf3ff;
+  --color-z-blue-100: #c2dbff;
+  --color-z-blue-200: #8fbdff;
+  --color-z-blue-300: #5c9fff;
+  --color-z-blue-400: #0c69ed;
+  --color-z-blue-500: #0058d6;
+  --color-z-blue-600: #004dbc;
+  --color-z-blue-700: #003d94;
+  --color-z-blue-800: #00327a;
+  --color-z-blue-900: #00265c;
+  --color-z-blue-950: #0c1727;
+  --color-indigo-50: #eef2ff;
+  --color-indigo-100: #e0e7ff;
+  --color-indigo-200: #c7d2fe;
+  --color-indigo-300: #a5b4fc;
+  --color-indigo-400: #818cf8;
+  --color-indigo-500: #6366f1;
+  --color-indigo-600: #4f46e5;
+  --color-indigo-700: #4338ca;
+  --color-indigo-800: #3730a3;
+  --color-indigo-900: #312e81;
+  --color-indigo-950: #1e1b4b;
+  --color-midnight-700: #201c3d;
+  --color-midnight-800: #1a1548;
+  --color-midnight-900: #131032;
+  --color-midnight-950: #0c0b1c;
+  --color-z-violet-50: #f0f1fd;
+  --color-z-violet-100: #e4e6fb;
+  --color-z-violet-200: #cfd2f6ff;
+  --color-z-violet-300: #b1b4f0ff;
+  --color-z-violet-400: #9491e8ff;
+  --color-z-violet-500: #8176deff;
+  --color-z-violet-600: #715ccfff;
+  --color-z-violet-700: #624cb6ff;
+  --color-z-violet-800: #504093ff;
+  --color-z-violet-900: #433976ff;
+  --color-z-violet-950: #1e1933ff;
+  --color-dark-50: #ffffff;
+  --color-dark-100: #e6e5f7;
+  --color-dark-200: #a7a3cb;
+  --color-dark-300: #7f57d1;
+  --color-dark-400: #562ea7;
+  --color-dark-500: #3e3c62;
+  --color-dark-600: #29274d;
+  --color-dark-700: #201d3b;
+  --color-dark-800: #121129;
+  --color-dark-900: #0f0c17;
+  --overlay-dark-subtle: #00000029;
+  --overlay-dark-default: #00000033;
+  --overlay-dark-light: #0000003d;
+  --overlay-dark-medium: #00000052;
+  --overlay-dark-heavy: #0000007a;
+  --overlay-dark-strong: #000000a6;
+  --overlay-light-subtle: #ffffff29;
+  --overlay-light-light: #ffffff3d;
+  --overlay-light-medium: #ffffff52;
+  --overlay-light-heavy: #ffffff7a;
+  --overlay-light-strong: #ffffffa6;
+
+  --space-0: 0px;
+  --space-4: 4px;
+  --space-8: 8px;
+  --space-12: 12px;
+  --space-16: 16px;
+  --space-24: 24px;
+  --space-32: 32px;
+  --space-40: 40px;
+  --space-48: 48px;
+  --space-64: 64px;
+  --radius-0: 0px;
+  --radius-2: 2px;
+  --radius-4: 4px;
+  --radius-8: 8px;
+  --radius-12: 12px;
+  --radius-16: 16px;
+  --radius-20: 20px;
+  --radius-24: 24px;
+  --radius-32: 32px;
+  --radius-circle: 9999px;
+  --border-width-0: 0px;
+  --border-width-1: 1px;
+  --border-width-2: 2px;
+  --size-16: 16px;
+  --size-24: 24px;
+  --size-32: 32px;
+  --size-40: 40px;
+  --size-64: 64px;
+  --font-weight-thin: 100;
+  --font-weight-extra-light: 200;
+  --font-weight-light: 300;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-weight-extra-bold: 800;
+  --font-weight-black: 900;
+  --font-size-12: 12px;
+  --font-size-14: 14px;
+  --font-size-16: 16px;
+  --font-size-18: 18px;
+  --font-size-20: 20px;
+  --font-size-24: 24px;
+  --font-size-28: 28px;
+  --font-size-30: 30px;
+  --font-size-32: 32px;
+  --font-size-36: 36px;
+  --font-size-40: 40px;
+  --font-size-42: 42px;
+  --font-size-48: 48px;
+  --font-size-60: 60px;
+  --font-size-64: 64px;
+  --font-size-72: 72px;
+  --font-size-80: 80px;
+  --font-size-88: 88px;
+  --font-size-96: 96px;
+  --font-size-128: 128px;
+  --font-line-height-16: 16px;
+  --font-line-height-18: 18px;
+  --font-line-height-20: 20px;
+  --font-line-height-24: 24px;
+  --font-line-height-28: 28px;
+  --font-line-height-32: 32px;
+  --font-line-height-36: 36px;
+  --font-line-height-40: 40px;
+  --font-line-height-44: 44px;
+  --font-line-height-52: 52px;
+
+  --font-lexend: 'Lexend Variable', 'Lexend', sans-serif;
+  --font-inter: 'Inter Variable', 'Inter', sans-serif;
+  /* -------------
+    Primitives zSpace-DS-Core-Foundations
+    https://www.figma.com/design/fbQNp2Z09G54JKgcw4Zsbs/zSpace-DS-Core-Foundations?node-id=22-5&t=JUSEkRnLUD8aHbA0-1
+  ------------- */
+
+  /* -------------
+  [SEM] Color Roles - zCentral - Light
+  ------------- */
+
+  /* Used as global page background color */
+  --color-bg-global-default: var(--color-neutral-50);
+  /* Used as inner stop of the dark page background radial gradient (brightest highlight near top) */
+  --color-bg-global-highlight: var(--color-midnight-800);
+  /* Used as mid stop of the dark page background radial gradient */
+  --color-bg-global-mid: var(--color-midnight-900);
+  /* Used as outer stop of the dark page background radial gradient (deepest edges) */
+  --color-bg-global-deep: var(--color-midnight-950);
+  /* Used as line color for the dark page background grid overlay */
+  --color-bg-global-grid: var(--color-midnight-700);
+
+  --color-bg-surface-default: var(--color-dark-800);
+  --color-bg-surface-subtle: var(--color-dark-700);
+  --color-bg-surface-strong: var(--color-dark-600);
+  --color-bg-surface-disabled: var(--color-dark-900);
+  --color-bg-surface-selected: var(--color-dark-600);
+  --color-bg-surface-hover: var(--color-dark-600);
+  /* Used as background for content cards (lessons, applications) */
+  --color-bg-surface-form: var(--color-dark-700);
+  --color-bg-surface-brand-default: var(--color-dark-400);
+  --color-bg-surface-brand-subtle: var(--color-dark-700);
+  --color-bg-surface-brand-strong: var(--color-dark-100);
+  /* NOT USED - Reserved for future use */
+  --color-bg-surface-inverse-default: var(--color-neutral-900);
+  /* NOT USED - Reserved for future use */
+  --color-bg-surface-inverse-subtle: var(--color-neutral-800);
+  /* NOT USED - Reserved for future use */
+  --color-bg-surface-inverse-strong: var(--color-neutral-700);
+  --color-bg-surface-inverse-hover: var(--color-purple-100);
+  /* NOT USED - Reserved for future use */
+  --color-bg-surface-status-positive-strong: var(--color-green-100);
+  /* NOT USED - Reserved for future use */
+  --color-bg-surface-status-positive-subtle: var(--color-green-950);
+  /* NOT USED - Reserved for future use */
+  --color-bg-surface-status-info-strong: var(--color-z-blue-100);
+  /* Used as background for Label component "application" type */
+  --color-bg-surface-status-info-subtle: var(--color-z-blue-950);
+  /* NOT USED - Reserved for future use */
+  --color-bg-surface-status-warning-strong: var(--color-orange-50);
+  /* Used as background for Label component "lesson" type */
+  --color-bg-surface-status-warning-subtle: var(--color-orange-900);
+  /* Used as background for InstalledBadge and InstalledLabel components */
+  --color-bg-surface-status-negative-strong: var(--color-red-100);
+  /* Used as background for error states and destructive actions */
+  --color-bg-surface-status-negative-subtle: var(--color-red-900);
+  --color-bg-surface-status-negative-hover: var(--color-red-800);
+  /* Used as background for primary action buttons and other primary action states */
+  --color-bg-action-primary-default: var(--color-dark-400);
+  /* NOT USED - Reserved for future use */
+  --color-bg-overlay-default: var(--overlay-dark-medium);
+  /* Used as main page background color */
+  --color-bg-page-default: var(--color-neutral-white);
+  /* Used as background for quick-results dropdown with glassmorphism effect */
+  --color-bg-surface-frosted: rgba(255, 255, 255, 0.8);
+  --color-bg-overlay-modal: var(--overlay-dark-default);
+  /* NOT USED - Reserved for future use */
+  --color-bg-overlay-subtle: var(--overlay-dark-light);
+  /* NOT USED - Reserved for future use */
+  --color-bg-overlay-strong: var(--overlay-dark-strong);
+  /* Used as hover background for icon buttons on dark/brand surfaces (navbar, header) */
+  --color-bg-overlay-light-subtle: var(--overlay-light-subtle);
+  /* Used as active/pressed background for icon buttons on dark/brand surfaces */
+  --color-bg-overlay-light-light: var(--overlay-light-light);
+  /* Used as translucent input background on dark/brand surfaces (navbar search) */
+  --color-bg-overlay-light-medium: var(--overlay-light-medium);
+  /* Used as skeleton placeholder background on light surfaces */
+  --color-bg-skeleton: var(--overlay-dark-subtle);
+  /* Used as skeleton placeholder background on dark/brand surfaces */
+  --color-bg-skeleton-inverse: var(--overlay-light-subtle);
+  /* NOT USED - Reserved for future use */
+  --color-bg-action-secondary-default: var(--color-dark-700);
+  /* Used as default color for inline text links */
+  --color-content-link-inline-default: var(--color-dark-50);
+  --color-content-link-inline-hover: var(--color-dark-50);
+  --color-content-link-inline-active: var(--color-dark-50);
+  --color-content-link-inline-visited: var(--color-purple-900);
+  --color-content-link-action-default: var(--color-dark-200);
+  --color-content-link-action-hover: var(--color-dark-50);
+  --color-content-link-action-pressed: var(--color-dark-50);
+  --color-content-link-action-disabled: var(--color-neutral-500);
+  --color-content-action-on-primary-default: var(--color-dark-50);
+  --color-content-action-on-primary-disabled: var(--color-neutral-500);
+  --color-content-action-on-secondary-default: var(--color-dark-100);
+  --color-content-action-on-secondary-disabled: var(--color-neutral-500);
+  --color-content-action-on-secondary-inverse: var(--color-neutral-white);
+  --color-content-action-on-tertiary-default: var(--color-neutral-950);
+  --color-content-action-on-tertiary-disabled: var(--color-neutral-600);
+  --color-content-action-on-brand-default: var(--color-dark-50);
+  --color-content-action-on-brand-disabled: var(--color-neutral-700);
+  --color-content-action-on-inverse-default: var(--color-neutral-950);
+  --color-content-action-on-inverse-disabled: var(--color-neutral-500);
+  /* Used as background for Label component "resource" type */
+  --color-bg-accent-teal-subtle-default: var(--color-teal-50);
+  /* NOT USED - Reserved for future use */
+  --color-bg-accent-teal-subtle-hover: var(--color-teal-100);
+  /* NOT USED - Reserved for future use */
+  --color-bg-accent-teal-subtle-pressed: var(--color-teal-200);
+  /* Used as primary text color for headings, titles, labels, and main content throughout the app */
+  --color-content-primary: var(--color-dark-50);
+  /* Used as secondary text color for descriptions, metadata, app names, and less prominent content */
+  --color-content-secondary: var(--color-dark-100);
+  /* Used as tertiary text color for separators, unavailable app names, and placeholder text */
+  --color-content-tertiary: var(--color-dark-200);
+  /* NOT USED - Reserved for future use */
+  --color-content-placeholder: var(--color-dark-200);
+  /* NOT USED - Reserved for future use */
+  --color-content-disabled: var(--color-neutral-500);
+  /* NOT USED - Reserved for future use */
+  --color-bg-action-tertiary-default: var(--color-neutral-white);
+  /* NOT USED - Reserved for future use */
+  --color-bg-action-brand-default: var(--color-z-blue-600);
+  /* NOT USED - Reserved for future use */
+  --color-bg-action-brand-hover: var(--color-z-blue-700);
+  /* NOT USED - Reserved for future use */
+  --color-bg-action-brand-pressed: var(--color-z-blue-800);
+  /* NOT USED - Reserved for future use */
+  --color-bg-action-brand-disabled: var(--color-z-blue-100);
+  /* Used as active state text color for navigation and selected items */
+  --color-content-active: var(--color-dark-50);
+  /* Used as default border color for cards, containers, tooltips, and system borders */
+  --color-border-system-default: var(--color-dark-500);
+  /* Used as border color for Label component "resource" type */
+  --color-border-accent-teal-on-subtle: var(--color-teal-200);
+  /* NOT USED - Reserved for future use */
+  --color-border-accent-teal-on-strong: var(--color-teal-300);
+  /* NOT USED - Reserved for future use */
+  --color-border-accent-purple-on-subtle: var(--color-purple-200);
+  /* NOT USED - Reserved for future use */
+  --color-border-accent-purple-on-strong: var(--color-purple-300);
+  /* NOT USED - Reserved for future use */
+  --color-border-accent-pink-on-subtle: var(--color-pink-200);
+  /* NOT USED - Reserved for future use */
+  --color-border-accent-pink-on-strong: var(--color-pink-300);
+  /* NOT USED - Reserved for future use */
+  --color-border-action-primary-default: var(--color-dark-300);
+  /* NOT USED - Reserved for future use */
+  --color-border-action-primary-hover: var(--color-dark-300);
+  /* NOT USED - Reserved for future use */
+  --color-border-action-primary-pressed: var(--color-dark-300);
+  /* NOT USED - Reserved for future use */
+  --color-border-inset-glow: var(--color-neutral-white);
+  --color-border-action-primary-focused: var(--color-z-blue-300);
+  /* Used as border color for selected cards (Card, GridCard, CompactCard, ApplicationCard) */
+  --color-border-action-primary-selected: var(--color-dark-400);
+  /* NOT USED - Reserved for future use */
+  --color-border-action-primary-disabled: var(--color-neutral-300);
+  /* NOT USED - Reserved for future use */
+  --color-border-action-secondary-default: var(--color-dark-500);
+  /* NOT USED - Reserved for future use */
+  --color-border-action-secondary-hover: var(--color-dark-500);
+  /* NOT USED - Reserved for future use */
+  --color-border-action-secondary-pressed: var(--color-dark-500);
+  /* NOT USED - Reserved for future use */
+  --color-border-action-secondary-focused: var(--color-z-blue-300);
+  /* NOT USED - Reserved for future use */
+  --color-border-action-secondary-selected: var(--color-dark-300);
+  /* NOT USED - Reserved for future use */
+  --color-border-action-secondary-disabled: var(--color-neutral-300);
+  /* NOT USED - Reserved for future use */
+  --color-border-action-tertiary-default: var(--color-neutral-400);
+  /* NOT USED - Reserved for future use */
+  --color-border-action-tertiary-hover: var(--color-neutral-500);
+  /* NOT USED - Reserved for future use */
+  --color-border-action-tertiary-pressed: var(--color-neutral-600);
+  /* NOT USED - Reserved for future use */
+  --color-border-action-tertiary-focused: var(--color-z-blue-300);
+  /* NOT USED - Reserved for future use */
+  --color-border-action-tertiary-selected: var(--color-z-blue-600);
+  /* NOT USED - Reserved for future use */
+  --color-border-action-inverse-default: var(--color-neutral-400);
+  /* NOT USED - Reserved for future use */
+  --color-border-action-tertiary-disabled: var(--color-neutral-300);
+  /* NOT USED - Reserved for future use */
+  --color-border-action-inverse-hover: var(--color-neutral-400);
+  /* NOT USED - Reserved for future use */
+  --color-border-action-inverse-pressed: var(--color-neutral-300);
+  /* NOT USED - Reserved for future use */
+  --color-border-action-inverse-selected: var(--color-neutral-200);
+  /* NOT USED - Reserved for future use */
+  --color-border-action-inverse-focused: var(--color-neutral-100);
+  /* NOT USED - Reserved for future use */
+  --color-border-action-inverse-disabled: var(--color-neutral-600);
+  /* Used as subtle border color for cards, dividers, filters, view toggles, and table rows */
+  --color-border-system-subtle: var(--color-dark-600);
+  /* Used as strong border color for hover states on cards and containers */
+  --color-border-system-strong: var(--color-dark-200);
+  /* NOT USED - Reserved for future use */
+  --color-border-input-default: var(--color-dark-600);
+  /* NOT USED - Reserved for future use */
+  --color-border-input-hover: var(--color-dark-400);
+  /* NOT USED - Reserved for future use */
+  --color-border-input-active: var(--color-dark-200);
+  /* NOT USED - Reserved for future use */
+  --color-border-input-focused: var(--color-z-blue-300);
+  /* NOT USED - Reserved for future use */
+  --color-border-input-disabled: var(--color-dark-800);
+  /* NOT USED - Reserved for future use */
+  --color-border-input-filled: var(--color-neutral-300);
+  /* NOT USED - Reserved for future use */
+  --color-bg-action-inverse-default: var(--color-neutral-white);
+  /* Used as hover background for primary action buttons */
+  --color-bg-action-primary-hover: var(--color-dark-300);
+  /* NOT USED - Reserved for future use */
+  --color-bg-action-primary-pressed: var(--color-dark-600);
+  /* Used as background color for selected cards (Card, GridCard, CompactCard, ApplicationCard) */
+  --color-bg-action-primary-selected: var(--color-dark-600);
+  /* NOT USED - Reserved for future use */
+  --color-bg-action-primary-disabled: var(--color-neutral-700);
+  /* NOT USED - Reserved for future use */
+  --color-bg-action-secondary-hover: var(--color-dark-300);
+  /* NOT USED - Reserved for future use */
+  --color-bg-action-secondary-pressed: var(--color-purple-600);
+  /* NOT USED - Reserved for future use */
+  --color-bg-action-secondary-disabled: var(--color-neutral-700);
+  /* Used as hover background for tertiary action buttons, icon buttons, table rows, accordions, filters, and interactive elements */
+  --color-bg-action-tertiary-hover: var(--color-neutral-100);
+  /* NOT USED - Reserved for future use */
+  --color-bg-action-tertiary-pressed: var(--color-neutral-150);
+  /* NOT USED - Reserved for future use */
+  --color-bg-action-tertiary-disabled: var(--color-neutral-200);
+  /* NOT USED - Reserved for future use */
+  --color-bg-action-inverse-hover: var(--color-neutral-100);
+  /* NOT USED - Reserved for future use */
+  --color-bg-action-inverse-pressed: var(--color-neutral-200);
+  /* NOT USED - Reserved for future use */
+  --color-bg-action-inverse-disabled: var(--color-neutral-700);
+  /* Used as text color for Label component "lesson" type */
+  --color-content-status-warning: var(--color-yellow-500);
+  /* Used as text color for Label component "application" type */
+  --color-content-status-info: var(--color-z-blue-300);
+  /* NOT USED - Reserved for future use */
+  --color-content-status-negative: var(--color-red-300);
+  /* NOT USED - Reserved for future use */
+  --color-content-status-positive: var(--color-green-500);
+  /* NOT USED - Reserved for future use */
+  --color-content-on-status-negative-strong: var(--color-red-900);
+  /* NOT USED - Reserved for future use */
+  --color-content-on-status-negative-subtle: var(--color-red-50);
+  /* NOT USED - Reserved for future use */
+  --color-content-on-status-positive-strong: var(--color-green-900);
+  /* NOT USED - Reserved for future use */
+  --color-content-on-status-positive-subtle: var(--color-green-50);
+  /* NOT USED - Reserved for future use */
+  --color-content-on-status-warning-strong: var(--color-orange-200);
+  /* NOT USED - Reserved for future use */
+  --color-content-on-status-warning-subtle: var(--color-orange-500);
+  /* NOT USED - Reserved for future use */
+  --color-content-on-status-info-strong: var(--color-z-blue-950);
+  /* NOT USED - Reserved for future use */
+  --color-content-on-status-info-subtle: var(--color-z-blue-50);
+  /* Used as hover text color for card titles and links in application detail pages */
+  --color-content-brand-default: var(--color-dark-50);
+  /* NOT USED - Reserved for future use */
+  --color-content-on-brand-default: var(--color-dark-50);
+  /* NOT USED - Reserved for future use */
+  --color-content-on-brand-subtle: var(--color-dark-500);
+  /* NOT USED - Reserved for future use */
+  --color-content-on-brand-strong: var(--color-dark-100);
+  /* NOT USED - Reserved for future use */
+  --color-content-inverse-primary: var(--color-neutral-white);
+  /* NOT USED - Reserved for future use */
+  --color-content-inverse-secondary: var(--color-neutral-150);
+  /* NOT USED - Reserved for future use */
+  --color-content-inverse-tertiary: var(--color-neutral-200);
+  /* NOT USED - Reserved for future use */
+  --color-content-inverse-placeholder: var(--color-neutral-300);
+  /* NOT USED - Reserved for future use */
+  --color-content-inverse-disabled: var(--color-neutral-400);
+  /* NOT USED - Reserved for future use */
+  --color-content-inverse-active: var(--color-z-blue-300);
+  /* NOT USED - Reserved for future use */
+  --color-content-inverse-link-inline-default: var(--color-z-blue-400);
+  /* NOT USED - Reserved for future use */
+  --color-content-inverse-link-inline-hover: var(--color-z-blue-300);
+  /* NOT USED - Reserved for future use */
+  --color-content-inverse-link-inline-active: var(--color-z-blue-200);
+  /* NOT USED - Reserved for future use */
+  --color-content-inverse-link-inline-visited: var(--color-purple-300);
+  /* NOT USED - Reserved for future use */
+  --color-content-inverse-link-action-default: var(--color-z-blue-400);
+  /* NOT USED - Reserved for future use */
+  --color-content-inverse-link-action-hover: var(--color-z-blue-300);
+  /* NOT USED - Reserved for future use */
+  --color-content-inverse-link-action-pressed: var(--color-z-blue-200);
+  /* NOT USED - Reserved for future use */
+  --color-content-inverse-link-action-disabled: var(--color-neutral-500);
+  /* NOT USED - Reserved for future use */
+  --color-content-brand-subtle: var(--color-dark-200);
+  /* NOT USED - Reserved for future use */
+  --color-content-brand-strong: var(--color-dark-800);
+  /* NOT USED - Reserved for future use */
+  --color-border-system-inverse-default: var(--color-neutral-500);
+  /* NOT USED - Reserved for future use */
+  --color-border-system-inverse-subtle: var(--color-neutral-700);
+  /* NOT USED - Reserved for future use */
+  --color-border-system-inverse-strong: var(--color-neutral-200);
+  /* NOT USED - Reserved for future use */
+  --color-border-brand-default: var(--color-z-blue-500);
+  /* NOT USED - Reserved for future use */
+  --color-border-brand-subtle: var(--color-z-blue-200);
+  /* NOT USED - Reserved for future use */
+  --color-border-brand-strong: var(--color-z-blue-900);
+  /* NOT USED - Reserved for future use */
+  --color-border-brand-on-contrast: var(--color-z-blue-300);
+  /* NOT USED - Reserved for future use */
+  --color-border-input-status-negative-subtle: var(--color-red-300);
+  /* NOT USED - Reserved for future use */
+  --color-border-input-status-negative-strong: var(--color-red-800);
+  /* Used as border color for Label component "lesson" type */
+  --color-border-input-status-warning-subtle: var(--color-yellow-300);
+  /* NOT USED - Reserved for future use */
+  --color-border-input-status-warning-strong: var(--color-orange-300);
+  /* NOT USED - Reserved for future use */
+  --color-border-input-status-positive-subtle: var(--color-green-300);
+  /* NOT USED - Reserved for future use */
+  --color-border-input-status-positive-strong: var(--color-green-800);
+  /* Used as border color for Label component "application" type */
+  --color-border-input-status-info-subtle: var(--color-z-blue-300);
+  /* NOT USED - Reserved for future use */
+  --color-border-input-status-info-strong: var(--color-z-blue-800);
+  /* NOT USED - Reserved for future use */
+  --color-bg-accent-teal-strong-default: var(--color-teal-700);
+  /* NOT USED - Reserved for future use */
+  --color-bg-accent-teal-strong-hover: var(--color-teal-500);
+  /* NOT USED - Reserved for future use */
+  --color-bg-accent-teal-strong-pressed: var(--color-teal-600);
+  /* Used as text color for Label component "resource" type */
+  --color-content-accent-teal-on-subtle: var(--color-teal-950);
+  /* NOT USED - Reserved for future use */
+  --color-content-accent-teal-on-strong: var(--color-neutral-950);
+  /* NOT USED - Reserved for future use */
+  --color-content-accent-purple-on-subtle: var(--color-purple-900);
+  /* NOT USED - Reserved for future use */
+  --color-content-accent-purple-on-strong: var(--color-neutral-white);
+  /* NOT USED - Reserved for future use */
+  --color-bg-accent-purple-subtle-default: var(--color-purple-50);
+  /* NOT USED - Reserved for future use */
+  --color-bg-accent-purple-subtle-hover: var(--color-purple-100);
+  /* NOT USED - Reserved for future use */
+  --color-bg-accent-purple-subtle-pressed: var(--color-purple-200);
+  /* NOT USED - Reserved for future use */
+  --color-bg-accent-purple-strong-default: var(--color-purple-600);
+  /* NOT USED - Reserved for future use */
+  --color-bg-accent-purple-strong-hover: var(--color-purple-700);
+  /* NOT USED - Reserved for future use */
+  --color-bg-accent-purple-strong-pressed: var(--color-purple-900);
+  /* NOT USED - Reserved for future use */
+  --color-bg-accent-pink-subtle-default: var(--color-pink-50);
+  /* NOT USED - Reserved for future use */
+  --color-bg-accent-pink-subtle-hover: var(--color-pink-100);
+  /* NOT USED - Reserved for future use */
+  --color-bg-accent-pink-subtle-pressed: var(--color-pink-200);
+  /* NOT USED - Reserved for future use */
+  --color-bg-accent-pink-strong-default: var(--color-pink-600);
+  /* NOT USED - Reserved for future use */
+  --color-bg-accent-pink-strong-hover: var(--color-pink-700);
+  /* NOT USED - Reserved for future use */
+  --color-bg-accent-pink-strong-pressed: var(--color-pink-800);
+  /* NOT USED - Reserved for future use */
+  --color-content-accent-pink-on-subtle: var(--color-pink-900);
+  /* NOT USED - Reserved for future use */
+  --color-content-accent-pink-on-strong: var(--color-neutral-white);
+  --color-special-label-lesson-bg: var(--color-yellow-950);
+  --color-special-label-lesson-text: var(--color-yellow-200);
+  --color-special-label-lesson-border: var(--color-yellow-200);
+  --color-special-label-application-bg: var(--color-z-blue-950);
+  --color-special-label-application-text: var(--color-z-blue-200);
+  --color-special-label-application-border: var(--color-z-blue-200);
+  --color-special-label-collection-bg: var(--color-green-950);
+  --color-special-label-collection-text: var(--color-green-200);
+  --color-special-label-collection-border: var(--color-green-200);
+  --color-special-label-resource-bg: var(--color-teal-950);
+  --color-special-label-resource-text: var(--color-teal-200);
+  --color-special-label-resource-border: var(--color-teal-200);
+  --color-special-content-pack-bg: #ebd47b;
+
+  --color-icon-on-brand-strong: var(--color-z-blue-800);
+  /* -------------
+  [SEM] Color Roles - zCentral - Light
+  ------------- */
+
+  /* -------------
+    Shapes & Borders
+  ------------- */
+  --border-width-default: var(--border-width-1);
+  --border-width-strong: var(--border-width-2);
+  --radius-none: var(--radius-0);
+  --radius-xs: var(--radius-4);
+  --radius-sm: var(--radius-8);
+  --radius-md: var(--radius-16);
+  --radius-lg: var(--radius-24);
+  --radius-xl: var(--radius-32);
+  --radius-full: var(--radius-circle);
+  /* -------------
+    Shapes & Borders
+  ------------- */
+
+  /* -------------
+    Spacing
+  ------------- */
+  --spacing-none: var(--space-0);
+  --spacing-xxs: var(--space-4);
+  --spacing-xs: var(--space-8);
+  --spacing-sm: var(--space-12);
+  --spacing-md: var(--space-16);
+  --spacing-lg: var(--space-24);
+  --spacing-xl: var(--space-32);
+  --spacing-xxl: var(--space-48);
+  --spacing-3xl: var(--space-64);
+  /* -------------
+    Spacing
+  ------------- */
+
+  /* -------------
+    Font sizes
+  ------------- */
+  --text-body-sm: 12px;
+  --text-body-sm--line-height: 16px;
+
+  --text-body-md: 14px;
+  --text-body-md--line-height: 20px;
+
+  --text-body-lg: 16px;
+  --text-body-lg--line-height: 24px;
+
+  --text-display-xs: 20px;
+  --text-display-xs--line-height: 25px;
+
+  --text-display-sm: 24px;
+  --text-display-sm--line-height: 30px;
+
+  --text-display-md: 28px;
+  --text-display-md--line-height: 35px;
+
+  --text-display-lg: 28px;
+  --text-display-lg--line-height: 35px;
+
+  --text-display-xl: 32px;
+  --text-display-xl--line-height: 40px;
+
+  --text-display-2xl: 48px;
+  --text-display-2xl--line-height: 60px;
+
+  --text-display-3xl: 64px;
+  --text-display-3xl--line-height: 80px;
+  /* -------------
+    Font sizes
+  ------------- */
+
+  /* -------------
+    Font families
+  ------------- */
+  --default-font-family: var(--font-inter);
+  --font-display: var(--font-lexend);
+  --font-body: var(--font-inter);
+  /* -------------
+    Font families
+  ------------- */
+
+  /* Table tokens */
+  --table-column-xs: 10%;
+  --table-column-sm: 15%;
+  --table-column-md: 25%;
+  --table-column-lg: 35%;
+  --table-column-xl: 45%;
+  --table-column-auto: auto;
+
+  --table-row-xs: 40px;
+  --table-row-sm: 60px;
+  --table-row-md: 80px;
+  --table-row-lg: 100px;
+  --table-row-xl: 120px;
+  --table-row-auto: auto;
+
+  --animate-accordion-down: accordion-down 0.3s ease-out;
+  --animate-blob: blob 20s infinite alternate ease-in-out;
+  --animate-pulse-slow: pulse-slow 8s infinite ease-in-out;
+  --animate-float: float 25s infinite linear;
+  --animate-modal-backdrop: modal-backdrop 0.2s ease-out forwards;
+  --animate-modal-backdrop-exit: modal-backdrop-exit 0.2s ease-in forwards;
+  --animate-modal-content: modal-content 0.25s ease-out forwards;
+  --animate-modal-content-exit: modal-content-exit 0.2s ease-in forwards;
+  --animate-filter-modal-enter: filter-modal-enter 0.2s ease-out forwards;
+  --animate-filter-modal-exit: filter-modal-exit 0.15s ease-in forwards;
+  --animate-dropdown-fade-in: dropdown-fade-in 0.15s ease-out 50ms both;
+  --animate-dropdown-fade-in-bottom: dropdown-fade-in-bottom 0.15s ease-out 50ms
+    both;
+  --animate-dropdown-fade-out: dropdown-fade-out 0.15s ease-in forwards;
+  --animate-dropdown-fade-out-bottom: dropdown-fade-out-bottom 0.15s ease-in
+    forwards;
+  --animate-progress-indeterminate: progress-indeterminate 1.5s ease-in-out
+    infinite;
+  --animate-invalid-shake: invalid-shake 0.35s ease-in-out;
+  --animate-nav-icon-pop: nav-icon-pop 0.3s ease-out;
+
+  --scrollbar-track: transparent;
+  --scrollbar-thumb: var(--color-content-action-on-secondary-disabled);
+  --scrollbar-thumb-hover: var(--color-content-tertiary);
+  --scrollbar-thumb-active: var(--color-content-secondary);
+  --scrollbar-size: 8px;
+
+  @keyframes progress-indeterminate {
+    0% {
+      left: -40%;
+      width: 40%;
+    }
+    50% {
+      left: 20%;
+      width: 60%;
+    }
+    100% {
+      left: 100%;
+      width: 40%;
+    }
+  }
+
+  @keyframes accordion-down {
+    from {
+      opacity: 0;
+      transform: translateY(-25px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes invalid-shake {
+    0%,
+    100% {
+      transform: translateX(0);
+    }
+    25% {
+      transform: translateX(-6px);
+    }
+    50% {
+      transform: translateX(6px);
+    }
+    75% {
+      transform: translateX(-3px);
+    }
+  }
+
+  @keyframes nav-icon-pop {
+    0%,
+    100% {
+      transform: scale(1);
+    }
+    40% {
+      transform: scale(1.25);
+    }
+  }
+
+  @keyframes blob {
+    0% {
+      transform: translate(0px, 0px) scale(1);
+    }
+    33% {
+      transform: translate(30px, -50px) scale(1.1);
+    }
+    66% {
+      transform: translate(-20px, 20px) scale(0.9);
+    }
+    100% {
+      transform: translate(0px, 0px) scale(1);
+    }
+  }
+
+  @keyframes pulse-slow {
+    0%,
+    100% {
+      opacity: 0.3;
+      transform: translate(-50%, -50%) scale(1);
+    }
+    50% {
+      opacity: 0.4;
+      transform: translate(-50%, -50%) scale(1.1);
+    }
+  }
+
+  @keyframes float {
+    0% {
+      transform: translateY(0px) translateX(0px);
+      opacity: 0;
+    }
+    10% {
+      opacity: 1;
+    }
+    90% {
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(-100vh) translateX(20px);
+      opacity: 0;
+    }
+  }
+
+  @keyframes rotate-border-glow {
+    0% {
+      --bgrotate: 0deg;
+    }
+    100% {
+      --bgrotate: 360deg;
+    }
+  }
+
+  @keyframes modal-backdrop {
+    from {
+      opacity: 0;
+      backdrop-filter: blur(0px);
+    }
+    to {
+      opacity: 1;
+      backdrop-filter: blur(5px);
+    }
+  }
+
+  @keyframes modal-backdrop-exit {
+    from {
+      opacity: 1;
+      backdrop-filter: blur(5px);
+    }
+    to {
+      opacity: 0;
+      backdrop-filter: blur(0px);
+    }
+  }
+
+  @keyframes modal-content {
+    from {
+      opacity: 0;
+      transform: translateY(-16px) scale(0.98);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  @keyframes modal-content-exit {
+    from {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+    to {
+      opacity: 0;
+      transform: translateY(-16px) scale(0.98);
+    }
+  }
+
+  @keyframes filter-modal-enter {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes filter-modal-exit {
+    from {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    to {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+  }
+
+  @keyframes dropdown-fade-in {
+    from {
+      opacity: 0;
+      transform: scaleY(0);
+    }
+    to {
+      opacity: 1;
+      transform: scaleY(1);
+    }
+  }
+
+  @keyframes dropdown-fade-out {
+    from {
+      opacity: 1;
+      transform: scaleY(1);
+    }
+    to {
+      opacity: 0;
+      transform: scaleY(0);
+    }
+  }
+
+  @keyframes dropdown-fade-in-bottom {
+    from {
+      opacity: 0;
+      transform: scaleY(0);
+    }
+    to {
+      opacity: 1;
+      transform: scaleY(1);
+    }
+  }
+
+  @keyframes dropdown-fade-out-bottom {
+    from {
+      opacity: 1;
+      transform: scaleY(1);
+    }
+    to {
+      opacity: 0;
+      transform: scaleY(0);
+    }
+  }
+}
+
+@property --bgrotate {
+  initial-value: 0deg;
+  inherits: false;
+  syntax: '<angle>';
+}
+
+@utility animation-delay-* {
+  animation-delay: calc(--value(number) * 1s);
+}
+
+@utility icon-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-xs);
+  border-radius: var(--radius-circle);
+  cursor: pointer;
+  transition: background-color 150ms;
+}
+
+@utility icon-btn-on-light {
+  &:hover {
+    background-color: var(--color-bg-action-tertiary-hover);
+  }
+  &:active {
+    background-color: var(--color-bg-action-tertiary-pressed);
+  }
+}
+
+@utility grid-auto-fill {
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+}
+
+@utility icon-btn-on-surface {
+  &:hover {
+    background-color: var(--color-bg-surface-hover);
+  }
+  &:active {
+    background-color: var(--color-bg-surface-hover);
+  }
+}
+
+@utility icon-btn-on-dark {
+  &:hover {
+    background-color: var(--color-bg-overlay-light-subtle);
+  }
+  &:active {
+    background-color: var(--color-bg-overlay-light-light);
+  }
+}
+
+@utility filter-checkbox {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  border-radius: var(--radius-xs);
+  border: 1px solid var(--color-border-system-strong);
+  background-color: transparent;
+  cursor: pointer;
+}
+
+@utility filter-checkbox-checked {
+  border-color: var(--color-border-action-primary-selected);
+  background-color: var(--color-bg-surface-selected);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23ffffff'%3E%3Cpath d='M12.207 4.793a1 1 0 0 1 0 1.414l-5 5a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L6.5 9.086l4.293-4.293a1 1 0 0 1 1.414 0z'/%3E%3C/svg%3E");
+  background-size: 12px 12px;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+@utility filter-radio {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  border-radius: var(--radius-circle);
+  border: 1px solid var(--color-border-system-strong);
+  background-color: transparent;
+  cursor: pointer;
+}
+
+@utility filter-radio-checked {
+  border-color: var(--color-border-action-primary-selected);
+  background-color: var(--color-bg-surface-selected);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23ffffff'%3E%3Ccircle cx='8' cy='8' r='5'/%3E%3C/svg%3E");
+  background-size: 10px 10px;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+@utility scrollbar-hide {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+  &::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, and Opera */
+  }
+}
+
+@keyframes tooltip-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes tooltip-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@utility animate-tooltip-in {
+  animation: tooltip-in 150ms ease-out;
+}
+
+@utility animate-tooltip-out {
+  animation: tooltip-out 100ms ease-in forwards;
+}
+
+@utility animated-underline {
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  background-size: 0% 2px;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  transition: background-size 300ms ease-out;
+}
+
+@utility animated-underline-brand {
+  background-image: linear-gradient(
+    var(--color-bg-surface-brand-strong),
+    var(--color-bg-surface-brand-strong)
+  );
+}
+
+@utility animated-underline-on-brand {
+  background-image: linear-gradient(
+    var(--color-content-on-brand-default),
+    var(--color-content-on-brand-default)
+  );
+}
+
+@utility underline-grow {
+  position: relative;
+  text-decoration: none;
+
+  &::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -0.125rem;
+    height: 2px;
+    width: 0;
+    background-color: currentColor;
+    transition: width 300ms;
+  }
+
+  &:hover::after {
+    width: 100%;
+  }
+}
+
+/* Card inset border - subtle border + white glow for dimensionality */
+@utility card-inset-border {
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    z-index: 0;
+    box-shadow: inset 0 0 0 1px var(--color-border-system-subtle),
+      inset 1px 1px 0 1px var(--color-border-inset-glow);
+  }
+}
+
+/* Card hover gradient border - purple gradient border on hover */
+@utility card-hover-border {
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    background: linear-gradient(
+      135deg,
+      var(--color-purple-100) 0%,
+      rgba(219, 207, 242, 0.7) 50%,
+      var(--color-purple-100) 100%
+    );
+    padding: 1px;
+    -webkit-mask: linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+  }
+
+  &:hover::after {
+    opacity: 1;
+  }
+}
+
+/* Subtle animated cycling glow for search trigger hover */
+@utility search-active-glow {
+  position: relative;
+  border-color: var(--color-violet-300) !important;
+  overflow: visible !important;
+  isolation: isolate;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: conic-gradient(
+      from var(--bgrotate) at 50% 50%,
+      rgba(169, 76, 255, 1) 0%,
+      rgba(11, 198, 255, 1) 25%,
+      rgba(169, 76, 255, 1) 50%,
+      rgba(11, 198, 255, 1) 75%,
+      rgba(169, 76, 255, 1) 100%
+    );
+    -webkit-mask: linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+    animation: rotate-border-glow 5s linear infinite;
+    z-index: -1;
+    pointer-events: none;
+    filter: blur(2px);
+    opacity: 0.35;
+  }
+}
+
+@layer utilities {
+  /* Table column widths */
+  .table-column-xs {
+    width: var(--table-column-xs);
+  }
+  .table-column-sm {
+    width: var(--table-column-sm);
+  }
+  .table-column-md {
+    width: var(--table-column-md);
+  }
+  .table-column-lg {
+    width: var(--table-column-lg);
+  }
+  .table-column-xl {
+    width: var(--table-column-xl);
+  }
+  .table-column-auto {
+    width: var(--table-column-auto);
+  }
+
+  /* Table row max-heights */
+  .table-row-xs {
+    max-height: var(--table-row-xs);
+  }
+  .table-row-sm {
+    max-height: var(--table-row-sm);
+  }
+  .table-row-md {
+    max-height: var(--table-row-md);
+  }
+  .table-row-lg {
+    max-height: var(--table-row-lg);
+  }
+  .table-row-xl {
+    max-height: var(--table-row-xl);
+  }
+  .table-row-auto {
+    max-height: var(--table-row-auto);
+  }
+
+  /* Pagination separators */
+  .pagination-separators {
+    @apply [&>li:not(:first-child)]:border-l [&>li:not(:first-child)]:border-inherit;
+  }
+
+  /* Background opacity utilities */
+  .bg-opacity-0 {
+    --tw-bg-opacity: 0;
+  }
+  .bg-opacity-5 {
+    --tw-bg-opacity: 0.05;
+  }
+  .bg-opacity-10 {
+    --tw-bg-opacity: 0.1;
+  }
+  .bg-opacity-20 {
+    --tw-bg-opacity: 0.2;
+  }
+  .bg-opacity-25 {
+    --tw-bg-opacity: 0.25;
+  }
+  .bg-opacity-30 {
+    --tw-bg-opacity: 0.3;
+  }
+  .bg-opacity-40 {
+    --tw-bg-opacity: 0.4;
+  }
+  .bg-opacity-50 {
+    --tw-bg-opacity: 0.5;
+  }
+  .bg-opacity-60 {
+    --tw-bg-opacity: 0.6;
+  }
+  .bg-opacity-70 {
+    --tw-bg-opacity: 0.7;
+  }
+  .bg-opacity-75 {
+    --tw-bg-opacity: 0.75;
+  }
+  .bg-opacity-80 {
+    --tw-bg-opacity: 0.8;
+  }
+  .bg-opacity-90 {
+    --tw-bg-opacity: 0.9;
+  }
+  .bg-opacity-95 {
+    --tw-bg-opacity: 0.95;
+  }
+  .bg-opacity-100 {
+    --tw-bg-opacity: 1;
+  }
+}
+
+@layer base {
+  html {
+    height: 100%;
+    overflow: hidden;
+  }
+
+  body {
+    background-color: var(--color-bg-surface-default);
+    height: 100%;
+    overflow: hidden;
+    padding-top: env(safe-area-inset-top);
+    padding-right: env(safe-area-inset-right);
+    padding-bottom: env(safe-area-inset-bottom);
+    padding-left: env(safe-area-inset-left);
+  }
+
+  #root {
+    height: 100%;
+  }
+
+  /* Standard properties, scoped to browsers WITHOUT ::-webkit-scrollbar (e.g.
+     Firefox). Chromium is excluded on purpose: when scrollbar-width/-color are
+     set, Chrome (121+) ignores ::-webkit-scrollbar entirely, which would kill
+     the :hover/:active thumb states below. Excluding it lets the WebKit rules
+     drive the scrollbar there instead. */
+  @supports not selector(::-webkit-scrollbar) {
+    * {
+      scrollbar-width: thin;
+      scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+    }
+  }
+
+  /* WebKit (Chromium, incl. Electron) */
+  *::-webkit-scrollbar {
+    width: var(--scrollbar-size);
+    height: var(--scrollbar-size);
+  }
+
+  *::-webkit-scrollbar-track {
+    background-color: var(--scrollbar-track);
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background-color: var(--scrollbar-thumb);
+    border-radius: var(--radius-circle);
+  }
+
+  *::-webkit-scrollbar-thumb:hover {
+    background-color: var(--scrollbar-thumb-hover);
+  }
+
+  *::-webkit-scrollbar-thumb:active {
+    background-color: var(--scrollbar-thumb-active);
+  }
+
+  input[type='search'] {
+    -webkit-appearance: none;
+    appearance: none;
+  }
+
+  input[type='search']::-webkit-search-decoration,
+  input[type='search']::-webkit-search-cancel-button,
+  input[type='search']::-webkit-search-results-button,
+  input[type='search']::-webkit-search-results-decoration {
+    display: none;
+  }
+
+  [data-sonner-toast] {
+    padding: var(--spacing-xs) var(--spacing-md) !important;
+    font-family: var(--font-body) !important;
+  }
+
+  [data-sonner-toast] [data-title] {
+    font-size: var(--text-body-sm) !important;
+    line-height: var(--text-body-sm--line-height) !important;
+    font-weight: var(--font-weight-regular) !important;
+  }
+
+  /* Sonner toast styles override for close button support */
+  [data-sonner-toast] [data-close-button] {
+    cursor: pointer !important;
+    z-index: 1;
+    pointer-events: auto !important;
+  }
+
+  /* Success toasts use the positive status surface (matches design).
+   * Sonner injects its own unlayered styles, so these need !important to win. */
+  [data-sonner-toast][data-type='success'] {
+    background-color: var(--color-bg-surface-status-positive-subtle) !important;
+    border-color: var(--color-bg-surface-status-positive-strong) !important;
+    color: var(--color-content-on-status-positive-subtle) !important;
+  }
+
+  [data-sonner-toast][data-type='success'] [data-icon] {
+    display: none !important;
+  }
+
+  [data-sonner-toast][data-type='success'] [data-close-button] {
+    color: var(--color-content-on-status-positive-subtle) !important;
+    background-color: var(--color-bg-surface-status-positive-subtle) !important;
+    border-color: var(--color-bg-surface-status-positive-strong) !important;
+  }
+
+  /* Error toasts mirror the success variant on the negative status surface.
+   * Also used for destructive confirmations, which are red by design even
+   * though the action succeeded. */
+  [data-sonner-toast][data-type='error'] {
+    background-color: var(--color-bg-surface-status-negative-subtle) !important;
+    border-color: var(--color-bg-surface-status-negative-strong) !important;
+    color: var(--color-content-on-status-negative-subtle) !important;
+  }
+
+  [data-sonner-toast][data-type='error'] [data-icon] {
+    display: none !important;
+  }
+
+  [data-sonner-toast][data-type='error'] [data-close-button] {
+    color: var(--color-content-on-status-negative-subtle) !important;
+    background-color: var(--color-bg-surface-status-negative-subtle) !important;
+    border-color: var(--color-bg-surface-status-negative-strong) !important;
+  }
+}
+
+/* Find-in-page (Ctrl+F) match painting, rendered by the CSS Custom Highlight
+   API from find-in-page-engine.ts. Inert until the engine registers those
+   highlight names, so the web build carries these rules without effect. */
+::highlight(find-in-page-match) {
+  background-color: var(--color-yellow-400);
+  color: var(--color-dark-900);
+}
+
+::highlight(find-in-page-active) {
+  background-color: var(--color-orange-400);
+  color: var(--color-dark-900);
+}
+
+/* -------------
+  shadcn/ui token bridge
+
+  shadcn components are written against a fixed set of role names
+  (bg-card, text-muted-foreground, border-border, ...). Rather than
+  rewrite every component, map those names onto the zSpace semantic
+  roles above so anything pulled in with `npx shadcn add` inherits the
+  design system for free.
+
+  Deliberately NOT mapped: radius and spacing. The zSpace @theme block
+  already owns `--radius-*` and `--spacing-*`, so rounded-md / p-md and
+  friends resolve to design-system values already.
+------------- */
+@theme inline {
+  --color-background: var(--color-bg-surface-default);
+  --color-foreground: var(--color-content-primary);
+
+  --color-card: var(--color-bg-surface-form);
+  --color-card-foreground: var(--color-content-primary);
+
+  --color-popover: var(--color-bg-surface-subtle);
+  --color-popover-foreground: var(--color-content-primary);
+
+  --color-primary: var(--color-bg-action-primary-default);
+  --color-primary-foreground: var(--color-content-action-on-primary-default);
+
+  --color-secondary: var(--color-bg-action-secondary-default);
+  --color-secondary-foreground: var(--color-content-action-on-secondary-default);
+
+  --color-muted: var(--color-bg-surface-subtle);
+  --color-muted-foreground: var(--color-content-secondary);
+
+  --color-accent: var(--color-bg-surface-hover);
+  --color-accent-foreground: var(--color-content-primary);
+
+  --color-destructive: var(--color-bg-surface-status-negative-subtle);
+  --color-destructive-foreground: var(--color-content-on-status-negative-subtle);
+
+  --color-border: var(--color-border-system-default);
+  --color-input: var(--color-border-input-default);
+  --color-ring: var(--color-border-action-primary-focused);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  body {
+    color: var(--color-foreground);
+    font-family: var(--font-body);
+  }
+}
