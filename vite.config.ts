@@ -35,7 +35,10 @@ const alias = {
 }
 
 // https://vite.dev/config/
-export default defineConfig({
+export default defineConfig(({ command }) => ({
+  // GitHub Pages serves a project site from /<repo>/, so built asset URLs
+  // need that prefix. Only on build: in dev the app is at the server root.
+  base: command === 'build' ? '/zc-ui-playground/' : '/',
   plugins: [react(), tailwindcss()],
   resolve: { alias },
-})
+}))

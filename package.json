@@ -5,9 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "tsc -p tsconfig.playground.json && vite build",
     "lint": "oxlint",
-    "preview": "vite preview",
+    "preview": "vite preview --base /zc-ui-playground/",
     "typecheck": "tsc -p tsconfig.playground.json"
   },
   "dependencies": {
