@@ -76,6 +76,11 @@ export const LessonCard: FC<LessonCardProps> = ({
         // The palette gives hover, selected and pressed the same surface, so
         // the press reads as a slight depression instead of a colour change.
         'cursor-pointer active:scale-[0.99] active:duration-75',
+        // Lifts on hover, with a little scale and a shadow, to read as
+        // coming forward in space. z-10 so the shadow falls over the next
+        // card instead of under it.
+        'hover:z-10 hover:-translate-y-[4px] hover:scale-[1.01]',
+        'hover:shadow-[0_12px_28px_-8px_var(--overlay-dark-strong)]',
         {
           // Hover is suppressed while active: its dark-600 is darker than the
           // active surface, so hovering the open card would dim it.
