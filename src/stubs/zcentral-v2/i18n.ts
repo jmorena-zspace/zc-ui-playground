@@ -48,6 +48,7 @@ export const PAGE_TEXTS = withFallback({
   UI: {
     FAILED_TO_LAUNCH_CONTENT_MESSAGE: 'Failed to launch content',
     LAUNCH_IN_APP: 'Launch in {{appName}}',
+    APP_NOT_INSTALLED: '{{appName}} not installed',
   },
   LESSONS: {
     LESSON_BADGE: 'Lesson',

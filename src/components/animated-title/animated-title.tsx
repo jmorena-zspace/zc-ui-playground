@@ -47,7 +47,7 @@ export const AnimatedTitle: FC<AnimatedTitleProps> = ({
       <span
         className={clsx('animated-underline', underlineColorClassName, {
           'group-hover:bg-size-[100%_2px]': animated && isOwnHoverGroup,
-          'group-hover/card:bg-size-[100%_2px] group-focus-within/card:bg-size-[100%_2px]':
+          'group-hover/card:bg-size-[100%_2px] group-focus-visible/card:bg-size-[100%_2px] group-has-[:focus-visible]/card:bg-size-[100%_2px]':
             animated && hoverGroup === 'group/card',
         })}
       >
@@ -60,7 +60,7 @@ export const AnimatedTitle: FC<AnimatedTitleProps> = ({
             'transition-all duration-300 ease-out delay-300',
             { 'group-hover:opacity-100 group-hover:translate-x-0': isOwnHoverGroup },
             {
-              'group-hover/card:opacity-100 group-hover/card:translate-x-0 group-focus-within/card:opacity-100 group-focus-within/card:translate-x-0':
+              'group-hover/card:opacity-100 group-hover/card:translate-x-0 group-focus-visible/card:opacity-100 group-has-[:focus-visible]/card:opacity-100 group-focus-visible/card:translate-x-0 group-has-[:focus-visible]/card:translate-x-0':
                 hoverGroup === 'group/card',
             }
           )}

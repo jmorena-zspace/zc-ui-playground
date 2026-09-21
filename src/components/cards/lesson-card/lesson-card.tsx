@@ -7,6 +7,11 @@ import {
 
 import { LaunchCodeBadge } from '@components/badges/launch-code-badge';
 import { Subject as SubjectChip } from '@components/subject';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from '@components/ui/tooltip';
 import { ExternalLink } from 'lucide-react';
 import { useLaunch } from '@hooks/launch';
 import { ARIA_LABELS, PAGE_TEXTS, useTranslation } from '@zcentral-v2/i18n';
@@ -82,13 +87,16 @@ export const LessonCard: FC<LessonCardProps> = ({
         // utilities resolve by stylesheet order, not by source order.
         'border',
         'transition-all duration-300 ease-out',
+        // Keyboard focus only. Plain `focus-within` also matches pointer
+        // focus, which left the card stuck in its focus surface after a
+        // click on the checkbox and the mouse moving away.
         // The palette gives hover, selected and pressed the same surface, so
         // the press reads as a slight depression instead of a colour change.
         'cursor-pointer active:scale-[0.99] active:duration-75',
         {
-          'hover:bg-bg-surface-inverse-hover focus-within:bg-bg-surface-inverse-hover':
+          'hover:bg-bg-surface-inverse-hover focus-visible:bg-bg-surface-inverse-hover has-[:focus-visible]:bg-bg-surface-inverse-hover':
             invertedHover,
-          'hover:bg-bg-surface-hover focus-within:bg-bg-surface-hover':
+          'hover:bg-bg-surface-hover focus-visible:bg-bg-surface-hover has-[:focus-visible]:bg-bg-surface-hover':
             !invertedHover,
           'border-transparent': !selected,
           'bg-bg-action-primary-selected border-border-action-primary-selected':
@@ -233,7 +241,7 @@ export const LessonCard: FC<LessonCardProps> = ({
                   'shrink-0 overflow-hidden',
                   'transition-all duration-300 ease-in-out',
                   'opacity-100 translate-y-0',
-                  'group-hover/card:opacity-0 group-hover/card:translate-y-full group-focus-within/card:opacity-0 group-focus-within/card:translate-y-full'
+                  'group-hover/card:opacity-0 group-hover/card:translate-y-full group-focus-visible/card:opacity-0 group-has-[:focus-visible]/card:opacity-0 group-focus-visible/card:translate-y-full group-has-[:focus-visible]/card:translate-y-full'
                 )}
               >
                 <LaunchCodeBadge text={code} />
@@ -264,6 +272,53 @@ export const LessonCard: FC<LessonCardProps> = ({
               const isLaunchable = canLaunchLesson(lesson, app);
               const isWeb = app.platform === ContentPlatform.WEB;
 
+              const launchButton = (
+                <button
+                  aria-label={t(ARIA_LABELS.UI.LAUNCH_IN_APPLICATION_BUTTON, {
+                    lessonName: name,
+                    appName: app.name,
+                  })}
+                  disabled={!isLaunchable}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleLaunchApp(app);
+                  }}
+                  className={clsx(
+                    '[grid-area:stack] justify-self-end',
+                    'inline-flex items-center gap-xs',
+                    'h-6 px-sm py-xs rounded-full',
+                    'text-body-sm font-medium',
+                    'transition-all duration-300 ease-in-out whitespace-nowrap',
+                    'translate-y-full invisible pointer-events-none',
+                    'group-hover/card:translate-y-0 group-hover/card:visible group-hover/card:pointer-events-auto group-focus-visible/card:translate-y-0 group-has-[:focus-visible]/card:translate-y-0 group-focus-visible/card:visible group-has-[:focus-visible]/card:visible group-focus-visible/card:pointer-events-auto group-has-[:focus-visible]/card:pointer-events-auto',
+                    {
+                      'bg-bg-action-primary-default text-content-action-on-primary-default cursor-pointer hover:bg-bg-action-primary-hover':
+                        isLaunchable,
+                      'bg-bg-action-primary-disabled text-content-action-on-primary-disabled cursor-not-allowed':
+                        !isLaunchable,
+                    }
+                  )}
+                >
+                  {!isWeb && (
+                    <img
+                      src={app.iconUrl}
+                      alt={t(ARIA_LABELS.UI.APPLICATION_ICON_ALT, {
+                        name: app.name,
+                      })}
+                      className={clsx('w-3 h-3 shrink-0', {
+                        grayscale: !isLaunchable,
+                      })}
+                    />
+                  )}
+                  <span>
+                    {t(PAGE_TEXTS.UI.LAUNCH_IN_APP, { appName: app.name })}
+                  </span>
+                  {isWeb && isLaunchable && (
+                    <ExternalLink className="w-3 h-3" />
+                  )}
+                </button>
+              );
+
               return (
                 <div
                   key={app.id}
@@ -276,7 +331,7 @@ export const LessonCard: FC<LessonCardProps> = ({
                       'text-body-sm font-regular text-content-secondary',
                       'transition-all duration-300 ease-in-out whitespace-nowrap',
                       'translate-y-0 opacity-100',
-                      'group-hover/card:opacity-0 group-hover/card:-translate-y-full group-hover/card:pointer-events-none group-focus-within/card:opacity-0 group-focus-within/card:-translate-y-full group-focus-within/card:pointer-events-none'
+                      'group-hover/card:opacity-0 group-hover/card:-translate-y-full group-hover/card:pointer-events-none group-focus-visible/card:opacity-0 group-has-[:focus-visible]/card:opacity-0 group-focus-visible/card:-translate-y-full group-has-[:focus-visible]/card:-translate-y-full group-focus-visible/card:pointer-events-none group-has-[:focus-visible]/card:pointer-events-none'
                     )}
                   >
                     <img
@@ -290,50 +345,33 @@ export const LessonCard: FC<LessonCardProps> = ({
                     <LaunchCodeBadge text={app.appLaunchCode} />
                   </div>
 
-                  <button
-                    aria-label={t(ARIA_LABELS.UI.LAUNCH_IN_APPLICATION_BUTTON, {
-                      lessonName: name,
-                      appName: app.name,
-                    })}
-                    disabled={!isLaunchable}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleLaunchApp(app);
-                    }}
-                    className={clsx(
-                      '[grid-area:stack] justify-self-end',
-                      'inline-flex items-center gap-xs',
-                      'h-6 px-sm py-xs rounded-full',
-                      'text-body-sm font-medium',
-                      'transition-all duration-300 ease-in-out whitespace-nowrap',
-                      'translate-y-full invisible pointer-events-none',
-                      'group-hover/card:translate-y-0 group-hover/card:visible group-hover/card:pointer-events-auto group-focus-within/card:translate-y-0 group-focus-within/card:visible group-focus-within/card:pointer-events-auto',
-                      {
-                        'bg-bg-action-primary-default text-content-action-on-primary-default cursor-pointer hover:bg-bg-action-primary-hover':
-                          isLaunchable,
-                        'bg-bg-action-primary-disabled text-content-action-on-primary-disabled cursor-not-allowed':
-                          !isLaunchable,
-                      }
-                    )}
-                  >
-                    {!isWeb && (
-                      <img
-                        src={app.iconUrl}
-                        alt={t(ARIA_LABELS.UI.APPLICATION_ICON_ALT, {
-                          name: app.name,
+                  {isLaunchable ? (
+                    launchButton
+                  ) : (
+                    // A disabled button emits no pointer events, so the
+                    // tooltip hangs off a wrapper instead. The wrapper only
+                    // accepts pointer events while the card has the button
+                    // revealed, or the tooltip would open over a control
+                    // that is not on screen.
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <span
+                          className={clsx(
+                            '[grid-area:stack] justify-self-end inline-flex',
+                            'pointer-events-none',
+                            'group-hover/card:pointer-events-auto group-focus-visible/card:pointer-events-auto group-has-[:focus-visible]/card:pointer-events-auto'
+                          )}
+                        >
+                          {launchButton}
+                        </span>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        {t(PAGE_TEXTS.UI.APP_NOT_INSTALLED, {
+                          appName: app.name,
                         })}
-                        className={clsx('w-3 h-3 shrink-0', {
-                          grayscale: !isLaunchable,
-                        })}
-                      />
-                    )}
-                    <span>
-                      {t(PAGE_TEXTS.UI.LAUNCH_IN_APP, { appName: app.name })}
-                    </span>
-                    {isWeb && isLaunchable && (
-                      <ExternalLink className="w-3 h-3" />
-                    )}
-                  </button>
+                      </TooltipContent>
+                    </Tooltip>
+                  )}
                 </div>
               );
             })}

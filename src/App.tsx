@@ -2,6 +2,7 @@ import { motion } from 'motion/react'
 import { Toaster } from 'sonner'
 
 import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { TooltipProvider } from '@components/ui/tooltip'
 import { useHashRoute } from '@/lib/use-hash-route'
 import { LessonCardPlayground } from '@pages/lesson-card-playground'
 
@@ -46,7 +47,9 @@ function App() {
   const [route, navigate] = useHashRoute()
 
   return (
-    <>
+    // Radix tooltips need a provider above every Tooltip; zCentral mounts it
+    // at the app root, so do the same here.
+    <TooltipProvider>
       {route === 'lesson-card' ? (
         <LessonCardPlayground onBack={() => navigate('')} />
       ) : (
@@ -55,7 +58,7 @@ function App() {
       {/* theme="dark": the zSpace theme only restyles sonner's success and
           error variants, so a default toast would render light-on-dark. */}
       <Toaster theme="dark" position="bottom-center" />
-    </>
+    </TooltipProvider>
   )
 }
 
