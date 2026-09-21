@@ -21,13 +21,68 @@ npm run dev
 
 Other scripts: `npm run build`, `npm run preview`, `npm run lint`.
 
-## Adding components
+Other useful script: `npm run typecheck` — see "What compiles" below.
+
+## Layout
+
+```
+src/components/        vendored from the zCentral app (~90 components + Storybook stories)
+src/components/ui/     shadcn primitives (some from `shadcn add`, some vendored)
+src/pages/             one page per component being exercised
+src/fixtures/          hardcoded sample content
+src/stubs/             local stand-ins for things this repo cannot install
+```
+
+## Adding shadcn components
 
 ```bash
 npx shadcn@latest add dialog tooltip
 ```
 
-They land in `src/components/ui/` and pick up the theme automatically — see below.
+They land in `src/components/ui/` and pick up the theme automatically — see Theming.
+
+## Porting a vendored component
+
+`src/components/` is a raw copy out of the zCentral app, so the files import
+through that app's aliases. Rather than edit the components, `vite.config.ts`
+points each alias at a local stand-in under `src/stubs/`:
+
+| Alias | Points at | Contains |
+| --- | --- | --- |
+| `@zcentral-v2/i18n` | `src/stubs/zcentral-v2/i18n.ts` | `useTranslation`, `PAGE_TEXTS`, `ARIA_LABELS` — English copy inline, `{{var}}` interpolation, and a proxy that humanizes any key not written yet |
+| `@zcentral-v2/types` | `src/stubs/zcentral-v2/types.ts` | domain types inferred from how the components use them |
+| `@hooks/*`, `@stores/*`, `@services/*` | `src/stubs/…` | fakes with the real signatures, returning hardcoded data |
+| `@assets/*` | `src/stubs/assets/` | placeholder art |
+| `@fixtures/*` | `src/fixtures/` | sample content items |
+
+To bring over another component:
+
+1. Run it and read the failures — each one names a module with no stand-in yet.
+2. Add the stand-in under `src/stubs/`; the alias prefix already resolves, so
+   no config change is needed. Keep the real module's signature so the
+   component stays untouched.
+3. Add a page under `src/pages/` and a route in `src/App.tsx`.
+
+Two deliberate deviations from the source project:
+
+- **FontAwesome is out.** The components came in importing the private
+  FontAwesome Pro kit `@awesome.me/kit-935ddc1468`, which needs a token this
+  repo does not have. Icons are `lucide-react` instead. Swapped so far:
+  `lesson-card`, `content-badge`, `animated-title`. Anything else still
+  imports the kit and will fail until converted.
+- **`verbatimModuleSyntax` and `erasableSyntaxOnly` are off** in
+  `tsconfig.app.json`. The vendored files use plain `import { FC }` and
+  `enum`, which those flags ban.
+
+## What compiles
+
+`npm run typecheck` checks only what the playground actually renders, walking
+out from `src/main.tsx`. `npm run build` type-checks **everything**, including
+the ~85 vendored components that still reference modules with no stand-in, so
+it fails until they are ported. That is expected, not a broken build.
+
+The `.docs.stories.tsx` files are along for the ride — Storybook is not set up,
+so they are inert (and still import FontAwesome).
 
 ## Theming
 
@@ -48,3 +103,14 @@ Two things worth knowing:
   shadcn's `dark:` utilities are inert.
 
 Fonts: `font-body` (Inter, the default) and `font-display` (Lexend).
+
+## Pages
+
+| Route | Component |
+| --- | --- |
+| `#/` | landing |
+| `#/lesson-card` | `LessonCard` — 6 variants (default, single app, no image, no apps, compact, inverted hover) |
+
+Routing is a hash switch in `src/App.tsx` (`src/lib/use-hash-route.ts`), not a
+real router. Vendored components that want `@tanstack/react-router` will need
+one installed or stubbed.

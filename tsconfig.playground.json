@@ -1,0 +1,13 @@
+{
+  // Typechecks only what the playground actually renders, reached transitively
+  // from the entrypoint. The rest of src/components is a raw dump from the
+  // zCentral app and still imports modules this repo has no stand-in for, so
+  // `tsc -b` over the whole tree fails by design until each component is
+  // ported. Run with: npm run typecheck
+  "extends": "./tsconfig.app.json",
+  "compilerOptions": {
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.playground.tsbuildinfo"
+  },
+  "include": [],
+  "files": ["src/main.tsx"]
+}
