@@ -1,6 +1,4 @@
-import { faChevronDown } from '@awesome.me/kit-935ddc1468/icons/classic/solid';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { ARIA_LABELS, useTranslation } from '@zcentral-v2/i18n';
+import { ChevronDown } from 'lucide-react';
 import { FC } from 'react';
 import { BaseButton } from '../base-button/base-button';
 
@@ -15,7 +13,6 @@ export const AppLauncherButton: FC<AppLauncherButtonProps> = ({
   name,
   launchCode,
 }) => {
-  const { t } = useTranslation();
 
   return (
     <BaseButton
@@ -25,16 +22,13 @@ export const AppLauncherButton: FC<AppLauncherButtonProps> = ({
     >
       <img
         src={iconUrl}
-        alt={t(ARIA_LABELS.UI.APPLICATION_ICON_ALT, { name })}
+        alt={`${name} icon`}
         className="w-[18px] h-[18px] shrink-0 object-contain"
       />
       <span className="text-body-md font-medium text-text-default-secondary">
         {launchCode}
       </span>
-      <FontAwesomeIcon
-        icon={faChevronDown}
-        className="text-body-sm text-icon-brand-default"
-      />
+      <ChevronDown className="text-body-sm text-icon-brand-default" />
     </BaseButton>
   );
 };

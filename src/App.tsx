@@ -1,8 +1,16 @@
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { motion } from 'motion/react'
 import { Toaster } from 'sonner'
 
-import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import {
+  Card,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card'
 import { TooltipProvider } from '@components/ui/tooltip'
+
+const queryClient = new QueryClient()
 import { useHashRoute } from '@/lib/use-hash-route'
 import { LessonCardPlayground } from '@pages/lesson-card-playground'
 
@@ -49,16 +57,19 @@ function App() {
   return (
     // Radix tooltips need a provider above every Tooltip; zCentral mounts it
     // at the app root, so do the same here.
-    <TooltipProvider>
-      {route === 'lesson-card' ? (
-        <LessonCardPlayground onBack={() => navigate('')} />
-      ) : (
-        <Landing onOpen={() => navigate('lesson-card')} />
-      )}
-      {/* theme="dark": the zSpace theme only restyles sonner's success and
-          error variants, so a default toast would render light-on-dark. */}
-      <Toaster theme="dark" position="bottom-center" />
-    </TooltipProvider>
+    <QueryClientProvider client={queryClient}>
+      <TooltipProvider>
+        {route === 'lesson-card' ? (
+          <LessonCardPlayground onBack={() => navigate('')} />
+        ) : (
+          <Landing onOpen={() => navigate('lesson-card')} />
+        )}
+        {/* theme="dark": the zSpace theme only restyles sonner's success and
+          error variants, so a default toast would render light-on-dark.
+          top-center keeps it clear of the floating selection menu. */}
+        <Toaster theme="dark" position="top-center" />
+      </TooltipProvider>
+    </QueryClientProvider>
   )
 }
 

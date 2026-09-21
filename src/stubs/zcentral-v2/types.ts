@@ -60,6 +60,8 @@ export type LessonFile = {
 
 /** A lesson with the extra detail the side panel renders. */
 export type Lesson = ContentItem & {
+  /** Required here, unlike on ContentItem: the side panel maps it unguarded. */
+  apps: LessonApplication[];
   summary?: string;
   lessonPlans?: LessonFile[];
   supportingFiles?: LessonFile[];

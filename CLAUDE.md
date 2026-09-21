@@ -21,6 +21,19 @@ When a requested behavior does not exist on the vendored component, add it to
 the component rather than staging it from the page — the point is that the
 component behaves like production, not that the page fakes it.
 
+## Files change under you
+
+The repo is edited in parallel — Claude in this session, and by hand in
+VS Code. So:
+
+- Unexpected diffs are expected. Treat what is on disk as the current intent,
+  build on it, and do not revert it. Only speak up if a change looks actually
+  broken.
+- Do not report, attribute, or apologise for uncommitted edits. No "this also
+  carries your changes" notes.
+- Do not commit after every change. Leave work in the working tree and
+  consolidate into commits at the end of the session, or when asked.
+
 ## Everything else
 
 See README.md for the stack, the alias/stand-in layout under `src/stubs/`, and

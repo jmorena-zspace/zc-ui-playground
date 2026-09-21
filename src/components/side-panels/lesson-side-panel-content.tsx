@@ -1,12 +1,10 @@
 import { ImagePlaceholder } from '@assets/image-placeholder';
-import { faCopy } from '@awesome.me/kit-935ddc1468/icons/classic/solid';
 import { BaseButton } from '@components/buttons';
 import { LessonFileCard } from '@components/cards/lesson-file-card/lesson-file-card';
 import { Subject } from '@components/subject';
 import { LessonSidePanelSkeleton } from './lesson-side-panel-skeleton';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Copy } from 'lucide-react';
 import { useLaunch } from '@hooks/launch';
-import { ARIA_LABELS, PAGE_TEXTS, useTranslation } from '@zcentral-v2/i18n';
 import { Lesson } from '@zcentral-v2/types';
 import clsx from 'clsx';
 import { FC, ReactNode } from 'react';
@@ -40,7 +38,6 @@ export const LessonSidePanelContent: FC<LessonSidePanelContentProps> = ({
   isOffline,
   panelHeader,
 }) => {
-  const { t } = useTranslation();
   const { canLaunchLesson, launchLesson } = useLaunch();
 
   const deepLinkingLaunchCodes = lesson?.apps
@@ -50,11 +47,11 @@ export const LessonSidePanelContent: FC<LessonSidePanelContentProps> = ({
   const lessonPlansSection = lesson?.lessonPlans &&
     lesson.lessonPlans.length > 0 && (
       <section
-        aria-label={t(ARIA_LABELS.LESSONS.LESSON_PLAN_FILES_LIST)}
+        aria-label="Lesson plan files"
         className="flex flex-col gap-md"
       >
         <h2 className="text-content-primary font-medium">
-          {t(PAGE_TEXTS.LESSONS.LESSON_PLAN_HEADING)}
+          Lesson plan
         </h2>
         {lesson.lessonPlans.map((file) => (
           <LessonFileCard
@@ -69,11 +66,11 @@ export const LessonSidePanelContent: FC<LessonSidePanelContentProps> = ({
   const supportingFilesSection = lesson?.supportingFiles &&
     lesson.supportingFiles.length > 0 && (
       <section
-        aria-label={t(ARIA_LABELS.LESSONS.SUPPORTING_FILES_LIST)}
+        aria-label="Supporting files"
         className="flex flex-col gap-md"
       >
         <h2 className="text-content-primary font-medium">
-          {t(PAGE_TEXTS.LESSONS.LESSON_SUPPORTING_FILES_HEADING)}
+          Supporting files
         </h2>
         {lesson.supportingFiles.map((file) => (
           <LessonFileCard
@@ -97,15 +94,15 @@ export const LessonSidePanelContent: FC<LessonSidePanelContentProps> = ({
         <div className="flex flex-1 flex-col items-center justify-center gap-sm text-center">
           <h1 className="text-lg text-content-primary font-medium">
             {notFound
-              ? t(PAGE_TEXTS.UI.NOT_FOUND_ERROR_TITLE)
+              ? 'Lesson not found'
               : error instanceof Error
               ? error.message
-              : t(PAGE_TEXTS.UI.INTERNAL_SERVER_ERROR_TITLE)}
+              : 'Something went wrong'}
           </h1>
           <p className="text-content-secondary">
             {notFound
-              ? t(PAGE_TEXTS.UI.NOT_FOUND_ERROR_MESSAGE)
-              : t(PAGE_TEXTS.UI.INTERNAL_SERVER_ERROR_MESSAGE)}
+              ? 'This lesson may have been moved or removed.'
+              : 'We could not load this lesson. Try again in a moment.'}
           </p>
         </div>
       </div>
@@ -124,7 +121,9 @@ export const LessonSidePanelContent: FC<LessonSidePanelContentProps> = ({
       {lesson.imageUrl ? (
         <img
           src={lesson.imageUrl}
-          alt={t(ARIA_LABELS.UI.LESSON_IMAGE_ALT, { name: lesson.name })}
+          alt={`Cover image for ${lesson.name}`}
+          width={428}
+          height={272}
           className="w-full h-[272px] shrink-0 rounded-sm border border-border-system-subtle object-cover"
         />
       ) : (
@@ -141,7 +140,7 @@ export const LessonSidePanelContent: FC<LessonSidePanelContentProps> = ({
             onClick={() => {
               launchLesson(lesson, app).catch((launchError) => {
                 toast.error(
-                  t(PAGE_TEXTS.UI.FAILED_TO_LAUNCH_CONTENT_MESSAGE)
+                  'Failed to launch content'
                 );
                 console.error('Failed to launch content:', launchError);
               });
@@ -158,15 +157,11 @@ export const LessonSidePanelContent: FC<LessonSidePanelContentProps> = ({
           >
             <img
               src={app.iconUrl}
-              alt={t(ARIA_LABELS.UI.APPLICATION_ICON_ALT, {
-                name: app.name,
-              })}
+              alt={`${app.name} icon`}
               className="w-4 h-4 shrink-0"
             />
             <span>
-              {t(PAGE_TEXTS.UI.LAUNCH_IN_APP, {
-                appName: app.name,
-              })}
+              {`Launch in ${app.name}`}
             </span>
           </button>
         );
@@ -180,20 +175,18 @@ export const LessonSidePanelContent: FC<LessonSidePanelContentProps> = ({
             color="secondary"
             size="sm"
             fullSized={true}
-            aria-label={t(ARIA_LABELS.UI.COPY_LAUNCH_CODE, {
-              launchCode: code,
-            })}
+            aria-label="Copy launch code"
             onClick={async () => {
               try {
                 await navigator.clipboard.writeText(code);
               } catch (copyError) {
                 toast.error(
-                  t(PAGE_TEXTS.UI.FAILED_TO_COPY_LAUNCH_CODE_MESSAGE)
+                  'Failed to copy launch code'
                 );
                 console.error('Failed to copy launch code:', copyError);
               }
             }}
-            leftIcon={<FontAwesomeIcon icon={faCopy} className="w-4 h-4" />}
+            leftIcon={<Copy className="w-4 h-4" />}
           >
             {code}
           </BaseButton>
@@ -208,7 +201,7 @@ export const LessonSidePanelContent: FC<LessonSidePanelContentProps> = ({
       )}
 
       <h2 className="text-content-primary font-medium">
-        {t(PAGE_TEXTS.LESSONS.LESSON_SUMMARY_HEADING)}
+        Summary
       </h2>
       <p className="text-content-secondary">{lesson.summary}</p>
 

@@ -1,16 +1,15 @@
-import { faXmark } from '@awesome.me/kit-935ddc1468/icons/classic/solid';
 import {
   ContentBadge,
   ContentBadgeType,
 } from '@components/badges/content-badge';
 import { LessonSidePanelContent } from './lesson-side-panel-content';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { X } from 'lucide-react';
 import { getLessonByIdOfflineAware } from '@services/lessons';
 import { useQuery } from '@tanstack/react-query';
 import { useRouterState } from '@tanstack/react-router';
-import { ARIA_LABELS, useTranslation } from '@zcentral-v2/i18n';
 import clsx from 'clsx';
-import { FC, useCallback, useEffect, useRef } from 'react';
+import type { Lesson } from '@zcentral-v2/types';
+import { FC, useCallback, useEffect, useRef, useState } from 'react';
 
 function removeLessonParam() {
   const url = new URL(window.location.href);
@@ -22,7 +21,6 @@ function removeLessonParam() {
 }
 
 export const LessonSidePanel: FC = () => {
-  const { t } = useTranslation();
 
   const lessonId = useRouterState({
     select: (state) => {
@@ -32,18 +30,30 @@ export const LessonSidePanel: FC = () => {
   });
 
   const isOpen = lessonId != null;
-  const manualCloseRef = useRef(false);
   const panelRef = useRef<HTMLDivElement>(null);
 
-  const shouldAnimate = isOpen || manualCloseRef.current;
+  // Suppresses the transition on first paint only: a panel that mounts
+  // closed should not animate, but every open and close after that should,
+  // however the close was triggered.
+  const hasBeenOpenRef = useRef(false);
+  if (isOpen) hasBeenOpenRef.current = true;
+  const shouldAnimate = hasBeenOpenRef.current;
+
+  // A drawer slides out with its contents still in it. `isOpen` alone
+  // unmounted them the moment the param cleared, so the panel emptied and
+  // only then moved. This keeps it rendered until the slide finishes.
+  const [isSlidingShut, setIsSlidingShut] = useState(false);
+  const wasOpenRef = useRef(isOpen);
+  useEffect(() => {
+    if (wasOpenRef.current && !isOpen) setIsSlidingShut(true);
+    if (isOpen) setIsSlidingShut(false);
+    wasOpenRef.current = isOpen;
+  }, [isOpen]);
+
+  const onSlideEnd = useCallback(() => setIsSlidingShut(false), []);
 
   const onClose = useCallback(() => {
-    manualCloseRef.current = true;
     removeLessonParam();
-  }, []);
-
-  const onTransitionEnd = useCallback(() => {
-    manualCloseRef.current = false;
   }, []);
 
   useEffect(() => {
@@ -70,19 +80,29 @@ export const LessonSidePanel: FC = () => {
     enabled: !!lessonId,
   });
 
-  const lesson = data?.lesson;
-  const isOffline = data?.isOffline ?? false;
+  // The query is disabled as soon as the param clears, so hold on to the last
+  // lesson for the closing slide to render.
+  const lastLoadedRef = useRef<{ lesson: Lesson; isOffline: boolean } | null>(
+    null
+  );
+  if (data?.lesson) {
+    lastLoadedRef.current = { lesson: data.lesson, isOffline: data.isOffline };
+  }
+
+  const shown = isOpen ? data : lastLoadedRef.current;
+  const lesson = shown?.lesson;
+  const isOffline = shown?.isOffline ?? false;
 
   const panelHeader = (
     <div className="flex items-center justify-between">
       <ContentBadge type={ContentBadgeType.LESSON} />
       <button
         className="icon-btn icon-btn-on-surface text-content-primary"
-        aria-label={t(ARIA_LABELS.UI.CLOSE_BUTTON)}
+        aria-label="Close"
         type="button"
         onClick={onClose}
       >
-        <FontAwesomeIcon icon={faXmark} className="h-4 w-4" />
+        <X className="h-4 w-4" />
       </button>
     </div>
   );
@@ -93,33 +113,41 @@ export const LessonSidePanel: FC = () => {
       tabIndex={-1}
       aria-label={
         lesson
-          ? t(ARIA_LABELS.LESSONS.LESSON_DETAILS, { lessonName: lesson.name })
-          : t(ARIA_LABELS.LESSONS.LESSON_DETAILS_LOADING)
+          ? `Details for ${lesson.name}`
+          : 'Loading lesson details'
       }
       aria-hidden={!isOpen}
       inert={!isOpen}
+      onTransitionEnd={onSlideEnd}
       className={clsx(
         'outline-none',
-        'overflow-y-scroll right-0 top-0 fixed md:sticky bg-bg-surface-inverse-default md:bg-bg-surface-default h-dvh md:h-screen z-2',
+        'overflow-y-scroll right-0 top-0 fixed bg-bg-surface-inverse-default md:bg-bg-surface-default h-dvh md:h-screen z-2',
+        // Width and padding never change: the drawer is always laid out at its
+        // full size and slides on the transform, so nothing inside it reflows
+        // and the contents are legible the whole way in and out. Animating
+        // width instead makes the panel push the list, but then the contents
+        // cannot slide with it — the shell's 460px and the contents' 428px do
+        // not cancel, which left a gap of empty drawer on the way open.
+        'w-full md:w-[460px] pt-[env(safe-area-inset-top)] pb-[env(safe-area-inset-bottom)] md:p-md',
         {
-          'w-full md:w-[460px] opacity-100 pt-[env(safe-area-inset-top)] pb-[env(safe-area-inset-bottom)] md:p-md pointer-events-auto':
-            isOpen,
-          'w-0 opacity-0 pointer-events-none': !isOpen,
-          'transition-[width,opacity] duration-300 ease-in': shouldAnimate,
+          'translate-x-0 pointer-events-auto': isOpen,
+          'translate-x-full pointer-events-none': !isOpen,
+          'transition-transform duration-300 ease-in-out': shouldAnimate,
           'transition-none': !shouldAnimate,
         }
       )}
-      onTransitionEnd={onTransitionEnd}
     >
-      <LessonSidePanelContent
-        isOpen={isOpen}
-        isLoading={isLoading}
-        isError={isError}
-        error={error}
-        lesson={lesson}
-        isOffline={isOffline}
-        panelHeader={panelHeader}
-      />
+      <div>
+        <LessonSidePanelContent
+          isOpen={isOpen || isSlidingShut}
+          isLoading={isOpen && isLoading}
+          isError={isOpen && isError}
+          error={error}
+          lesson={lesson}
+          isOffline={isOffline}
+          panelHeader={panelHeader}
+        />
+      </div>
     </aside>
   );
 };

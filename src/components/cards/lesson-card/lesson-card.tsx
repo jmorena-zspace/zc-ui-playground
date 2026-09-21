@@ -7,7 +7,6 @@ import {
 
 import { LaunchCodeBadge } from '@components/badges/launch-code-badge';
 import { Subject as SubjectChip } from '@components/subject';
-import { ARIA_LABELS, useTranslation } from '@zcentral-v2/i18n';
 import { ContentItem } from '@zcentral-v2/types';
 import clsx from 'clsx';
 import { FC, useMemo } from 'react';
@@ -22,6 +21,8 @@ export type LessonCardProps = {
   selectable?: boolean;
   selected?: boolean;
   onSelectedChange?: (selected: boolean) => void;
+  /** Marks the card whose details are currently open. */
+  active?: boolean;
   onClick: () => void;
 };
 
@@ -32,17 +33,19 @@ export const LessonCard: FC<LessonCardProps> = ({
   selectable = false,
   selected = false,
   onSelectedChange,
+  active = false,
   onClick,
 }) => {
   const { subjects, name, apps, imageUrl } = lesson;
-  const { t } = useTranslation();
   const mobileMaxSubjects = 2;
   const mobileVisibleSubjects = subjects.slice(0, mobileMaxSubjects);
   const mobileHiddenCount = subjects.length - mobileVisibleSubjects.length;
 
-  const desktopMaxSubjects = compact ? 1 : 2;
-  const desktopVisibleSubjects = subjects.slice(0, desktopMaxSubjects);
-  const desktopHiddenCount = subjects.length - desktopVisibleSubjects.length;
+  // Commented out alongside the desktop badge/subject row further down;
+  // restore both together.
+  // const desktopMaxSubjects = compact ? 1 : 2;
+  // const desktopVisibleSubjects = subjects.slice(0, desktopMaxSubjects);
+  // const desktopHiddenCount = subjects.length - desktopVisibleSubjects.length;
 
   const lessonApps = useMemo(
     () => [...(apps ?? [])].sort((a, b) => a.name.localeCompare(b.name)),
@@ -74,17 +77,27 @@ export const LessonCard: FC<LessonCardProps> = ({
         // the press reads as a slight depression instead of a colour change.
         'cursor-pointer active:scale-[0.99] active:duration-75',
         {
+          // Hover is suppressed while active: its dark-600 is darker than the
+          // active surface, so hovering the open card would dim it.
           'hover:bg-bg-surface-inverse-hover focus-visible:bg-bg-surface-inverse-hover has-[:focus-visible]:bg-bg-surface-inverse-hover':
-            invertedHover,
+            invertedHover && !active,
           'hover:bg-bg-surface-hover focus-visible:bg-bg-surface-hover has-[:focus-visible]:bg-bg-surface-hover':
-            !invertedHover,
-          'border-transparent': !selected,
-          'bg-bg-action-primary-selected border-border-action-primary-selected':
-            selected,
+            !invertedHover && !active,
+          // Borders and backgrounds are each mutually exclusive: same-property
+          // utilities resolve by stylesheet order, not by source order, so
+          // overlapping ones would fight.
+          'border-transparent': !selected && !active,
+          'border-border-action-primary-selected': selected || active,
+          'bg-bg-action-primary-selected': selected && !active,
+          // dark-500: one step lighter than the dark-600 shared by hover and
+          // selected. The palette has no semantic bg role at this step, so
+          // this reaches for the primitive.
+          'bg-dark-500': active,
         }
       )}
-      aria-label={t(ARIA_LABELS.UI.OPEN_DETAILS, { name })}
+      aria-label={`Open details for ${name}`}
       aria-selected={selectable ? selected : undefined}
+      aria-current={active ? 'true' : undefined}
       onClick={onClick}
       role="button"
       tabIndex={0}
@@ -106,7 +119,7 @@ export const LessonCard: FC<LessonCardProps> = ({
               type="button"
               role="checkbox"
               aria-checked={selected}
-              aria-label={t(ARIA_LABELS.UI.SELECT_ITEM, { name })}
+              aria-label={`Select ${name}`}
               onClick={(e) => {
                 e.stopPropagation();
                 onSelectedChange?.(!selected);
@@ -143,9 +156,7 @@ export const LessonCard: FC<LessonCardProps> = ({
               >
                 <img
                   src={app.iconUrl}
-                  alt={t(ARIA_LABELS.UI.APPLICATION_ICON_ALT, {
-                    name: app.name,
-                  })}
+                  alt={`${app.name} icon`}
                   className="w-4 h-4 shrink-0"
                 />
                 <span>{app.name}</span>
@@ -178,7 +189,7 @@ export const LessonCard: FC<LessonCardProps> = ({
           (imageUrl ? (
             <img
               src={imageUrl}
-              alt={t(ARIA_LABELS.UI.LESSON_IMAGE_ALT, { name })}
+              alt={`Cover image for ${name}`}
               className="w-24 h-24 shrink-0 rounded-sm border border-border-system-subtle object-cover"
             />
           ) : (
@@ -191,7 +202,7 @@ export const LessonCard: FC<LessonCardProps> = ({
                 type="button"
                 role="checkbox"
                 aria-checked={selected}
-                aria-label={t(ARIA_LABELS.UI.SELECT_ITEM, { name })}
+                aria-label={`Select ${name}`}
                 onClick={(e) => {
                   e.stopPropagation();
                   onSelectedChange?.(!selected);
@@ -228,9 +239,7 @@ export const LessonCard: FC<LessonCardProps> = ({
                 >
                   <img
                     src={app.iconUrl}
-                    alt={t(ARIA_LABELS.UI.APPLICATION_ICON_ALT, {
-                      name: app.name,
-                    })}
+                    alt={`${app.name} icon`}
                     className="w-4 h-4 shrink-0"
                   />
                   <span>{app.name}</span>

@@ -49,8 +49,8 @@ points each alias at a local stand-in under `src/stubs/`:
 
 | Alias | Points at | Contains |
 | --- | --- | --- |
-| `@zcentral-v2/i18n` | `src/stubs/zcentral-v2/i18n.ts` | `useTranslation`, `PAGE_TEXTS`, `ARIA_LABELS` — English copy inline, `{{var}}` interpolation, and a proxy that humanizes any key not written yet |
 | `@zcentral-v2/types` | `src/stubs/zcentral-v2/types.ts` | domain types inferred from how the components use them |
+| `@tanstack/react-router` | `src/stubs/tanstack/react-router.ts` | `useRouterState`, `useRouter`, `useCanGoBack`, backed by `window.location` + `popstate` |
 | `@hooks/*`, `@stores/*`, `@services/*` | `src/stubs/…` | fakes with the real signatures, returning hardcoded data |
 | `@assets/*` | `src/stubs/assets/` | placeholder art |
 | `@fixtures/*` | `src/fixtures/` | sample content items |
@@ -61,15 +61,24 @@ To bring over another component:
 2. Add the stand-in under `src/stubs/`; the alias prefix already resolves, so
    no config change is needed. Keep the real module's signature so the
    component stays untouched.
-3. Add a page under `src/pages/` and a route in `src/App.tsx`.
+3. Replace any `t(...)` calls with plain strings — see "No i18n" below.
+4. Add a page under `src/pages/` and a route in `src/App.tsx`.
 
-Two deliberate deviations from the source project:
+Three deliberate deviations from the source project:
+
+- **No i18n.** The source components call `t(PAGE_TEXTS.X)` against the private
+  `@zcentral-v2/i18n` package. Every one of those is inlined here as a plain
+  English string, and nothing translates. When you port a component, replace
+  its `t(...)` calls and drop `useTranslation` the same way.
 
 - **FontAwesome is out.** The components came in importing the private
   FontAwesome Pro kit `@awesome.me/kit-935ddc1468`, which needs a token this
-  repo does not have. Icons are `lucide-react` instead. Swapped so far:
-  `lesson-card`, `content-badge`, `animated-title`. Anything else still
-  imports the kit and will fail until converted.
+  repo does not have. Icons are `lucide-react` instead, which has no brand
+  marks (the Google Drive link on a lesson file uses a cloud). Swapped so far:
+  `lesson-card`, `content-badge`, `animated-title`, `lesson-side-panel`,
+  `lesson-side-panel-content`, `lesson-file-card`, `app-launcher-button`,
+  `back-button`. Anything else still imports the kit and will fail until
+  converted.
 - **`verbatimModuleSyntax` and `erasableSyntaxOnly` are off** in
   `tsconfig.app.json`. The vendored files use plain `import { FC }` and
   `enum`, which those flags ban.

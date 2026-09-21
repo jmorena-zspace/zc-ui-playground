@@ -1,5 +1,4 @@
 import { BookOpen, Rocket, type LucideIcon } from 'lucide-react';
-import { PAGE_TEXTS, useTranslation } from '@zcentral-v2/i18n';
 import clsx from 'clsx';
 import { FC } from 'react';
 
@@ -18,7 +17,6 @@ type BadgeConfig = {
 };
 
 export const ContentBadge: FC<ContentBadgeProps> = ({ type }) => {
-  const { t } = useTranslation();
   const baseStyles = clsx(
     'inline-flex items-center gap-xxs',
     'px-xs py-xxs rounded-xs border',
@@ -26,10 +24,8 @@ export const ContentBadge: FC<ContentBadgeProps> = ({ type }) => {
   );
 
   const label: Record<ContentBadgeType, string> = {
-    [ContentBadgeType.LESSON]: t(PAGE_TEXTS.LESSONS.LESSON_BADGE),
-    [ContentBadgeType.APPLICATION]: t(
-      PAGE_TEXTS.APPLICATIONS.APPLICATION_BADGE
-    ),
+    [ContentBadgeType.LESSON]: 'Lesson',
+    [ContentBadgeType.APPLICATION]: 'Application',
   };
 
   const config: Record<ContentBadgeType, BadgeConfig> = {

@@ -1,7 +1,5 @@
-import { faArrowLeft } from '@awesome.me/kit-935ddc1468/icons/classic/solid';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { ArrowLeft } from 'lucide-react';
 import { useCanGoBack, useRouter } from '@tanstack/react-router';
-import { ARIA_LABELS, useTranslation } from '@zcentral-v2/i18n';
 import { FC } from 'react';
 
 type BackButtonProps = {
@@ -15,7 +13,6 @@ export const BackButton: FC<BackButtonProps> = ({
 }) => {
   const canGoBack = useCanGoBack();
   const router = useRouter();
-  const { t } = useTranslation();
 
   const handleBack = () => {
     if (onBack) {
@@ -33,10 +30,10 @@ export const BackButton: FC<BackButtonProps> = ({
     <button
       onClick={handleBack}
       type="button"
-      aria-label={t(ARIA_LABELS.UI.BACK_BUTTON)}
+      aria-label="Back"
       className="icon-btn icon-btn-on-surface text-content-primary"
     >
-      <FontAwesomeIcon icon={faArrowLeft} className="h-4 w-4" />
+      <ArrowLeft className="h-4 w-4" />
     </button>
   );
 };

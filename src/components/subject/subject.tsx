@@ -1,5 +1,4 @@
 import { Icon } from '@components/icon/icon';
-import { ARIA_LABELS, useTranslation } from '@zcentral-v2/i18n';
 import { Subject as SubjectType } from '@zcentral-v2/types';
 import clsx from 'clsx';
 import { FC } from 'react';
@@ -10,7 +9,6 @@ type SubjectProps = {
 };
 
 export const Subject: FC<SubjectProps> = ({ subject, className }) => {
-  const { t } = useTranslation();
 
   return (
     <span
@@ -21,7 +19,7 @@ export const Subject: FC<SubjectProps> = ({ subject, className }) => {
         className
       )}
     >
-      <Icon src={subject.iconUrl} alt={t(ARIA_LABELS.UI.SUBJECT_ICON_ALT, { name: subject.name })} width={12} height={12} />
+      <Icon src={subject.iconUrl} alt={`${subject.name} subject icon`} width={12} height={12} />
       <span>{subject.name}</span>
     </span>
   );

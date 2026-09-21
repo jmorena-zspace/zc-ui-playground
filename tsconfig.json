@@ -34,6 +34,9 @@
       "@services/*": [
         "./src/stubs/services/*"
       ],
+      "@tanstack/react-router": [
+        "./src/stubs/tanstack/react-router"
+      ],
       "@shared/*": [
         "./src/stubs/shared/*"
       ],
@@ -42,9 +45,6 @@
       ],
       "@zcentral-v2/constants": [
         "./src/stubs/zcentral-v2/constants"
-      ],
-      "@zcentral-v2/i18n": [
-        "./src/stubs/zcentral-v2/i18n"
       ],
       "@zcentral-v2/search": [
         "./src/stubs/zcentral-v2/search"
