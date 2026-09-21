@@ -1,0 +1,34 @@
+import type { Meta, StoryObj } from '@storybook/react';
+import { InternalServerError } from './internal-server-error';
+
+const meta: Meta<typeof InternalServerError> = {
+  title: 'Errors/InternalServerError',
+  component: InternalServerError,
+  tags: ['autodocs'],
+  parameters: {
+    docs: {
+      description: {
+        component:
+          'A 500 error display component showing server error messaging. Displays detailed error message in development mode only. Features centered layout with large heading.',
+      },
+    },
+  },
+  decorators: [
+    (Story) => (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="w-full max-w-[1280px] px-4">
+          <Story />
+        </div>
+      </div>
+    ),
+  ],
+};
+
+export default meta;
+type Story = StoryObj<typeof InternalServerError>;
+
+export const Default: Story = {
+  args: {
+    message: 'An unexpected error occurred on the server',
+  },
+};
