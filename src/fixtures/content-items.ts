@@ -94,7 +94,18 @@ export const mathematics: Subject = {
 
 // -------------
 // Applications
+//
+// The base entries carry no deep-link code: that code addresses a specific
+// lesson inside the app, so it is attached per lesson/app pairing below.
 // -------------
+
+/** Pairs an app with the code that deep-links to one particular lesson. */
+function deepLinked(
+  app: LessonApplication,
+  deepLinkingLaunchCode: string
+): LessonApplication {
+  return { ...app, deepLinkingLaunchCode };
+}
 
 /** Desktop app — not launchable unless the native shell is simulated. */
 export const franklinsLabApp: LessonApplication = {
@@ -102,7 +113,6 @@ export const franklinsLabApp: LessonApplication = {
   name: "Franklin's Lab",
   iconUrl: appIcon('FL', '#0072ce'),
   appLaunchCode: 'FL',
-  deepLinkingLaunchCode: 'FL-2481',
   platform: ContentPlatform.DESKTOP,
 };
 
@@ -112,7 +122,6 @@ export const bioDigitalHumanApp: LessonApplication = {
   name: 'BioDigital Human',
   iconUrl: appIcon('BD', '#1ebda0'),
   appLaunchCode: 'BD',
-  deepLinkingLaunchCode: null,
   platform: ContentPlatform.WEB,
 };
 
@@ -121,7 +130,6 @@ export const studioApp: LessonApplication = {
   name: 'zSpace Studio',
   iconUrl: appIcon('ZS', '#6335c0'),
   appLaunchCode: 'ZS',
-  deepLinkingLaunchCode: 'ZS-0097',
   platform: ContentPlatform.DESKTOP,
 };
 
@@ -146,7 +154,7 @@ export const andOrCircuits: Lesson = {
   imageUrl: coverImage('#0058d6', '#22d3b2'),
   type: ContentType.LESSON,
   subjects: [physics, engineering, mathematics],
-  apps: [franklinsLabApp, bioDigitalHumanApp],
+  apps: [deepLinked(franklinsLabApp, 'FL-2481'), bioDigitalHumanApp],
   summary:
     'Students wire series and parallel switch circuits, then generalize the behavior into AND and OR truth tables.',
   lessonPlans: [
@@ -172,7 +180,7 @@ export const lessonSingleApp: Lesson = {
   imageUrl: coverImage('#1ebda0', '#0058d6'),
   type: ContentType.LESSON,
   subjects: [biology],
-  apps: [bioDigitalHumanApp],
+  apps: [deepLinked(bioDigitalHumanApp, 'BD-5310')],
   summary:
     'A guided dissection of the amphibian heart, comparing its three chambers to the mammalian four.',
 };
@@ -184,19 +192,21 @@ export const franklinsLab: Lesson = {
   imageUrl: null,
   type: ContentType.LESSON,
   subjects: [physics, chemistry],
-  apps: [franklinsLabApp, studioApp],
+  apps: [
+    deepLinked(franklinsLabApp, 'FL-1190'),
+    deepLinked(studioApp, 'ZS-0097'),
+  ],
   summary:
     'Charge a Leyden jar, then measure how stored charge changes with plate area.',
 };
 
-/** No apps at all — the launch column collapses entirely. */
 export const bioDigitalHuman: Lesson = {
   id: 'lesson-biodigital-human',
   name: 'The Cardiovascular System',
   imageUrl: coverImage('#d02597', '#6335c0'),
   type: ContentType.LESSON,
   subjects: [biology],
-  apps: [],
+  apps: [deepLinked(bioDigitalHumanApp, 'BD-7742')],
   summary:
     'Trace a red blood cell from the right atrium to the capillary beds and back.',
 };
