@@ -1,42 +1,62 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import clsx from 'clsx'
+import {
+  ArrowRight,
+  Filter,
+  FolderClosed,
+  LayoutGrid,
+  type LucideIcon,
+  Palette,
+  PanelRight,
+} from 'lucide-react'
 import { motion } from 'motion/react'
 import { Toaster } from 'sonner'
 
-import {
-  Card,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card'
 import { TooltipProvider } from '@components/ui/tooltip'
 
 const queryClient = new QueryClient()
 import { useHashRoute } from '@/lib/use-hash-route'
+import { CollectionsPage } from '@pages/collections'
 import { LessonCardPlayground } from '@pages/lesson-card-playground'
 import { FacetedFilters } from '@pages/faceted-filters'
 import { LessonPanelPreview } from '@pages/lesson-panel-preview'
 import { ThemeLab } from '@pages/theme-lab'
 
-const ENTRIES = [
+const ENTRIES: {
+  route: string
+  title: string
+  description: string
+  icon: LucideIcon
+}[] = [
   {
     route: 'lesson-card',
     title: 'Card playground',
     description: 'Drop components in here and play around.',
+    icon: LayoutGrid,
   },
   {
     route: 'theme',
     title: 'Theme lab',
     description: 'Build the light mode against the real components.',
+    icon: Palette,
   },
   {
     route: 'faceted-filters',
     title: 'Faceted filters',
     description: 'Drill into a three-level Subject/Pathway filter.',
+    icon: Filter,
   },
   {
     route: 'lesson-panel',
     title: 'Lesson side panel',
     description: 'The drawer alone, centered on a dark canvas.',
+    icon: PanelRight,
+  },
+  {
+    route: 'collections',
+    title: 'Collection folders',
+    description: 'Career pathways as folders that tip open on hover.',
+    icon: FolderClosed,
   },
 ]
 
@@ -56,11 +76,9 @@ function Landing({ onOpen }: { onOpen: (route: string) => void }) {
               delay: index * 0.05,
             }}
             whileHover={{ y: -4 }}
+            className="h-full"
           >
-            {/* rounded-md, not shadcn's default rounded-xl: the zSpace radius
-                scale runs 8/16/24/32px, so xl reads as a pill at this size. */}
-            <Card
-              className="h-full w-[360px] cursor-pointer rounded-md transition-colors hover:bg-bg-surface-hover"
+            <div
               role="button"
               tabIndex={0}
               onClick={() => onOpen(entry.route)}
@@ -70,14 +88,32 @@ function Landing({ onOpen }: { onOpen: (route: string) => void }) {
                   onOpen(entry.route)
                 }
               }}
+              className={clsx(
+                'group flex h-full w-[320px] cursor-pointer flex-col gap-lg rounded-lg p-lg',
+                'border border-border-system-subtle bg-bg-surface-subtle',
+                'transition-all duration-200 ease-out',
+                'hover:border-border-system-default hover:bg-bg-surface-hover hover:shadow-lg',
+                'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-border-system-strong'
+              )}
             >
-              <CardHeader>
-                <CardTitle className="font-display text-display-sm">
+              <div className="flex items-center justify-between">
+                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-sm bg-bg-surface-strong text-content-primary">
+                  <entry.icon className="h-5 w-5" />
+                </span>
+                <ArrowRight
+                  aria-hidden="true"
+                  className="h-4 w-4 -translate-x-1 text-content-tertiary opacity-0 transition-all duration-200 ease-out group-hover:translate-x-0 group-hover:opacity-100"
+                />
+              </div>
+              <div className="flex flex-col gap-xxs">
+                <h2 className="font-display text-display-xs text-content-primary">
                   {entry.title}
-                </CardTitle>
-                <CardDescription>{entry.description}</CardDescription>
-              </CardHeader>
-            </Card>
+                </h2>
+                <p className="text-body-md text-content-secondary">
+                  {entry.description}
+                </p>
+              </div>
+            </div>
           </motion.div>
         ))}
       </div>
@@ -101,6 +137,8 @@ function App() {
           <FacetedFilters onBack={() => navigate('')} />
         ) : route === 'lesson-panel' ? (
           <LessonPanelPreview onBack={() => navigate('')} />
+        ) : route === 'collections' ? (
+          <CollectionsPage onBack={() => navigate('')} />
         ) : (
           <Landing onOpen={navigate} />
         )}
