@@ -93,9 +93,12 @@ const PalettePicker: FC<{
 export const RoleRail: FC<{
   theme: LightTheme
   guess: LightTheme
+  /** Dark is locked, so its rows are read-only. */
+  editable: boolean
   onChange: (role: string, value: string) => void
   onResetRole: (role: string) => void
-}> = ({ theme, guess, onChange, onResetRole }) => {
+  onHoverRole: (role: string | null) => void
+}> = ({ theme, guess, editable, onChange, onResetRole, onHoverRole }) => {
   const [query, setQuery] = useState('')
   const [openRole, setOpenRole] = useState<string | null>(null)
 
@@ -144,7 +147,9 @@ export const RoleRail: FC<{
           )}
         </div>
         <p className="text-body-sm text-dark-200">
-          Dark is locked. Pick a palette colour for light.
+          {editable
+            ? 'Hover a role to find it in the canvas. Click to recolour.'
+            : 'Dark is locked — switch to light to edit.'}
         </p>
       </div>
 
@@ -155,27 +160,35 @@ export const RoleRail: FC<{
               {GROUP_LABELS[group] ?? group}
             </h3>
             {roles.map((role) => {
-              const lightValue = theme[role.name]
-              const lightHex = byName.get(lightValue)?.hex ?? lightValue
+              const value = editable ? theme[role.name] : role.darkRef ?? ''
+              const hex = editable
+                ? byName.get(theme[role.name])?.hex ?? theme[role.name]
+                : role.darkHex
               const isOpen = openRole === role.name
-              const isEdited = lightValue !== guess[role.name]
+              const isEdited = editable && theme[role.name] !== guess[role.name]
 
               return (
-                <div key={role.name} className="border-b border-dark-700">
+                <div
+                  key={role.name}
+                  className="border-b border-dark-700"
+                  onMouseEnter={() => onHoverRole(role.name)}
+                  onMouseLeave={() => onHoverRole(null)}
+                >
                   <div className="flex items-center gap-xs px-md py-xs">
                     <button
                       type="button"
+                      disabled={!editable}
                       onClick={() => setOpenRole(isOpen ? null : role.name)}
-                      className="flex min-w-0 flex-1 items-center gap-xs text-left cursor-pointer"
+                      onFocus={() => onHoverRole(role.name)}
+                      onBlur={() => onHoverRole(null)}
+                      className={clsx(
+                        'flex min-w-0 flex-1 items-center gap-xs text-left',
+                        editable ? 'cursor-pointer' : 'cursor-default'
+                      )}
                     >
                       <Swatch
-                        hex={role.darkHex}
-                        title={`dark (locked): ${role.darkRef}`}
-                        className="h-5 w-5 opacity-60"
-                      />
-                      <Swatch
-                        hex={lightHex}
-                        title={`light: ${lightValue}`}
+                        hex={hex}
+                        title={value}
                         className="h-5 w-5"
                       />
                       <span className="min-w-0 flex-1 truncate text-body-sm text-dark-50">
@@ -202,10 +215,10 @@ export const RoleRail: FC<{
                       </button>
                     )}
                   </div>
-                  {isOpen && (
+                  {isOpen && editable && (
                     <div className="px-md pb-sm">
                       <PalettePicker
-                        selected={lightValue}
+                        selected={value}
                         onPick={(name) => {
                           onChange(role.name, name)
                           setOpenRole(null)

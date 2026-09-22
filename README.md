@@ -99,9 +99,15 @@ so they are inert (and still import FontAwesome).
 colour values (which render dark); the lab treats those as locked and lets you
 author a light set beside them.
 
+- The canvas is a **masonry of small specimens** — cards, buttons, badges,
+  form controls, navigation, feedback — filterable by group.
 - The rail lists the **76 semantic roles the components actually reference**,
-  grouped and searchable, each row showing the locked dark swatch next to the
-  editable light one. Picking opens the palette from `index.css`.
+  grouped and searchable, each row showing one chip: the value for the mode you
+  are in. Picking opens the palette from `index.css`. Dark rows are read-only.
+- **Isolate on hover** (on by default, toggleable): hovering a role dims every
+  specimen that does not paint with it to 30% and rings the exact elements that
+  do. It matches Tailwind's class names rather than computed styles, anchored to
+  the end of the class so `bg-skeleton` cannot claim `bg-skeleton-inverse`.
 - Light values start from a **generated guess** (`src/theme-lab/light-guess.ts`)
   that mirrors each role's position in its ramp, keeps brand and overlay roles
   as they are, and sends the `dark`/`midnight` ramps to `neutral`. It is a

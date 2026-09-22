@@ -1,26 +1,81 @@
+import { elementsUsingRole } from '@/theme-lab/highlight'
 import { RoleRail } from '@/theme-lab/role-rail'
-import { SPECIMENS, type SpecimenId } from '@/theme-lab/specimens'
+import {
+  GROUP_LABELS,
+  SPECIMENS,
+  type SpecimenGroup,
+} from '@/theme-lab/specimens'
 import { serializeTheme } from '@/theme-lab/theme-css'
 import { useLightTheme } from '@/theme-lab/use-light-theme'
 import clsx from 'clsx'
-import { ArrowLeft, Download, Moon, RotateCcw, Sun, Upload } from 'lucide-react'
-import { useRef, useState, type FC } from 'react'
+import {
+  ArrowLeft,
+  Download,
+  Moon,
+  RotateCcw,
+  Sun,
+  Target,
+  Upload,
+} from 'lucide-react'
+import { useEffect, useRef, useState, type FC } from 'react'
 import { toast } from 'sonner'
 
-type Selection = SpecimenId | 'all'
+type Selection = SpecimenGroup | 'all'
 
 const FILE_NAME = 'zc-light-theme.css'
+const GROUPS = Object.keys(GROUP_LABELS) as SpecimenGroup[]
 
 export const ThemeLab: FC<{ onBack: () => void }> = ({ onBack }) => {
   const { theme, mode, setMode, setRole, resetRole, resetAll, importCss, guess } =
     useLightTheme()
   const [selection, setSelection] = useState<Selection>('all')
+  const [isolate, setIsolate] = useState(true)
+  const [hoveredRole, setHoveredRole] = useState<string | null>(null)
+  const canvasRef = useRef<HTMLDivElement>(null)
   const fileInput = useRef<HTMLInputElement>(null)
 
   const shown =
     selection === 'all'
       ? SPECIMENS
-      : SPECIMENS.filter((specimen) => specimen.id === selection)
+      : SPECIMENS.filter((specimen) => specimen.group === selection)
+
+  /**
+   * Hovering a role dims every card that does not paint with it and rings the
+   * exact elements that do. Done straight on the DOM rather than through
+   * state, so hovering does not re-render the whole canvas.
+   */
+  useEffect(() => {
+    const canvas = canvasRef.current
+    if (!canvas) return
+
+    const cards = [...canvas.querySelectorAll<HTMLElement>('[data-specimen]')]
+    const clear = () => {
+      for (const card of cards) card.style.opacity = ''
+      for (const el of canvas.querySelectorAll<HTMLElement>('[data-role-hit]')) {
+        el.style.outline = ''
+        el.style.outlineOffset = ''
+        el.removeAttribute('data-role-hit')
+      }
+    }
+
+    clear()
+    if (!isolate || !hoveredRole) return
+
+    const matches = new Set(elementsUsingRole(canvas, hoveredRole))
+    for (const card of cards) {
+      const used = [...matches].some(
+        (element) => card === element || card.contains(element)
+      )
+      card.style.opacity = used ? '' : '0.3'
+    }
+    for (const element of matches) {
+      element.setAttribute('data-role-hit', '')
+      element.style.outline = '2px solid var(--color-z-blue-400)'
+      element.style.outlineOffset = '2px'
+    }
+
+    return clear
+  }, [hoveredRole, isolate, selection, theme, mode])
 
   const onExport = () => {
     const blob = new Blob([serializeTheme(theme)], { type: 'text/css' })
@@ -48,13 +103,15 @@ export const ThemeLab: FC<{ onBack: () => void }> = ({ onBack }) => {
 
   return (
     // Chrome is painted with palette primitives, never semantic roles, so it
-    // stays legible whatever the light theme does.
+    // stays legible whatever the theme being edited does.
     <div className="flex h-full bg-dark-900">
       <RoleRail
         theme={theme}
         guess={guess}
+        editable={mode === 'light'}
         onChange={setRole}
         onResetRole={resetRole}
+        onHoverRole={setHoveredRole}
       />
 
       <div className="flex min-w-0 flex-1 flex-col">
@@ -75,9 +132,9 @@ export const ThemeLab: FC<{ onBack: () => void }> = ({ onBack }) => {
             aria-label="Elements to show"
           >
             <option value="all">All elements</option>
-            {SPECIMENS.map((specimen) => (
-              <option key={specimen.id} value={specimen.id}>
-                {specimen.label}
+            {GROUPS.map((group) => (
+              <option key={group} value={group}>
+                {GROUP_LABELS[group]}
               </option>
             ))}
           </select>
@@ -109,6 +166,22 @@ export const ThemeLab: FC<{ onBack: () => void }> = ({ onBack }) => {
               </button>
             ))}
           </div>
+
+          <button
+            type="button"
+            onClick={() => setIsolate((on) => !on)}
+            aria-pressed={isolate}
+            title="Dim everything that does not use the role you are hovering"
+            className={clsx(
+              'inline-flex cursor-pointer items-center gap-xxs rounded-full border px-sm py-xxs text-body-sm',
+              isolate
+                ? 'border-dark-400 bg-dark-400 text-neutral-white'
+                : 'border-dark-600 text-dark-200 hover:text-dark-50'
+            )}
+          >
+            <Target className="h-3.5 w-3.5" />
+            Isolate on hover
+          </button>
 
           <div className="ml-auto flex items-center gap-xs">
             <button
@@ -149,22 +222,27 @@ export const ThemeLab: FC<{ onBack: () => void }> = ({ onBack }) => {
           </div>
         </header>
 
-        {/* The canvas: the only part that wears the theme being edited. */}
+        {/* The canvas: the only part wearing the theme being edited. */}
         <div
+          ref={canvasRef}
           data-theme-lab-canvas
           data-main-scroll-container
-          className="min-h-0 flex-1 overflow-y-auto bg-bg-surface-default"
+          className="min-h-0 flex-1 overflow-y-auto bg-bg-surface-default p-lg"
         >
-          <div className="mx-auto flex max-w-[1080px] flex-col gap-3xl p-xl">
-            {shown.map(({ id, label, render: Specimen }) => (
-              <section key={id} className="flex flex-col gap-md">
-                {selection === 'all' && (
-                  <h2 className="font-display text-display-xs text-content-tertiary">
-                    {label}
-                  </h2>
-                )}
-                <Specimen />
-              </section>
+          {/* CSS columns rather than grid: the cards are different heights and
+              should pack, which is what masonry buys here. */}
+          <div className="columns-[340px] gap-md [column-fill:balance]">
+            {shown.map((specimen) => (
+              <article
+                key={specimen.id}
+                data-specimen={specimen.id}
+                className="mb-md break-inside-avoid rounded-md border border-border-system-subtle bg-bg-surface-form p-md transition-opacity duration-200"
+              >
+                <h2 className="mb-sm text-body-sm font-medium text-content-tertiary">
+                  {specimen.label}
+                </h2>
+                <specimen.render />
+              </article>
             ))}
           </div>
         </div>
