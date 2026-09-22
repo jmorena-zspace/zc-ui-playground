@@ -1,5 +1,6 @@
 import { elementsUsingRole } from '@/theme-lab/highlight'
 import { RoleRail } from '@/theme-lab/role-rail'
+import { MosaicBoard, MosaicItem } from '@/theme-lab/mosaic'
 import {
   GROUP_LABELS,
   SPECIMENS,
@@ -227,24 +228,21 @@ export const ThemeLab: FC<{ onBack: () => void }> = ({ onBack }) => {
           ref={canvasRef}
           data-theme-lab-canvas
           data-main-scroll-container
-          className="min-h-0 flex-1 overflow-y-auto bg-bg-surface-default p-lg"
+          className="min-h-0 flex-1 overflow-auto bg-bg-surface-default p-lg"
         >
-          {/* CSS columns rather than grid: the cards are different heights and
-              should pack, which is what masonry buys here. */}
-          <div className="columns-[340px] gap-md [column-fill:balance]">
+          {/* No titles or containers: the components sit straight on the
+              canvas, which is the surface they are being themed against. */}
+          <MosaicBoard>
             {shown.map((specimen) => (
-              <article
+              <MosaicItem
                 key={specimen.id}
-                data-specimen={specimen.id}
-                className="mb-md break-inside-avoid rounded-md border border-border-system-subtle bg-bg-surface-form p-md transition-opacity duration-200"
+                cols={specimen.cols}
+                specimenId={specimen.id}
               >
-                <h2 className="mb-sm text-body-sm font-medium text-content-tertiary">
-                  {specimen.label}
-                </h2>
                 <specimen.render />
-              </article>
+              </MosaicItem>
             ))}
-          </div>
+          </MosaicBoard>
         </div>
       </div>
     </div>
