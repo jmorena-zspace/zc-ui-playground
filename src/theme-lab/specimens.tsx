@@ -1,3 +1,4 @@
+import { AnimatedTitle } from '@components/animated-title'
 import { LessonCard } from '@components/cards/lesson-card/lesson-card'
 import { Filter } from '@components/filter/filter'
 import { FilterInputType, type FiltersData } from '@components/filter/types'
@@ -61,6 +62,13 @@ const SEARCH_RESULTS = [
   { ...lessonSingleApp, contentType: ContentType.LESSON },
   { ...bioDigitalHuman, contentType: ContentType.LESSON },
 ]
+
+/** Hover it: the underline grows in and the arrow slides out. */
+const AnimatedTitleSpecimen: FC = () => (
+  <AnimatedTitle as="h2" className="w-fit text-display-sm font-medium text-content-primary">
+    Circuits and logic
+  </AnimatedTitle>
+)
 
 const LessonCardSpecimen: FC = () => (
   <LessonCard lesson={andOrCircuits} selectable onClick={noop} />
@@ -135,6 +143,12 @@ export type Specimen = {
 }
 
 export const SPECIMENS: Specimen[] = [
+  {
+    id: 'animated-title',
+    label: 'Animated title',
+    fit: true,
+    render: AnimatedTitleSpecimen,
+  },
   { id: 'lesson-card', label: 'Lesson card', render: LessonCardSpecimen },
   { id: 'filter', label: 'Filter', render: FilterSpecimen },
   { id: 'global-search', label: 'Global search', render: GlobalSearchSpecimen },

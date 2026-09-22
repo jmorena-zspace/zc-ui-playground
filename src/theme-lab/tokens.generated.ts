@@ -1377,16 +1377,34 @@ export const ROLES: Role[] = [
     "darkHex": "#f5f5f5ff"
   },
   {
+    "name": "--color-bg-action-tertiary-pressed",
+    "group": "bg",
+    "darkRef": "--color-neutral-150",
+    "darkHex": "#e5e5e5ff"
+  },
+  {
     "name": "--color-bg-overlay-default",
     "group": "bg",
     "darkRef": "--overlay-dark-medium",
     "darkHex": "#00000052"
   },
   {
+    "name": "--color-bg-overlay-light-light",
+    "group": "bg",
+    "darkRef": "--overlay-light-light",
+    "darkHex": "#ffffff3d"
+  },
+  {
     "name": "--color-bg-overlay-light-medium",
     "group": "bg",
     "darkRef": "--overlay-light-medium",
     "darkHex": "#ffffff52"
+  },
+  {
+    "name": "--color-bg-overlay-light-subtle",
+    "group": "bg",
+    "darkRef": "--overlay-light-subtle",
+    "darkHex": "#ffffff29"
   },
   {
     "name": "--color-bg-overlay-modal",
@@ -1417,6 +1435,12 @@ export const ROLES: Role[] = [
     "group": "bg",
     "darkRef": "--color-dark-400",
     "darkHex": "#562ea7"
+  },
+  {
+    "name": "--color-bg-surface-brand-strong",
+    "group": "bg",
+    "darkRef": "--color-dark-100",
+    "darkHex": "#e6e5f7"
   },
   {
     "name": "--color-bg-surface-brand-subtle",
@@ -1767,3 +1791,106 @@ export const ROLES: Role[] = [
     "darkHex": "#ffefadff"
   }
 ]
+
+export type UtilityUse = { role: string; state: string }
+
+/**
+ * Roles painted by the theme's own `@utility` blocks. Their class names say
+ * nothing about the token, so matching a class against role names misses them
+ * entirely — `animated-underline-brand` paints with
+ * `--color-bg-surface-brand-strong`.
+ */
+export const UTILITY_ROLES: Record<string, UtilityUse[]> = {
+  "icon-btn-on-light": [
+    {
+      "role": "--color-bg-action-tertiary-hover",
+      "state": "hover"
+    },
+    {
+      "role": "--color-bg-action-tertiary-pressed",
+      "state": "active"
+    }
+  ],
+  "icon-btn-on-surface": [
+    {
+      "role": "--color-bg-surface-hover",
+      "state": "hover"
+    },
+    {
+      "role": "--color-bg-surface-hover",
+      "state": "active"
+    }
+  ],
+  "icon-btn-on-dark": [
+    {
+      "role": "--color-bg-overlay-light-subtle",
+      "state": "hover"
+    },
+    {
+      "role": "--color-bg-overlay-light-light",
+      "state": "active"
+    }
+  ],
+  "filter-checkbox": [
+    {
+      "role": "--color-border-system-strong",
+      "state": "resting"
+    }
+  ],
+  "filter-checkbox-checked": [
+    {
+      "role": "--color-border-action-primary-selected",
+      "state": "resting"
+    },
+    {
+      "role": "--color-bg-surface-selected",
+      "state": "resting"
+    }
+  ],
+  "filter-radio": [
+    {
+      "role": "--color-border-system-strong",
+      "state": "resting"
+    }
+  ],
+  "filter-radio-checked": [
+    {
+      "role": "--color-border-action-primary-selected",
+      "state": "resting"
+    },
+    {
+      "role": "--color-bg-surface-selected",
+      "state": "resting"
+    }
+  ],
+  "animated-underline-brand": [
+    {
+      "role": "--color-bg-surface-brand-strong",
+      "state": "resting"
+    },
+    {
+      "role": "--color-bg-surface-brand-strong",
+      "state": "resting"
+    }
+  ],
+  "animated-underline-on-brand": [
+    {
+      "role": "--color-content-on-brand-default",
+      "state": "resting"
+    },
+    {
+      "role": "--color-content-on-brand-default",
+      "state": "resting"
+    }
+  ],
+  "card-inset-border": [
+    {
+      "role": "--color-border-system-subtle",
+      "state": "resting"
+    },
+    {
+      "role": "--color-border-inset-glow",
+      "state": "resting"
+    }
+  ]
+}

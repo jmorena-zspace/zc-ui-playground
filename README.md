@@ -107,7 +107,9 @@ author a light set beside them.
   at a width that suits it. `src/theme-lab/mosaic.tsx` explains why it wraps
   rather than packing: measuring row spans for a dense grid feeds the layout
   back into itself and goes bistable on this content.
-- The rail lists the **76 semantic roles the components actually reference**,
+- The rail lists the **80 semantic roles the components actually reference** —
+  including the ones reached indirectly through the theme's own `@utility`
+  blocks, which paint with a role without naming it,
   in collapsible groups, searchable, and filterable to just the ones you have
   changed or just the ones you have not. Each row is a chip and a text field —
   type a palette name like `neutral-100` (the browser completes it) or a hex.

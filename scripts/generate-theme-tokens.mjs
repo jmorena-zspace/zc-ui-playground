@@ -9,6 +9,8 @@
 import { readFileSync, writeFileSync, readdirSync, statSync } from 'node:fs'
 import { join } from 'node:path'
 
+const ROLE_VAR = /var\((--color-(?:bg|content|border|special|icon)-[a-z0-9-]+)\)/g
+
 const css = readFileSync('src/index.css', 'utf8')
 const theme = css.slice(css.indexOf('@theme {'), css.indexOf('@property'))
 // The shadcn bridge (`@theme inline` at the end of the file) maps shadcn role
@@ -35,6 +37,24 @@ const primitives = decls
     }
   })
 
+// --- roles reached through the theme's own @utility blocks
+const utilityRoles = {}
+for (const block of css.matchAll(/@utility ([a-z0-9-]+\*?) \{([\s\S]*?)\n\}/g)) {
+  const [, name, body] = block
+  const uses = []
+  for (const nested of body.matchAll(/&:([a-z-]+)\s*\{([\s\S]*?)\}/g)) {
+    const [, pseudo, inner] = nested
+    for (const [, role] of inner.matchAll(ROLE_VAR)) {
+      uses.push({ role, state: pseudo })
+    }
+  }
+  const topLevel = body.replace(/&:[a-z-]+\s*\{[\s\S]*?\}/g, '')
+  for (const [, role] of topLevel.matchAll(ROLE_VAR)) {
+    uses.push({ role, state: 'resting' })
+  }
+  if (uses.length) utilityRoles[name] = uses
+}
+
 // --- which roles do the vendored components reference?
 const UTILITY = /\b(?:bg|text|border|ring|shadow|fill|stroke|from|to|via|decoration|outline|caret|accent|divide)-((?:bg|content|border|special|icon|overlay)-[a-z0-9-]+)/g
 const used = new Set()
@@ -45,6 +65,12 @@ const walk = (dir) => {
     else if (/\.tsx?$/.test(p) && !p.includes('tokens.generated')) {
       const src = readFileSync(p, 'utf8')
       for (const [, role] of src.matchAll(UTILITY)) used.add('--color-' + role)
+      // e.g. `animated-underline-brand` paints with a role it does not name
+      for (const [utility, uses] of Object.entries(utilityRoles)) {
+        if (new RegExp(`(?<![\\w-])${utility.replace('*', '')}(?![\\w-])`).test(src)) {
+          for (const use of uses) used.add(use.role)
+        }
+      }
     }
   }
 }
@@ -100,6 +126,16 @@ export type Role = {
 export const PRIMITIVES: Primitive[] = ${JSON.stringify(primitives, null, 2)}
 
 export const ROLES: Role[] = ${JSON.stringify(roles, null, 2)}
+
+export type UtilityUse = { role: string; state: string }
+
+/**
+ * Roles painted by the theme's own \`@utility\` blocks. Their class names say
+ * nothing about the token, so matching a class against role names misses them
+ * entirely — \`animated-underline-brand\` paints with
+ * \`--color-bg-surface-brand-strong\`.
+ */
+export const UTILITY_ROLES: Record<string, UtilityUse[]> = ${JSON.stringify(utilityRoles, null, 2)}
 `
 
 writeFileSync('src/theme-lab/tokens.generated.ts', out)

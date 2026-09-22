@@ -1,4 +1,4 @@
-import { ROLES } from './tokens.generated'
+import { ROLES, UTILITY_ROLES } from './tokens.generated'
 
 /** The interaction states a utility can be scoped to. */
 export type UiState =
@@ -30,6 +30,8 @@ export const STATE_LABELS: Record<UiState, string> = {
 const TOKENS = new Map(
   ROLES.map((role) => [role.name.replace('--color-', ''), role.name])
 )
+
+const TRACKED = new Set(ROLES.map((role) => role.name))
 
 /** `hover:bg-bg-surface-hover` -> variants ['hover'], utility the rest. */
 function splitVariants(className: string): {
@@ -80,17 +82,39 @@ export type RoleUse = {
 export function rolesInElement(root: ParentNode): RoleUse[] {
   const seen = new Map<string, RoleUse>()
 
+  const record = (role: string, state: UiState, className: string) => {
+    const key = `${role}::${state}`
+    if (!seen.has(key)) seen.set(key, { role, state, className })
+  }
+
   const visit = (element: Element) => {
     for (const className of element.classList) {
       const { variants, utility } = splitVariants(className)
+
+      // The theme's own @utility classes carry roles too, and their names look
+      // nothing like the token, so they have to be looked up.
+      const custom = UTILITY_ROLES[utility]
+      if (custom) {
+        for (const use of custom) {
+          // A @utility can reference a role the rail does not track (it is
+          // only listed if a component names it directly). Skip those rather
+          // than offering a field with nothing behind it.
+          if (!TRACKED.has(use.role)) continue
+          const variantState = stateFor(variants)
+          record(
+            use.role,
+            variantState === 'resting' ? (use.state as UiState) : variantState,
+            className
+          )
+        }
+      }
+
       const dash = utility.indexOf('-')
       if (dash < 0) continue
       const token = utility.slice(dash + 1)
       const role = TOKENS.get(token)
       if (!role) continue
-      const state = stateFor(variants)
-      const key = `${role}::${state}`
-      if (!seen.has(key)) seen.set(key, { role, state, className })
+      record(role, stateFor(variants), className)
     }
   }
 

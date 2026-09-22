@@ -41,8 +41,9 @@ export const ColorInput: FC<{
 }> = ({ value, onChange, disabled = false, className }) => {
   const [draft, setDraft] = useState<string | null>(null)
   const id = useId()
-  const hex = byName.get(value)?.hex ?? value
-  const shown = draft ?? shortName(value)
+  const current = value ?? ''
+  const hex = byName.get(current)?.hex ?? current
+  const shown = draft ?? shortName(current)
 
   const commit = (raw: string) => {
     const resolved = longName(raw)
