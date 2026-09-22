@@ -1,12 +1,5 @@
-import {
-  faArrowRotateLeft,
-  faArrowsRotate,
-  faCircleCheck,
-  faCircleXmark,
-  faXmark,
-} from '@awesome.me/kit-935ddc1468/icons/classic/solid';
+import { CircleCheck, CircleX, RefreshCw, RotateCcw, X } from 'lucide-react';
 import { BaseButton } from '@components/buttons/base-button/base-button';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useDesktopNativeAppStore } from '@stores/desktop-native-app';
 import clsx from 'clsx';
 import { FC, useCallback, useEffect, useRef, useState } from 'react';
@@ -25,6 +18,7 @@ export const RescanContentModal: FC<RescanContentModalProps> = ({
 }) => {
   const { refreshAvailability } = useDesktopNativeAppStore();
   const [scanState, setScanState] = useState<ScanState>('scanning');
+  const StatusIcon = scanState === 'success' ? CircleCheck : CircleX;
   const abortControllerRef = useRef<AbortController | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -63,9 +57,9 @@ export const RescanContentModal: FC<RescanContentModalProps> = ({
       color="secondary"
       size="md"
       onClick={handleClose}
-      leftIcon={<FontAwesomeIcon icon={faXmark} />}
+      leftIcon={<X />}
     >
-      Rescan close
+      Close
     </BaseButton>
   );
 
@@ -84,12 +78,9 @@ export const RescanContentModal: FC<RescanContentModalProps> = ({
       >
         <div className="flex items-center justify-between border-b border-border-system-subtle pb-md">
           <div className="flex items-center gap-sm">
-            <FontAwesomeIcon
-              icon={faArrowsRotate}
-              className="text-content-primary text-[24px]"
-            />
+            <RefreshCw className="text-content-primary text-[24px]" />
             <h2 className="text-body-lg font-bold text-content-primary">
-              Rescan modal title
+              Rescanning content
             </h2>
           </div>
           {scanState !== 'scanning' && (
@@ -99,7 +90,7 @@ export const RescanContentModal: FC<RescanContentModalProps> = ({
               className="icon-btn icon-btn-on-surface text-content-secondary"
               aria-label="Close"
             >
-              <FontAwesomeIcon icon={faXmark} className="w-3 h-3" />
+              <X className="w-3 h-3" />
             </button>
           )}
         </div>
@@ -107,7 +98,7 @@ export const RescanContentModal: FC<RescanContentModalProps> = ({
         {scanState === 'scanning' && (
           <>
             <p className="text-body-md font-regular text-content-secondary text-center">
-              Rescan scanning message
+              Checking this device for installed applications.
             </p>
 
             <div className="flex flex-col gap-lg items-center">
@@ -122,8 +113,7 @@ export const RescanContentModal: FC<RescanContentModalProps> = ({
         {scanState !== 'scanning' && (
           <>
             <div className="flex justify-center">
-              <FontAwesomeIcon
-                icon={scanState === 'success' ? faCircleCheck : faCircleXmark}
+              <StatusIcon
                 className={clsx(
                   'text-[96px]',
                   scanState === 'success'
@@ -146,7 +136,7 @@ export const RescanContentModal: FC<RescanContentModalProps> = ({
                 size="md"
                 onClick={scanState === 'success' ? handleClose : startScan}
                 {...(scanState === 'error' && {
-                  leftIcon: <FontAwesomeIcon icon={faArrowRotateLeft} />,
+                  leftIcon: <RotateCcw />,
                 })}
               >
                 {scanState === 'success' ? 'Close' : 'Try again'}

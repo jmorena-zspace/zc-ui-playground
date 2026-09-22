@@ -17,11 +17,12 @@ import { ContentPlatform } from '@zcentral-v2/types';
  */
 const SIMULATE_DESKTOP_NATIVE_APP = false;
 
-type Launchable = Pick<LessonApplication, 'name' | 'platform'>;
+type Launchable = { name: string; platform?: ContentPlatform };
 
 function canLaunch(app?: Launchable): boolean {
   if (!app) return false;
-  if (app.platform === ContentPlatform.WEB) return true;
+  // An item with no platform is treated as web, which is the launchable case.
+  if (app.platform !== ContentPlatform.DESKTOP) return true;
   return SIMULATE_DESKTOP_NATIVE_APP;
 }
 

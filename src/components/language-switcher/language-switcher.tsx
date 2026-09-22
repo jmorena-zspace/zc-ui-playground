@@ -1,3 +1,4 @@
+import { Globe } from 'lucide-react';
 import bgBGFlag from '@assets/flags/bg-BG.svg';
 import enUSFlag from '@assets/flags/en-US.svg';
 import esARFlag from '@assets/flags/es-AR.svg';
@@ -12,14 +13,12 @@ import koKRFlag from '@assets/flags/ko-KR.svg';
 import plPLFlag from '@assets/flags/pl-PL.svg';
 import roROFlag from '@assets/flags/ro-RO.svg';
 import zhCNFlag from '@assets/flags/zh-CN.svg';
-import { faGlobe } from '@awesome.me/kit-935ddc1468/icons/classic/regular';
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
   usePopoverContext,
 } from '@components/ui/popover';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FC, KeyboardEvent, useCallback, useMemo } from 'react';
 import { LanguageOption } from './language-option';
 
@@ -118,7 +117,7 @@ export const LanguageSwitcher: FC<LanguageSwitcherProps> = ({
           className={VARIANT_CLASSES[variant]}
           aria-label="Language switcher button"
         >
-          <FontAwesomeIcon className="h-4 w-4" icon={faGlobe} />
+          <Globe className="h-4 w-4" />
         </button>
       </PopoverTrigger>
       <LanguageListbox

@@ -79,8 +79,8 @@ export const LessonCard: FC<LessonCardProps> = ({
         // Lifts on hover, with a little scale and a shadow, to read as
         // coming forward in space. z-10 so the shadow falls over the next
         // card instead of under it.
-        'hover:z-10 hover:-translate-y-[4px] hover:scale-[1.01]',
-        'hover:shadow-[0_12px_28px_-8px_var(--overlay-dark-strong)]',
+      /*   'hover:z-10 hover:-translate-y-[4px] hover:scale-[1.01]',
+        'hover:shadow-[0_12px_28px_-8px_var(--overlay-dark-strong)]', */
         {
           // Hover is suppressed while active: its dark-600 is darker than the
           // active surface, so hovering the open card would dim it.
@@ -94,10 +94,8 @@ export const LessonCard: FC<LessonCardProps> = ({
           'border-transparent': !selected && !active,
           'border-border-action-primary-selected': selected || active,
           'bg-bg-action-primary-selected': selected && !active,
-          // dark-500: one step lighter than the dark-600 shared by hover and
-          // selected. The palette has no semantic bg role at this step, so
-          // this reaches for the primitive.
-          'bg-dark-500': active,
+          // One step lighter than the dark-600 shared by hover and selected.
+          'bg-bg-surface-active': active,
         }
       )}
       aria-label={`Open details for ${name}`}

@@ -1,6 +1,5 @@
-import { faCheck } from '@awesome.me/kit-935ddc1468/icons/classic/solid';
+import { Check } from 'lucide-react';
 import { usePopoverContext } from '@components/ui/popover';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import clsx from 'clsx';
 import { FC, useCallback } from 'react';
 import { Language } from './language-switcher';
@@ -53,7 +52,7 @@ export const LanguageOption: FC<LanguageOptionProps> = ({
             src={language.flagIconUrl}
             width="20"
             height="20"
-            alt="Language flag icon alt"
+            alt={`${language.name} flag`}
           />
           <span
             className={clsx(
@@ -65,11 +64,8 @@ export const LanguageOption: FC<LanguageOptionProps> = ({
           </span>
         </div>
         {isCurrentLanguage && (
-          <FontAwesomeIcon
-            icon={faCheck}
-            className="text-content-secondary"
-            aria-hidden="true"
-          />
+          <Check className="text-content-secondary"
+            aria-hidden="true" />
         )}
       </div>
       {isCurrentLanguage && (

@@ -30,7 +30,7 @@ export const RecentlyLaunchedAppItem: FC<RecentlyLaunchedAppItemProps> = ({
       <TooltipTrigger asChild>
         <button
           type="button"
-          aria-label="Recently launched app button"
+          aria-label={`Launch ${app.name}`}
           onClick={handleClick}
           onMouseEnter={onMouseEnter}
           className={clsx(

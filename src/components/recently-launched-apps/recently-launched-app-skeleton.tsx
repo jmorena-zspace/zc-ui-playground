@@ -13,7 +13,7 @@ export const RecentlyLaunchedAppSkeleton: FC<
   return (
     <div
       role="status"
-      aria-label="Recently launched app loading"
+      aria-label={`Loading ${app.name}`}
       className="flex w-[128px] shrink-0 flex-col items-center gap-xs rounded-sm"
     >
       <Skeleton inverse className="flex size-12 items-center justify-center rounded-full p-xs" />

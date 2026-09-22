@@ -1,12 +1,11 @@
+import { ExternalLink } from 'lucide-react';
 import { ImagePlaceholder } from '@assets/image-placeholder';
-import { faArrowUpRightFromSquare } from '@awesome.me/kit-935ddc1468/icons/classic/solid';
 import { AnimatedTitle } from '@components/animated-title';
 import {
   ContentBadge,
   ContentBadgeType,
 } from '@components/badges/content-badge';
 import { LaunchCodeBadge } from '@components/badges/launch-code-badge';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useLaunch } from '@hooks/launch';
 import { ContentItem, ContentPlatform } from '@zcentral-v2/types';
 import clsx from 'clsx';
@@ -77,7 +76,7 @@ export const ApplicationCard: FC<ApplicationCardProps> = ({
           (application.iconUrl ? (
             <img
               src={application.iconUrl}
-              alt="Application image alt"
+              alt={`Cover image for ${name}`}
               className="w-24 h-24 shrink-0 rounded-sm border border-border-system-subtle object-cover"
             />
           ) : (
@@ -113,7 +112,7 @@ export const ApplicationCard: FC<ApplicationCardProps> = ({
 
         <div className="shrink-0 ml-auto flex items-center relative z-10">
           <button
-            aria-label="Launch button"
+            aria-label={`Launch ${name}`}
             disabled={!isLaunchable}
             onClick={handleLaunch}
             className={clsx(
@@ -131,10 +130,7 @@ export const ApplicationCard: FC<ApplicationCardProps> = ({
           >
             <span>Launch</span>
             {isWeb && isLaunchable && (
-              <FontAwesomeIcon
-                icon={faArrowUpRightFromSquare}
-                className="w-3 h-3"
-              />
+              <ExternalLink className="w-3 h-3" />
             )}
           </button>
         </div>

@@ -1,15 +1,10 @@
-import { faGlobe } from '@awesome.me/kit-935ddc1468/icons/classic/regular';
-import {
-  faArrowUpRightFromSquare,
-  faLaptop,
-} from '@awesome.me/kit-935ddc1468/icons/classic/solid';
+import { ExternalLink, Globe, Laptop } from 'lucide-react';
 import { AnimatedTitle } from '@components/animated-title';
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from '@components/ui/tooltip';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useTruncatedTooltip } from '@hooks/truncated-tooltip';
 import { ContentItem, ContentPlatform } from '@zcentral-v2/types';
 import clsx from 'clsx';
@@ -67,7 +62,7 @@ export const ApplicationLauncherCard: FC<ApplicationLauncherCardProps> = ({
       <div
         data-nav-item
         aria-hidden={hidden}
-        aria-label="Application launcher card"
+        aria-label={`Launch ${name}`}
         role={isLaunchable ? 'button' : undefined}
         tabIndex={isLaunchable ? 0 : undefined}
         onClick={isLaunchable ? onLaunch : undefined}
@@ -114,7 +109,7 @@ export const ApplicationLauncherCard: FC<ApplicationLauncherCardProps> = ({
             <div ref={ref} className="line-clamp-2 min-w-0">
               <AnimatedTitle
                 showIcon={!disabled && isWeb}
-                icon={faArrowUpRightFromSquare}
+                icon={ExternalLink}
                 animated={!disabled}
                 as="p"
                 className={clsx(
@@ -136,10 +131,11 @@ export const ApplicationLauncherCard: FC<ApplicationLauncherCardProps> = ({
           className="flex items-center shrink-0"
           aria-label={isWeb ? 'Web application' : 'Desktop application'}
         >
-          <FontAwesomeIcon
-            icon={isWeb ? faGlobe : faLaptop}
-            className="w-4 h-4 text-content-primary"
-          />
+          {isWeb ? (
+            <Globe className="w-4 h-4 text-content-primary" />
+          ) : (
+            <Laptop className="w-4 h-4 text-content-primary" />
+          )}
         </div>
       </div>
       <TooltipContent

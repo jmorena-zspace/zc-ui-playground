@@ -93,6 +93,29 @@ it fails until they are ported. That is expected, not a broken build.
 The `.docs.stories.tsx` files are along for the ride — Storybook is not set up,
 so they are inert (and still import FontAwesome).
 
+## Theme lab
+
+`#/theme` is where the light mode gets built. The theme ships one set of
+colour values (which render dark); the lab treats those as locked and lets you
+author a light set beside them.
+
+- The rail lists the **76 semantic roles the components actually reference**,
+  grouped and searchable, each row showing the locked dark swatch next to the
+  editable light one. Picking opens the palette from `index.css`.
+- Light values start from a **generated guess** (`src/theme-lab/light-guess.ts`)
+  that mirrors each role's position in its ramp, keeps brand and overlay roles
+  as they are, and sends the `dark`/`midnight` ramps to `neutral`. It is a
+  starting point, not an answer.
+- Edits autosave to `localStorage`. **Save CSS** writes a
+  `[data-theme='light']` block using `var()` references to palette entries, and
+  **Load CSS** reads one back — including a block pasted out of `index.css`.
+- The theme applies at `:root` while the lab is open so Radix portals
+  (tooltips, selects, dialogs) are themed too; the lab's own chrome is painted
+  with palette primitives so it stays readable whatever you set.
+
+`src/theme-lab/tokens.generated.ts` is generated from `index.css` — rerun
+`npm run generate:tokens` after changing the palette or the roles.
+
 ## Theming
 
 `src/index.css` is the zSpace design-token sheet (primitives → semantic roles),
@@ -119,6 +142,7 @@ Fonts: `font-body` (Inter, the default) and `font-display` (Lexend).
 | --- | --- |
 | `#/` | landing |
 | `#/lesson-card` | `LessonCard` |
+| `#/theme` | Theme lab — build the light mode against real components |
 
 One interactive instance per page, no variant galleries or explanatory copy —
 see CLAUDE.md.

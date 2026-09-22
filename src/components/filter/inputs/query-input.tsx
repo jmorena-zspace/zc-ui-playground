@@ -1,8 +1,4 @@
-import {
-  faMagnifyingGlass,
-  faXmark,
-} from '@awesome.me/kit-935ddc1468/icons/classic/solid';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Search, X } from 'lucide-react';
 import clsx from 'clsx';
 import {
   ChangeEvent,
@@ -72,10 +68,7 @@ export function FilterQueryInput({
       )}
       onClick={(e) => e.stopPropagation()}
     >
-      <FontAwesomeIcon
-        icon={faMagnifyingGlass}
-        className="text-content-placeholder pointer-events-none absolute left-sm top-1/2 -translate-y-1/2"
-      />
+      <Search className="text-content-placeholder pointer-events-none absolute left-sm top-1/2 -translate-y-1/2" />
       <input
         aria-label="Query input"
         type="text"
@@ -87,7 +80,7 @@ export function FilterQueryInput({
           'overflow-hidden whitespace-nowrap',
           { 'pr-[36px]': hasValue, 'pr-sm': !hasValue }
         )}
-        placeholder="Search short placeholder"
+        placeholder="Search"
         name="query"
         onKeyDown={handleKeyDown}
         value={value}
@@ -100,7 +93,7 @@ export function FilterQueryInput({
           onClick={handleClear}
           tabIndex={-1}
         >
-          <FontAwesomeIcon icon={faXmark} className="text-body-sm" />
+          <X className="text-body-sm" />
         </button>
       )}
     </div>

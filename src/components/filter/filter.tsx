@@ -1,5 +1,4 @@
-import { faFilter } from '@awesome.me/kit-935ddc1468/icons/classic/solid';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { SlidersHorizontal } from 'lucide-react';
 import { useState } from 'react';
 import { ClearButton } from './buttons/clear-button';
 import { FilterButton } from './buttons/filter-button';
@@ -123,7 +122,7 @@ export function Filter<T>({
     <div className="w-full flex flex-col md:flex-row items-center justify-center md:justify-between gap-xxs md:gap-none">
       <div className="flex w-full md:hidden">
         <FilterButton fullSized onClick={() => setIsModalOpen(true)}>
-          <FontAwesomeIcon icon={faFilter} className="h-3 w-3" />
+          <SlidersHorizontal className="h-3 w-3" />
           <span>Filter</span>
           {totalFiltersApplied > 0 && <span> ({totalFiltersApplied})</span>}
         </FilterButton>

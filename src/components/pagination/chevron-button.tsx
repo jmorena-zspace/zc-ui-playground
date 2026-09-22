@@ -1,8 +1,4 @@
-import {
-  faChevronLeft,
-  faChevronRight,
-} from '@awesome.me/kit-935ddc1468/icons/classic/solid';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import clsx from 'clsx';
 import { FC } from 'react';
 
@@ -19,7 +15,7 @@ export const ChevronButton: FC<ChevronButtonProps> = ({
   disabled = false,
   className,
 }) => {
-  const icon = direction === 'left' ? faChevronLeft : faChevronRight;
+  const Icon = direction === 'left' ? ChevronLeft : ChevronRight;
 
   return (
     <button
@@ -39,7 +35,7 @@ export const ChevronButton: FC<ChevronButtonProps> = ({
       }
       aria-disabled={disabled}
     >
-      <FontAwesomeIcon icon={icon} size="sm" />
+      <Icon className="h-4 w-4" />
     </button>
   );
 };

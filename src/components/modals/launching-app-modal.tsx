@@ -1,5 +1,4 @@
-import { faXmark } from '@awesome.me/kit-935ddc1468/icons/classic/solid';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { X } from 'lucide-react';
 import { useDesktopNativeAppStore } from '@stores/desktop-native-app';
 import { Spinner } from '@components/ui/spinner';
 import { FC, useEffect, useRef } from 'react';
@@ -50,13 +49,13 @@ export const LaunchingAppModal: FC = () => {
           className="absolute top-sm right-sm icon-btn icon-btn-on-surface text-content-secondary"
           aria-label="Close"
         >
-          <FontAwesomeIcon icon={faXmark} className="w-3 h-3" />
+          <X className="w-3 h-3" />
         </button>
 
         <Spinner className="size-[68px]" />
 
         <p className="font-body text-body-md font-regular text-content-secondary text-center">
-          Launching content
+          {`Launching ${contentName}`}
         </p>
       </div>
     </BlurredModal>

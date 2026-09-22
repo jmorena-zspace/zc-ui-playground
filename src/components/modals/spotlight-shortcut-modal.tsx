@@ -1,10 +1,5 @@
-import {
-  faKeyboard,
-  faTriangleExclamation,
-  faXmark,
-} from '@awesome.me/kit-935ddc1468/icons/classic/solid';
+import { Keyboard, TriangleAlert, X } from 'lucide-react';
 import { KeyboardShortcut } from '@components/ui/keyboard-shortcut';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { usePressedKeys } from '@hooks/pressed-keys';
 import type { SpotlightShortcutSetResult } from '@zcentral-v2/types';
 import {
@@ -189,17 +184,14 @@ export const SpotlightShortcutModal: FC<SpotlightShortcutModalProps> = ({
       size="xl"
       dismissible={!saving}
       initialFocus={captureRef}
-      ariaLabel="Shortcuts modal title"
+      ariaLabel="Set the spotlight shortcut"
     >
       <div className="flex flex-col gap-lg bg-bg-surface-default border border-border-system-subtle rounded-sm p-md shadow-lg outline-none">
         <div className="flex items-center justify-between border-b border-border-system-subtle pb-md">
           <div className="flex items-center gap-sm">
-            <FontAwesomeIcon
-              icon={faKeyboard}
-              className="text-content-primary text-[24px]"
-            />
+            <Keyboard className="text-content-primary text-[24px]" />
             <h2 className="text-body-lg font-bold text-content-primary">
-              Shortcuts modal title
+              Set the spotlight shortcut
             </h2>
           </div>
           <button
@@ -209,12 +201,12 @@ export const SpotlightShortcutModal: FC<SpotlightShortcutModalProps> = ({
             className="icon-btn icon-btn-on-surface text-content-secondary"
             aria-label="Close"
           >
-            <FontAwesomeIcon icon={faXmark} className="w-3 h-3" />
+            <X className="w-3 h-3" />
           </button>
         </div>
 
         <p className="text-body-md font-regular text-content-secondary">
-          Shortcuts modal description
+          Press the combination you want to use.
         </p>
 
         <div className="flex flex-col gap-xs">
@@ -237,19 +229,16 @@ export const SpotlightShortcutModal: FC<SpotlightShortcutModalProps> = ({
               />
             ) : (
               <span className="text-body-md font-regular text-content-tertiary">
-                Shortcuts modal placeholder
+                Press a shortcut
               </span>
             )}
           </div>
 
           {/* Fixed-height slot prevents reflow as the validation tone changes. */}
           <div className="flex items-center h-5 gap-xxs">
-            <FontAwesomeIcon
-              icon={faTriangleExclamation}
-              className={clsx('h-3 w-3 shrink-0', TONE_TEXT[tone], {
+            <TriangleAlert className={clsx('h-3 w-3 shrink-0', TONE_TEXT[tone], {
                 invisible: tone === 'neutral',
-              })}
-            />
+              })} />
             <p
               className={clsx(
                 'text-body-sm font-regular leading-body-sm',
@@ -258,7 +247,7 @@ export const SpotlightShortcutModal: FC<SpotlightShortcutModalProps> = ({
             >
               {tone !== 'neutral' && validationCode
                 ? messageForCode(validationCode)
-                : 'Shortcuts modal instructions'}
+                : 'Include at least one modifier key, such as Ctrl or Cmd.'}
             </p>
           </div>
         </div>

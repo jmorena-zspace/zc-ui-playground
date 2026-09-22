@@ -1,8 +1,7 @@
+import { ArrowRight } from 'lucide-react';
 import { NoResultsIcon } from '@assets/no-results';
-import { faArrowRight } from '@awesome.me/kit-935ddc1468/icons/classic/solid';
 import { AnimatedTitle } from '@components/animated-title';
 import { ArrowNavigableContainer } from '@components/ui/arrow-navigable-container';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   FitToViewportOptions,
   useFitToViewport,
@@ -78,7 +77,7 @@ export const QuickResults = forwardRef<HTMLDivElement, QuickResultsProps>(
                 >
                   <button
                     data-nav-item
-                    aria-label="View all results button"
+                    aria-label="{`View all ${total} results`} button"
                     className="group relative inline-flex items-center gap-xs cursor-pointer"
                     onClick={onViewAllSearchResults}
                   >
@@ -89,16 +88,13 @@ export const QuickResults = forwardRef<HTMLDivElement, QuickResultsProps>(
                           'text-content-link-inline-default': !transparent,
                         })}
                       >
-                        View all results
+                        {`View all ${total} results`}
                       </span>
                     </AnimatedTitle>
-                    <FontAwesomeIcon
-                      className={clsx({
+                    <ArrowRight className={clsx({
                         'text-content-inverse-primary': transparent,
                         'text-content-link-inline-default': !transparent,
-                      })}
-                      icon={faArrowRight}
-                    />
+                      })} />
                   </button>
                 </div>
               </>
@@ -124,7 +120,7 @@ export const QuickResults = forwardRef<HTMLDivElement, QuickResultsProps>(
                     'text-content-secondary': !transparent,
                   })}
                 >
-                  No results for
+                  {`No results for "${search.trim()}"`}
                 </span>
               </div>
             )}

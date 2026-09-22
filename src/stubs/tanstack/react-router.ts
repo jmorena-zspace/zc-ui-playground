@@ -5,10 +5,17 @@
  * `history.replaceState` followed by a synthetic `PopStateEvent` — see
  * `removeLessonParam` in lesson-side-panel.tsx.
  *
- * Add hooks here as more components come over (`useNavigate`, `useLocation`
- * and `Link` are used elsewhere in src/components and are not implemented).
+ * Add hooks here as more components come over (`useNavigate` is used
+ * elsewhere in src/components and is not implemented).
  */
-import { useEffect, useState } from 'react';
+import {
+  createElement,
+  useEffect,
+  useState,
+  type AnchorHTMLAttributes,
+  type ForwardedRef,
+  forwardRef,
+} from 'react';
 
 type RouterLocation = {
   href: string;
@@ -61,3 +68,22 @@ export function useRouter() {
 export function useCanGoBack(): boolean {
   return window.history.length > 1;
 }
+
+export function useLocation(): RouterLocation {
+  return useLocationSnapshot();
+}
+
+type LinkProps = Omit<AnchorHTMLAttributes<HTMLAnchorElement>, 'href'> & {
+  to: string;
+};
+
+/**
+ * Renders a plain anchor. Enough for components that only need a link that
+ * looks and focuses right; it does not do client-side navigation.
+ */
+export const Link = forwardRef(function Link(
+  { to, children, ...props }: LinkProps,
+  ref: ForwardedRef<HTMLAnchorElement>
+) {
+  return createElement('a', { ...props, href: to, ref }, children);
+});

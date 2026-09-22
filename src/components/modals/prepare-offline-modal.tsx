@@ -1,12 +1,5 @@
-import {
-  faArrowRotateLeft,
-  faCircleCheck,
-  faCircleXmark,
-  faDownload,
-  faXmark,
-} from '@awesome.me/kit-935ddc1468/icons/classic/solid';
+import { CircleCheck, CircleX, Download, RotateCcw, X } from 'lucide-react';
 import { BaseButton } from '@components/buttons/base-button/base-button';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { useQuery } from '@tanstack/react-query';
 import clsx from 'clsx';
@@ -27,6 +20,7 @@ export const PrepareOfflineModal: FC<PrepareOfflineModalProps> = ({
   onClose,
 }) => {
   const [syncState, setSyncState] = useState<SyncState>('syncing');
+  const StatusIcon = syncState === 'success' ? CircleCheck : CircleX;
   const abortControllerRef = useRef<AbortController | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -80,9 +74,9 @@ export const PrepareOfflineModal: FC<PrepareOfflineModalProps> = ({
       color="secondary"
       size="md"
       onClick={handleClose}
-      leftIcon={<FontAwesomeIcon icon={faXmark} />}
+      leftIcon={<X />}
     >
-      Offline cache close
+      Close
     </BaseButton>
   );
 
@@ -101,12 +95,9 @@ export const PrepareOfflineModal: FC<PrepareOfflineModalProps> = ({
       >
         <div className="flex items-center justify-between border-b border-border-system-subtle pb-md">
           <div className="flex items-center gap-sm">
-            <FontAwesomeIcon
-              icon={faDownload}
-              className="text-content-primary text-[24px]"
-            />
+            <Download className="text-content-primary text-[24px]" />
             <h2 className="text-body-lg font-bold text-content-primary">
-              Offline cache modal title
+              Preparing offline content
             </h2>
           </div>
           <button
@@ -115,14 +106,14 @@ export const PrepareOfflineModal: FC<PrepareOfflineModalProps> = ({
             className="icon-btn icon-btn-on-surface text-content-secondary"
             aria-label="Close"
           >
-            <FontAwesomeIcon icon={faXmark} className="w-3 h-3" />
+            <X className="w-3 h-3" />
           </button>
         </div>
 
         {syncState === 'syncing' && (
           <>
             <p className="text-body-md font-regular text-content-secondary text-center">
-              Offline cache downloading message
+              Downloading your lessons so they work without a connection.
             </p>
 
             <div className="flex flex-col gap-lg items-center">
@@ -137,8 +128,7 @@ export const PrepareOfflineModal: FC<PrepareOfflineModalProps> = ({
         {syncState !== 'syncing' && (
           <>
             <div className="flex justify-center">
-              <FontAwesomeIcon
-                icon={syncState === 'success' ? faCircleCheck : faCircleXmark}
+              <StatusIcon
                 className={clsx(
                   'text-[96px]',
                   syncState === 'success'
@@ -162,7 +152,7 @@ export const PrepareOfflineModal: FC<PrepareOfflineModalProps> = ({
                 onClick={syncState === 'success' ? handleClose : startSync}
                 leftIcon={
                   syncState === 'error' ? (
-                    <FontAwesomeIcon icon={faArrowRotateLeft} />
+                    <RotateCcw />
                   ) : undefined
                 }
               >

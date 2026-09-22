@@ -1,6 +1,5 @@
-import { faMagnifyingGlass } from '@awesome.me/kit-935ddc1468/icons/classic/solid';
+import { Search } from 'lucide-react';
 import { Spinner } from '@components/ui/spinner';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { MAX_SEARCH_QUERY_LENGTH } from '@zcentral-v2/search';
 import clsx from 'clsx';
 import { InputHTMLAttributes, KeyboardEvent, useState } from 'react';
@@ -70,16 +69,13 @@ export function SearchInput({
     <div className="flex flex-col gap-xxs w-full">
       <div className={clsx(searchInputTheme.base, variantStyles.container)}>
         <div className={clsx(searchInputTheme.inner, variantStyles.inner)}>
-          <FontAwesomeIcon
-            icon={faMagnifyingGlass}
-            className={clsx(searchInputTheme.icon, variantStyles.icon)}
-          />
+          <Search className={clsx(searchInputTheme.icon, variantStyles.icon)} />
           <input
             ref={inputRef}
             type="search"
             aria-label="Search input"
             className={clsx(searchInputTheme.input, variantStyles.input)}
-            placeholder="Search long placeholder"
+            placeholder="Search lessons and applications"
             value={value}
             onChange={onChange}
             onKeyDown={handleKeyDown}

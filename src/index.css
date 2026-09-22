@@ -299,6 +299,11 @@
   --color-bg-surface-disabled: var(--color-dark-900);
   --color-bg-surface-selected: var(--color-dark-600);
   --color-bg-surface-hover: var(--color-dark-600);
+  /* Added for the playground: the surface of the row whose details are open.
+     hover / selected / pressed all resolve to dark-600, so an active row had
+     no role of its own and was reaching straight for the dark-500 primitive,
+     which cannot be themed. Same value as before in dark. */
+  --color-bg-surface-active: var(--color-dark-500);
   /* Used as background for content cards (lessons, applications) */
   --color-bg-surface-form: var(--color-dark-700);
   --color-bg-surface-brand-default: var(--color-dark-400);

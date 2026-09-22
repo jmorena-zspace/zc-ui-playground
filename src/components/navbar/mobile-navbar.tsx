@@ -1,15 +1,7 @@
+import { CircleHelp, Search, Settings, X } from 'lucide-react';
 import { ZCentralLogo } from '@assets/zcentral-logo';
-import {
-  faCircleQuestion,
-  faCog,
-} from '@awesome.me/kit-935ddc1468/icons/classic/regular';
-import {
-  faMagnifyingGlass,
-  faXmark,
-} from '@awesome.me/kit-935ddc1468/icons/classic/solid';
 import { LanguageSwitcher } from '@components/language-switcher';
 import { mainContainer } from '@constants/theme';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useGlobalSearch } from '@hooks/global-search';
 import { Link, useMatchRoute, useNavigate } from '@tanstack/react-router';
 import clsx from 'clsx';
@@ -65,20 +57,14 @@ export const MobileNavbar: FC = () => {
                 }
                 onClick={toggleSearch}
               >
-                <FontAwesomeIcon
-                  icon={faMagnifyingGlass}
-                  className={clsx(animatedSearchIconClassname, {
+                <Search className={clsx(animatedSearchIconClassname, {
                     'opacity-0 scale-50 rotate-90': searchOpen,
                     'opacity-100 scale-100 rotate-0': !searchOpen,
-                  })}
-                />
-                <FontAwesomeIcon
-                  icon={faXmark}
-                  className={clsx(animatedSearchIconClassname, {
+                  })} />
+                <X className={clsx(animatedSearchIconClassname, {
                     'opacity-100 scale-100 rotate-0': searchOpen,
                     'opacity-0 scale-50 -rotate-90': !searchOpen,
-                  })}
-                />
+                  })} />
               </button>
             )}
             <LanguageSwitcher />
@@ -87,14 +73,14 @@ export const MobileNavbar: FC = () => {
               className="icon-btn icon-btn-on-dark text-content-action-on-primary-default"
               aria-label="Settings"
             >
-              <FontAwesomeIcon className="h-4 w-4" icon={faCog} />
+              <Settings className="h-4 w-4" />
             </Link>
             <Link
               to="/help"
               className="icon-btn icon-btn-on-dark text-content-action-on-primary-default"
               aria-label="Help page"
             >
-              <FontAwesomeIcon icon={faCircleQuestion} />
+              <CircleHelp />
             </Link>
           </div>
         </div>

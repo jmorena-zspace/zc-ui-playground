@@ -36,7 +36,7 @@ export function CollectionCard({
           {title}
         </h2>
         <span className="text-body-sm text-content-primary font-regular">
-          Collection lessons count
+          {`${lessonsCount} lessons`}
         </span>
       </Accordion.Title>
       <Accordion.Content>

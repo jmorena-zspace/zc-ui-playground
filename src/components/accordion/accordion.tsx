@@ -1,5 +1,4 @@
-import { faChevronDown } from '@awesome.me/kit-935ddc1468/icons/classic/solid';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { ChevronDown } from 'lucide-react';
 import clsx from 'clsx';
 import { createContext, PropsWithChildren, useContext, useState } from 'react';
 
@@ -61,15 +60,12 @@ function AccordionTitle({
     typeof className === 'function' ? className(isOpen) : className;
 
   const arrowIcon = (
-    <FontAwesomeIcon
-      icon={faChevronDown}
-      className={clsx(
+    <ChevronDown className={clsx(
         'transition-transform duration-300 ease-out text-content-primary',
         {
           'rotate-180': isOpen,
         }
-      )}
-    />
+      )} />
   );
 
   return (

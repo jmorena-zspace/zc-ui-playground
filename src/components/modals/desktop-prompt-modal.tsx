@@ -1,10 +1,5 @@
-import {
-  faArrowUpRightFromSquare,
-  faPlugCircleXmark,
-  faXmark,
-} from '@awesome.me/kit-935ddc1468/icons/classic/solid';
+import { ExternalLink, Unplug, X } from 'lucide-react';
 import { BaseButton } from '@components/buttons/base-button/base-button';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useDeepLink } from '@hooks/deep-link';
 import { useDesktopNativeAppStore } from '@stores/desktop-native-app';
 import { FC, useCallback, useEffect, useRef, useState } from 'react';
@@ -48,12 +43,9 @@ export const DesktopPromptModal: FC = () => {
       >
         <div className="flex items-center justify-between border-b border-border-system-subtle pb-md">
           <div className="flex items-center gap-sm">
-            <FontAwesomeIcon
-              icon={faPlugCircleXmark}
-              className="text-content-primary text-[24px]"
-            />
+            <Unplug className="text-content-primary text-[24px]" />
             <h2 className="text-body-lg font-bold text-content-primary">
-              Desktop prompt modal title
+              Open in the desktop app?
             </h2>
           </div>
           <button
@@ -62,12 +54,12 @@ export const DesktopPromptModal: FC = () => {
             className="icon-btn icon-btn-on-surface text-content-secondary"
             aria-label="Close"
           >
-            <FontAwesomeIcon icon={faXmark} className="w-3 h-3" />
+            <X className="w-3 h-3" />
           </button>
         </div>
 
         <p className="text-body-md font-regular text-content-secondary text-center">
-          Desktop prompt modal description
+          zCentral Desktop launches applications straight onto this device.
         </p>
 
         <div className="flex flex-col items-center gap-lg">
@@ -77,12 +69,9 @@ export const DesktopPromptModal: FC = () => {
             onClick={launchZcentralDesktopApp}
           >
             <span className="text-body-md font-medium ">
-              Launch zcentral desktop
+              Launch zCentral Desktop
             </span>
-            <FontAwesomeIcon
-              icon={faArrowUpRightFromSquare}
-              className="w-3 h-3"
-            />
+            <ExternalLink className="w-3 h-3" />
           </BaseButton>
 
           <button
@@ -90,7 +79,7 @@ export const DesktopPromptModal: FC = () => {
             onClick={onClose}
             className="text-body-md font-medium text-content-primary underline hover:text-content-link-action-hover transition-colors duration-200 cursor-pointer"
           >
-            Desktop prompt modal continue in browser
+            Continue in the browser
           </button>
         </div>
       </div>

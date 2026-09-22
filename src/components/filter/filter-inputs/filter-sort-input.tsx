@@ -1,9 +1,4 @@
-import {
-  faArrowUp,
-  faArrowUpArrowDown,
-  faChevronDown,
-} from '@awesome.me/kit-935ddc1468/icons/classic/solid';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { ArrowUp, ArrowUpDown, ChevronDown } from 'lucide-react';
 import { handleArrowNavigation } from '@shared/utils';
 import { SortDirection } from '@zcentral-v2/types';
 import clsx from 'clsx';
@@ -69,9 +64,7 @@ export function FilterSortInput<T>({
     }
 
     return (
-      <FontAwesomeIcon
-        size="sm"
-        icon={faArrowUp}
+      <ArrowUp size="sm"
         className={clsx(
           'text-content-primary transition-transform duration-200 ease-in-out',
           {
@@ -80,8 +73,7 @@ export function FilterSortInput<T>({
             'opacity-100': isSelected,
             'opacity-0': !isSelected,
           }
-        )}
-      />
+        )} />
     );
   };
 
@@ -114,15 +106,12 @@ export function FilterSortInput<T>({
           variant="menu"
           renderTrigger={(isOpen) => (
             <FilterButton
-              leftIcon={<FontAwesomeIcon icon={faArrowUpArrowDown} />}
+              leftIcon={<ArrowUpDown />}
               rightIcon={
-                <FontAwesomeIcon
-                  icon={faChevronDown}
-                  className={clsx(
+                <ChevronDown className={clsx(
                     'transition-transform duration-200 ease-in-out',
                     { 'rotate-180': isOpen }
-                  )}
-                />
+                  )} />
               }
               active={isOpen}
             >

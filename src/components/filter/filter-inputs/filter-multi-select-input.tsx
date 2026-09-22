@@ -1,6 +1,5 @@
+import { ChevronDown } from 'lucide-react';
 import { NoResultsIcon } from '@assets/no-results';
-import { faChevronDown } from '@awesome.me/kit-935ddc1468/icons/classic/solid';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { handleArrowNavigation } from '@shared/utils';
 import clsx from 'clsx';
 import { ClearButton } from '../buttons/clear-button';
@@ -93,13 +92,10 @@ export function FilterMultiSelectInput<T>({
           renderTrigger={(isOpen) => (
             <FilterButton
               rightIcon={
-                <FontAwesomeIcon
-                  icon={faChevronDown}
-                  className={clsx(
+                <ChevronDown className={clsx(
                     'transition-transform duration-200 ease-in-out',
                     { 'rotate-180': isOpen }
-                  )}
-                />
+                  )} />
               }
               active={isOpen}
             >
@@ -140,7 +136,7 @@ export function FilterMultiSelectInput<T>({
             <div className="flex flex-col items-center justify-center gap-xs p-xs">
               <NoResultsIcon className="w-10 h-10 text-content-inverse-tertiary" />
               <span className="text-body-md font-regular text-content-secondary">
-                No results for
+                {`No results for "${filterQuery.query}"`}
               </span>
             </div>
           )}

@@ -77,7 +77,7 @@ const FooterLink: FC<FooterLinkProps> = ({ href, label }) => {
       className="text-content-action-on-primary-default hover:underline"
       target="_blank"
       rel="noopener noreferrer"
-      aria-label="External link"
+      aria-label={`${label} (opens in a new tab)`}
     >
       {label}
     </a>

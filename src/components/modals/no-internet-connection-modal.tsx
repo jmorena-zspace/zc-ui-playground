@@ -1,12 +1,6 @@
-import {
-  faArrowRight,
-  faPlugCircleXmark,
-  faRefresh,
-  faXmark,
-} from '@awesome.me/kit-935ddc1468/icons/classic/solid';
+import { ArrowRight, RefreshCw, Unplug, X } from 'lucide-react';
 import { BaseButton } from '@components/buttons/base-button/base-button';
 import { environment } from '@constants/environment';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import clsx from 'clsx';
 import { FC, useCallback, useRef, useState } from 'react';
 import { BlurredModal } from './blurred-modal';
@@ -50,12 +44,9 @@ export const NoInternetConnectionModal: FC<NoInternetConnectionModalProps> = ({
       >
         <div className="flex items-center justify-between border-b border-border-system-subtle pb-md">
           <div className="flex items-center gap-sm">
-            <FontAwesomeIcon
-              icon={faPlugCircleXmark}
-              className="text-content-primary text-[24px]"
-            />
+            <Unplug className="text-content-primary text-[24px]" />
             <h2 className="text-body-lg font-bold text-content-primary">
-              No internet connection modal title
+              You are offline
             </h2>
           </div>
           <button
@@ -64,41 +55,38 @@ export const NoInternetConnectionModal: FC<NoInternetConnectionModalProps> = ({
             className="icon-btn icon-btn-on-surface text-content-secondary"
             aria-label="Close"
           >
-            <FontAwesomeIcon icon={faXmark} className="w-3 h-3" />
+            <X className="w-3 h-3" />
           </button>
         </div>
 
         <div className="flex flex-col gap-md text-body-md font-regular text-content-secondary text-center">
-          <p>No internet connection modal message 1</p>
-          <p>No internet connection modal message 2</p>
+          <p>Some content needs a connection to load.</p>
+          <p>Lessons you have already opened stay available.</p>
           <p>
-            No internet connection modal message 3
+            Launching an installed application still works.
             <a
               href={environment.supportUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="text-content-brand-default underline"
             >
-              No internet connection modal message 4
+              We will reconnect on its own once you are back.
             </a>
           </p>
         </div>
 
         <div className="flex items-center justify-center gap-lg">
           <BaseButton color="secondary" size="md" onClick={handleRetry}>
-            <FontAwesomeIcon
-              icon={faRefresh}
-              className={clsx({ 'animate-spin': isRetrying })}
-            />
+            <RefreshCw className={clsx({ 'animate-spin': isRetrying })} />
             <span className="text-body-md font-medium ">
-              Retry button
+              Try again
             </span>
           </BaseButton>
           <BaseButton color="primary" size="md" onClick={onClose}>
             <span className="text-body-md font-medium ">
-              Continue offline button
+              Continue offline
             </span>
-            <FontAwesomeIcon icon={faArrowRight} className="w-3 h-3" />
+            <ArrowRight className="w-3 h-3" />
           </BaseButton>
         </div>
       </div>

@@ -50,6 +50,10 @@ export type ContentItem = {
   subjects: Subject[];
   apps?: LessonApplication[];
   type?: ContentType;
+  /** Set when the item is an application rather than a lesson. */
+  iconUrl?: string;
+  launchCode?: string;
+  platform?: ContentPlatform;
 };
 
 export type LessonFile = {

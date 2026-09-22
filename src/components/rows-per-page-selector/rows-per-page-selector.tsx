@@ -53,7 +53,7 @@ export const RowsPerPageSelector: FC<RowsPerPageSelectorProps> = ({
         </SelectContent>
       </Select>
       <span className="text-body-md font-normal text-content-tertiary">
-        Start item end item of total items
+        {`${startItem}–${endItem} of ${totalItems}`}
       </span>
     </div>
   );

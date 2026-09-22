@@ -1,8 +1,5 @@
+import { CircleHelp, Settings } from 'lucide-react';
 import { ZCentralLogo } from '@assets/zcentral-logo';
-import {
-  faCircleQuestion,
-  faCog,
-} from '@awesome.me/kit-935ddc1468/icons/classic/regular';
 import { DesktopBadge } from '@components/badges/desktop-badge';
 import { NoInternetConnectionBadge } from '@components/badges/internet-connection-badge';
 import { SearchTrigger } from '@components/inputs';
@@ -10,7 +7,6 @@ import { LanguageSwitcher } from '@components/language-switcher';
 import { GlobalSearchModal } from '@components/modals';
 import { NoInternetConnectionModal } from '@components/modals/no-internet-connection-modal';
 import { mainContainer } from '@constants/theme';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useInternetConnection } from '@hooks/internet-connection';
 import { useSpotlightShortcut } from '@hooks/spotlight-shortcut';
 import { useDesktopNativeAppStore } from '@stores/desktop-native-app';
@@ -49,7 +45,7 @@ export const DesktopNavbar: FC = () => {
       setShowNoInternetConnectionModal(false);
       setHasNotifiedOffline(true);
     } else {
-      toast.error('Failed to reconnect message');
+      toast.error('We could not reconnect. Check your connection.');
     }
   };
 
@@ -104,14 +100,14 @@ export const DesktopNavbar: FC = () => {
                 className="icon-btn icon-btn-on-dark text-content-action-on-primary-default"
                 aria-label="Settings"
               >
-                <FontAwesomeIcon className="h-4 w-4" icon={faCog} />
+                <Settings className="h-4 w-4" />
               </Link>
               <Link
                 to="/help"
                 className="icon-btn icon-btn-on-dark text-content-action-on-primary-default"
                 aria-label="Help page"
               >
-                <FontAwesomeIcon icon={faCircleQuestion} />
+                <CircleHelp />
               </Link>
             </div>
           </div>

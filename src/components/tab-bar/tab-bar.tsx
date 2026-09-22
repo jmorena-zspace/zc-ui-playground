@@ -1,12 +1,9 @@
-import {
-  FontAwesomeIcon,
-  FontAwesomeIconProps,
-} from '@fortawesome/react-fontawesome';
+import type { LucideIcon } from 'lucide-react';
 import { Link, useLocation } from '@tanstack/react-router';
 import clsx from 'clsx';
 import { CSSProperties, FC, useEffect, useRef, useState } from 'react';
 
-type IconProp = FontAwesomeIconProps['icon'];
+type IconProp = LucideIcon;
 
 export type Tab = {
   label: string;
@@ -86,6 +83,8 @@ export const TabBar: FC<TabBarProps> = ({ tabs, 'aria-label': ariaLabel }) => {
     >
       {tabs.map((tab) => {
         const isActive = location.pathname.startsWith(tab.to);
+        const Icon = tab.icon;
+        const ActiveIcon = tab.activeIcon;
 
         return (
           <Link
@@ -105,17 +104,15 @@ export const TabBar: FC<TabBarProps> = ({ tabs, 'aria-label': ariaLabel }) => {
               }
             }}
           >
-            {tab.activeIcon ? (
+            {ActiveIcon ? (
               <span className="relative w-4 h-4 inline-flex items-center justify-center">
-                <FontAwesomeIcon
-                  icon={tab.icon}
+                <Icon
                   className={clsx(
                     'absolute transition-all duration-300 ease-out',
                     isActive ? 'opacity-0 scale-75' : 'opacity-100 scale-100'
                   )}
                 />
-                <FontAwesomeIcon
-                  icon={tab.activeIcon}
+                <ActiveIcon
                   className={clsx(
                     'absolute transition-all duration-300 ease-out',
                     isActive ? 'opacity-100 scale-100' : 'opacity-0 scale-75'
@@ -123,7 +120,7 @@ export const TabBar: FC<TabBarProps> = ({ tabs, 'aria-label': ariaLabel }) => {
                 />
               </span>
             ) : (
-              <FontAwesomeIcon icon={tab.icon} />
+              <Icon className="w-4 h-4" />
             )}
             <span>{tab.label}</span>
           </Link>

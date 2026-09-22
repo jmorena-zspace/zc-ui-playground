@@ -1,9 +1,4 @@
-import {
-  faCheck,
-  faChevronDown,
-  faChevronUp,
-} from '@awesome.me/kit-935ddc1468/icons/classic/solid';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Check, ChevronDown, ChevronUp } from 'lucide-react';
 import { cn } from '@shared/utils';
 import { Select as SelectPrimitive } from 'radix-ui';
 import * as React from 'react';
@@ -103,10 +98,7 @@ function SelectTrigger({
     >
       {children}
       <SelectPrimitive.Icon asChild>
-        <FontAwesomeIcon
-          icon={faChevronDown}
-          className="text-body-sm transition-transform duration-200 ease-in-out in-data-[state=open]:rotate-180"
-        />
+        <ChevronDown className="text-body-sm transition-transform duration-200 ease-in-out in-data-[state=open]:rotate-180" />
       </SelectPrimitive.Icon>
     </SelectPrimitive.Trigger>
   );
@@ -197,7 +189,7 @@ function SelectItem({
         className="absolute right-2 flex size-3.5 items-center justify-center"
       >
         <SelectPrimitive.ItemIndicator>
-          <FontAwesomeIcon icon={faCheck} className="text-xs" />
+          <Check className="text-xs" />
         </SelectPrimitive.ItemIndicator>
       </span>
       <SelectPrimitive.ItemText>{children}</SelectPrimitive.ItemText>
@@ -234,7 +226,7 @@ function SelectScrollUpButton({
       )}
       {...props}
     >
-      <FontAwesomeIcon icon={faChevronUp} className="text-body-sm" />
+      <ChevronUp className="text-body-sm" />
     </SelectPrimitive.ScrollUpButton>
   );
 }
@@ -252,7 +244,7 @@ function SelectScrollDownButton({
       )}
       {...props}
     >
-      <FontAwesomeIcon icon={faChevronDown} className="text-body-sm" />
+      <ChevronDown className="text-body-sm" />
     </SelectPrimitive.ScrollDownButton>
   );
 }

@@ -11,7 +11,7 @@ export const ForbiddenError: FC<ForbiddenErrorProps> = ({ message }) => {
   return (
     <div className="flex flex-col text-center items-center justify-center gap-md">
       <h2 className="text-display-lg md:text-display-xl font-bold text-content-inverse-primary">
-        Forbidden error title
+        You do not have access
       </h2>
 
       {isDevelopment && (
@@ -21,7 +21,7 @@ export const ForbiddenError: FC<ForbiddenErrorProps> = ({ message }) => {
       )}
 
       <p className="text-body-lg md:text-display-xs text-content-inverse-secondary">
-        Forbidden error message
+        Ask an administrator if you think this is a mistake.
       </p>
     </div>
   );

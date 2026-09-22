@@ -1,8 +1,4 @@
-import {
-  faCheck,
-  faXmark,
-} from '@awesome.me/kit-935ddc1468/icons/classic/solid';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Check, X } from 'lucide-react';
 import { Dialog, VisuallyHidden } from 'radix-ui';
 import { PropsWithChildren, ReactNode } from 'react';
 
@@ -39,10 +35,11 @@ export function FilterModal({
               onClick={onClose}
               className="flex items-center justify-center p-xs rounded-full hover:bg-bg-action-tertiary-hover transition-colors cursor-pointer shrink-0"
             >
-              <FontAwesomeIcon
-                icon={hasFiltersApplied ? faCheck : faXmark}
-                className="h-4 w-4 text-content-secondary"
-              />
+              {hasFiltersApplied ? (
+                <Check className="h-4 w-4 text-content-secondary" />
+              ) : (
+                <X className="h-4 w-4 text-content-secondary" />
+              )}
             </button>
           </div>
           {children}

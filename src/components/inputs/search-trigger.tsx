@@ -1,6 +1,5 @@
-import { faMagnifyingGlass } from '@awesome.me/kit-935ddc1468/icons/classic/solid';
+import { Search } from 'lucide-react';
 import { KeyboardShortcut } from '@components/ui/keyboard-shortcut';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { usePressedKeys } from '@hooks/pressed-keys';
 import { useSpotlightShortcut } from '@hooks/spotlight-shortcut';
 import clsx from 'clsx';
@@ -33,17 +32,14 @@ export function SearchTrigger({
       )}
     >
       <div className={clsx(searchInputTheme.inner, variantStyles.inner)}>
-        <FontAwesomeIcon
-          icon={faMagnifyingGlass}
-          className={clsx(searchInputTheme.icon, variantStyles.icon)}
-        />
+        <Search className={clsx(searchInputTheme.icon, variantStyles.icon)} />
         <span
           className={clsx(
             'flex-1 min-w-0 text-left text-body-md font-regular truncate',
             variantStyles.input
           )}
         >
-          Search short placeholder
+          Search
         </span>
         <KeyboardShortcut
           accelerator={accelerator}
