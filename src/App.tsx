@@ -13,6 +13,7 @@ import { TooltipProvider } from '@components/ui/tooltip'
 const queryClient = new QueryClient()
 import { useHashRoute } from '@/lib/use-hash-route'
 import { LessonCardPlayground } from '@pages/lesson-card-playground'
+import { FacetedFilters } from '@pages/faceted-filters'
 import { ThemeLab } from '@pages/theme-lab'
 
 const ENTRIES = [
@@ -25,6 +26,11 @@ const ENTRIES = [
     route: 'theme',
     title: 'Theme lab',
     description: 'Build the light mode against the real components.',
+  },
+  {
+    route: 'faceted-filters',
+    title: 'Faceted filters',
+    description: 'Drill into a three-level Subject/Pathway filter.',
   },
 ]
 
@@ -85,6 +91,8 @@ function App() {
           <LessonCardPlayground onBack={() => navigate('')} />
         ) : route === 'theme' ? (
           <ThemeLab onBack={() => navigate('')} />
+        ) : route === 'faceted-filters' ? (
+          <FacetedFilters onBack={() => navigate('')} />
         ) : (
           <Landing onOpen={navigate} />
         )}

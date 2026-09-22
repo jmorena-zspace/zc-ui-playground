@@ -1847,6 +1847,16 @@ export const UTILITY_ROLES: Record<string, UtilityUse[]> = {
       "state": "resting"
     }
   ],
+  "filter-checkbox-partial": [
+    {
+      "role": "--color-border-action-primary-selected",
+      "state": "resting"
+    },
+    {
+      "role": "--color-bg-surface-selected",
+      "state": "resting"
+    }
+  ],
   "filter-radio": [
     {
       "role": "--color-border-system-strong",

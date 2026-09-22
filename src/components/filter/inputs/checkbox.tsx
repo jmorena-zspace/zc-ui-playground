@@ -2,12 +2,15 @@ import clsx from 'clsx';
 
 type FilterCheckboxProps = {
   checked: boolean;
+  /** Some, but not all, of this row's descendants are selected. */
+  partial?: boolean;
   label: string;
   className?: string;
 };
 
 export function FilterCheckbox({
   checked,
+  partial = false,
   label,
   className,
 }: FilterCheckboxProps) {
@@ -17,6 +20,7 @@ export function FilterCheckbox({
         aria-hidden="true"
         className={clsx('filter-checkbox', className, {
           'filter-checkbox-checked': checked,
+          'filter-checkbox-partial': !checked && partial,
         })}
       />
       <span
