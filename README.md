@@ -99,21 +99,17 @@ so they are inert (and still import FontAwesome).
 colour values (which render dark); the lab treats those as locked and lets you
 author a light set beside them.
 
-- The canvas is a **mosaic of 31 specimens** — cards, buttons, badges, form
-  controls, navigation, feedback — sitting straight on the surface with no
-  titles or containers, filterable by group. Components repeat with different
-  content, and like elements are ordered apart so they do not clump.
-  `src/theme-lab/mosaic.tsx` packs them: each specimen declares a column span
-  and its row span is measured, so items of different widths and heights sit
-  together. CSS columns cannot do that — they force one measure on every
-  column, which squashed the lesson cards.
+- The canvas stacks five real components at the app's own measure: a lesson
+  card, the filter bar with its dropdowns, global search results, pagination
+  and the tab bar. All content is hardcoded — the lab never calls an API.
 - The rail lists the **76 semantic roles the components actually reference**,
   grouped and searchable, each row showing one chip: the value for the mode you
   are in. Picking opens the palette from `index.css`. Dark rows are read-only.
 - **Isolate on hover** (on by default, toggleable): hovering a role dims every
-  specimen that does not paint with it to 30% and rings the exact elements that
-  do. It matches Tailwind's class names rather than computed styles, anchored to
-  the end of the class so `bg-skeleton` cannot claim `bg-skeleton-inverse`.
+  component that does not paint with it to 30% and rings the exact elements
+  that do. It matches Tailwind's class names rather than computed styles,
+  anchored to the end of the class so `bg-skeleton` cannot claim
+  `bg-skeleton-inverse`.
 - Light values start from a **generated guess** (`src/theme-lab/light-guess.ts`)
   that mirrors each role's position in its ramp, keeps brand and overlay roles
   as they are, and sends the `dark`/`midnight` ramps to `neutral`. It is a

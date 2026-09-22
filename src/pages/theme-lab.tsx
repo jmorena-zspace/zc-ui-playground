@@ -1,11 +1,6 @@
 import { elementsUsingRole } from '@/theme-lab/highlight'
 import { RoleRail } from '@/theme-lab/role-rail'
-import { MosaicBoard, MosaicItem } from '@/theme-lab/mosaic'
-import {
-  GROUP_LABELS,
-  SPECIMENS,
-  type SpecimenGroup,
-} from '@/theme-lab/specimens'
+import { SPECIMENS } from '@/theme-lab/specimens'
 import { serializeTheme } from '@/theme-lab/theme-css'
 import { useLightTheme } from '@/theme-lab/use-light-theme'
 import clsx from 'clsx'
@@ -21,24 +16,15 @@ import {
 import { useEffect, useRef, useState, type FC } from 'react'
 import { toast } from 'sonner'
 
-type Selection = SpecimenGroup | 'all'
-
 const FILE_NAME = 'zc-light-theme.css'
-const GROUPS = Object.keys(GROUP_LABELS) as SpecimenGroup[]
 
 export const ThemeLab: FC<{ onBack: () => void }> = ({ onBack }) => {
   const { theme, mode, setMode, setRole, resetRole, resetAll, importCss, guess } =
     useLightTheme()
-  const [selection, setSelection] = useState<Selection>('all')
   const [isolate, setIsolate] = useState(true)
   const [hoveredRole, setHoveredRole] = useState<string | null>(null)
   const canvasRef = useRef<HTMLDivElement>(null)
   const fileInput = useRef<HTMLInputElement>(null)
-
-  const shown =
-    selection === 'all'
-      ? SPECIMENS
-      : SPECIMENS.filter((specimen) => specimen.group === selection)
 
   /**
    * Hovering a role dims every card that does not paint with it and rings the
@@ -76,7 +62,7 @@ export const ThemeLab: FC<{ onBack: () => void }> = ({ onBack }) => {
     }
 
     return clear
-  }, [hoveredRole, isolate, selection, theme, mode])
+  }, [hoveredRole, isolate, theme, mode])
 
   const onExport = () => {
     const blob = new Blob([serializeTheme(theme)], { type: 'text/css' })
@@ -125,20 +111,6 @@ export const ThemeLab: FC<{ onBack: () => void }> = ({ onBack }) => {
             <ArrowLeft className="h-4 w-4" />
             Back
           </button>
-
-          <select
-            value={selection}
-            onChange={(e) => setSelection(e.target.value as Selection)}
-            className="rounded-sm border border-dark-600 bg-dark-900 px-xs py-xxs text-body-md text-dark-50 focus:border-dark-300 focus:outline-none"
-            aria-label="Elements to show"
-          >
-            <option value="all">All elements</option>
-            {GROUPS.map((group) => (
-              <option key={group} value={group}>
-                {GROUP_LABELS[group]}
-              </option>
-            ))}
-          </select>
 
           <div
             role="group"
@@ -230,19 +202,19 @@ export const ThemeLab: FC<{ onBack: () => void }> = ({ onBack }) => {
           data-main-scroll-container
           className="min-h-0 flex-1 overflow-auto bg-bg-surface-default p-lg"
         >
-          {/* No titles or containers: the components sit straight on the
-              canvas, which is the surface they are being themed against. */}
-          <MosaicBoard>
-            {shown.map((specimen) => (
-              <MosaicItem
+          {/* Stacked at the same measure as the card playground, so the
+              components get the width they were designed for. */}
+          <div className="mx-auto flex max-w-[1080px] flex-col gap-xxl">
+            {SPECIMENS.map((specimen) => (
+              <div
                 key={specimen.id}
-                cols={specimen.cols}
-                specimenId={specimen.id}
+                data-specimen={specimen.id}
+                className="transition-opacity duration-200"
               >
                 <specimen.render />
-              </MosaicItem>
+              </div>
             ))}
-          </MosaicBoard>
+          </div>
         </div>
       </div>
     </div>

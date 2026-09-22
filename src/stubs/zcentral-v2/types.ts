@@ -50,6 +50,8 @@ export type ContentItem = {
   subjects: Subject[];
   apps?: LessonApplication[];
   type?: ContentType;
+  /** What the item is; search results switch on this to pick a card. */
+  contentType?: ContentType;
   /** Set when the item is an application rather than a lesson. */
   iconUrl?: string;
   launchCode?: string;

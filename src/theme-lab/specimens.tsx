@@ -1,125 +1,90 @@
-import { Accordion } from '@components/accordion'
-import { ContentBadge, ContentBadgeType } from '@components/badges/content-badge'
-import { DesktopBadge } from '@components/badges/desktop-badge/desktop-badge'
-import { LaunchCodeBadge } from '@components/badges/launch-code-badge'
-import { BaseButton } from '@components/buttons/base-button/base-button'
-import { ApplicationCard } from '@components/cards/application-card/application-card'
-import { CollectionCard } from '@components/cards/collection-card/collection-card'
 import { LessonCard } from '@components/cards/lesson-card/lesson-card'
-import { LessonFileCard } from '@components/cards/lesson-file-card/lesson-file-card'
-import { SubjectCard } from '@components/cards/subject-card/subject-card'
-import { BadRequestError } from '@components/errors/bad-request-error/bad-request-error'
-import { NotFoundError } from '@components/errors/not-found-error/not-found-error'
-import { ClearButton } from '@components/filter/buttons/clear-button'
-import { FilterButton } from '@components/filter/buttons/filter-button'
-import { FilterCheckbox } from '@components/filter/inputs/checkbox'
-import { FilterRadio } from '@components/filter/inputs/radio'
-import { PaginationFooter } from '@components/pagination-footer/pagination-footer'
+import { Filter } from '@components/filter/filter'
+import { FilterInputType, type FiltersData } from '@components/filter/types'
 import { Pagination } from '@components/pagination/pagination'
-import { SelectionMenu } from '@components/selection-menu'
-import { Subject as SubjectChip } from '@components/subject'
+import { QuickResults } from '@components/quick-results/quick-results'
 import { TabBar } from '@components/tab-bar/tab-bar'
-import { Label } from '@components/ui/label'
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@components/ui/select'
-import { Skeleton } from '@components/ui/skeleton'
-import { Spinner } from '@components/ui/spinner'
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from '@components/ui/tooltip'
 import {
   andOrCircuits,
-  biology,
   bioDigitalHuman,
-  chemistry,
-  franklinsLab,
   lessonSingleApp,
-  physics,
 } from '@fixtures/content-items'
-import { ContentPlatform, type ContentItem } from '@zcentral-v2/types'
+import { ContentType, SortDirection } from '@zcentral-v2/types'
 import { House, Layers, Rocket } from 'lucide-react'
 import { useState, type FC } from 'react'
 
 const noop = () => {}
 
-const webApplication: ContentItem = {
-  id: 'app-biodigital-item',
-  name: 'BioDigital Human',
-  iconUrl: lessonSingleApp.apps[0].iconUrl,
-  imageUrl: lessonSingleApp.imageUrl,
-  launchCode: 'BD',
-  platform: ContentPlatform.WEB,
-  subjects: [biology],
+type LessonFilters = {
+  subjects: string[]
+  sortBy: string
+  sortDirection: SortDirection
 }
 
-const sampleApplication: ContentItem = {
-  id: 'app-franklins-lab-item',
-  name: "Franklin's Lab",
-  iconUrl: andOrCircuits.apps[0].iconUrl,
-  imageUrl: andOrCircuits.imageUrl,
-  launchCode: 'FL',
-  platform: ContentPlatform.DESKTOP,
-  subjects: [physics],
+const FILTERS: FiltersData<LessonFilters> = {
+  subjects: {
+    title: 'Subjects',
+    value: ['physics'],
+    appliedCount: 1,
+    input: {
+      type: FilterInputType.MULTI_SELECT,
+      valueKey: 'subjects',
+      options: [
+        { label: 'Physics', value: 'physics' },
+        { label: 'Biology', value: 'biology' },
+        { label: 'Chemistry', value: 'chemistry' },
+        { label: 'Engineering & Technology', value: 'engineering' },
+        { label: 'Mathematics', value: 'mathematics' },
+      ],
+    },
+  },
+  sort: {
+    title: 'Sort',
+    value: { sortBy: 'name', sortDirection: SortDirection.ASC },
+    input: {
+      type: FilterInputType.SORT,
+      sortValueKey: 'sortBy',
+      sortDirectionKey: 'sortDirection',
+      options: [
+        { label: 'Name', value: 'name', sortDirectionEnabled: true },
+        { label: 'Recently added', value: 'created', sortDirectionEnabled: true },
+        { label: 'Relevance', value: 'relevance', sortDirectionEnabled: false },
+      ],
+    },
+  },
 }
 
-export type SpecimenGroup =
-  | 'cards'
-  | 'buttons'
-  | 'badges'
-  | 'forms'
-  | 'navigation'
-  | 'feedback'
+/** Search results are hardcoded — the lab never talks to an API. */
+const SEARCH_RESULTS = [
+  { ...andOrCircuits, contentType: ContentType.LESSON },
+  { ...lessonSingleApp, contentType: ContentType.LESSON },
+  { ...bioDigitalHuman, contentType: ContentType.LESSON },
+]
 
-export type Specimen = {
-  id: string
-  label: string
-  group: SpecimenGroup
-  /** Mosaic columns to span. A lesson card needs room; chips do not. */
-  cols: number
-  render: FC
-}
+const LessonCardSpecimen: FC = () => (
+  <LessonCard lesson={andOrCircuits} selectable onClick={noop} />
+)
 
-export const GROUP_LABELS: Record<SpecimenGroup, string> = {
-  cards: 'Cards',
-  buttons: 'Buttons',
-  badges: 'Badges & chips',
-  forms: 'Forms',
-  navigation: 'Navigation',
-  feedback: 'Feedback',
-}
+const FilterSpecimen: FC = () => (
+  <Filter<LessonFilters>
+    filtersData={FILTERS}
+    onFilterChange={noop}
+    onClearAllFilters={noop}
+  />
+)
 
-const FormControls: FC = () => {
-  const [checked, setChecked] = useState(true)
-  const [choice, setChoice] = useState('newest')
-  return (
-    <div className="flex flex-col gap-sm">
-      <button
-        type="button"
-        className="flex w-fit cursor-pointer items-center gap-xs"
-        onClick={() => setChecked((c) => !c)}
-      >
-        <FilterCheckbox checked={checked} label="Show only installed" />
-      </button>
-      {['newest', 'oldest'].map((value) => (
-        <button
-          key={value}
-          type="button"
-          className="flex w-fit cursor-pointer items-center gap-xs"
-          onClick={() => setChoice(value)}
-        >
-          <FilterRadio checked={choice === value} label={`Sort ${value}`} />
-        </button>
-      ))}
-    </div>
-  )
-}
+const GlobalSearchSpecimen: FC = () => (
+  <QuickResults
+    inline
+    showResults
+    resultsHaveHits
+    results={SEARCH_RESULTS}
+    total={SEARCH_RESULTS.length}
+    search="circuits"
+    onViewAllSearchResults={noop}
+    onLessonClick={noop}
+  />
+)
 
 const PaginationSpecimen: FC = () => {
   const [page, setPage] = useState(3)
@@ -133,385 +98,23 @@ const PaginationSpecimen: FC = () => {
   )
 }
 
-const PaginationFooterSpecimen: FC = () => {
-  const [page, setPage] = useState(3)
-  const [perPage, setPerPage] = useState(25)
-  return (
-    <PaginationFooter
-      currentPage={page}
-      totalItems={240}
-      itemsPerPage={perPage}
-      onItemsPerPageChange={setPerPage}
-      onPageChange={setPage}
-    />
-  )
-}
+const TabBarSpecimen: FC = () => (
+  <TabBar
+    aria-label="Theme lab tabs"
+    tabs={[
+      { label: 'Home', to: '#/theme', icon: House },
+      { label: 'Lessons', to: '#/theme', icon: Layers },
+      { label: 'Applications', to: '#/theme', icon: Rocket },
+    ]}
+  />
+)
+
+export type Specimen = { id: string; render: FC }
 
 export const SPECIMENS: Specimen[] = [
-  // Ordered so repeats of the same component land far apart in the mosaic.
-  {
-    id: 'lesson-card',
-    label: 'Lesson card',
-    group: 'cards',
-    cols: 4,
-    render: () => <LessonCard lesson={andOrCircuits} selectable onClick={noop} />,
-  },
-  {
-    id: 'buttons-colours',
-    label: 'Buttons',
-    group: 'buttons',
-    cols: 2,
-    render: () => (
-      <div className="flex flex-wrap gap-sm">
-        <BaseButton color="primary">Primary</BaseButton>
-        <BaseButton color="secondary">Secondary</BaseButton>
-        <BaseButton color="filter">Filter</BaseButton>
-        <BaseButton color="primary" disabled>
-          Disabled
-        </BaseButton>
-      </div>
-    ),
-  },
-  {
-    id: 'select',
-    label: 'Select',
-    group: 'forms',
-    cols: 2,
-    render: () => (
-      <div className="flex flex-col gap-xs">
-        <Label htmlFor="theme-lab-select">Subject</Label>
-        <Select defaultValue="all">
-          <SelectTrigger id="theme-lab-select" className="w-full">
-            <SelectValue placeholder="Pick a subject" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">All subjects</SelectItem>
-            <SelectItem value="physics">Physics</SelectItem>
-            <SelectItem value="biology">Biology</SelectItem>
-          </SelectContent>
-        </Select>
-      </div>
-    ),
-  },
-  {
-    id: 'content-badges',
-    label: 'Content badges',
-    group: 'badges',
-    cols: 2,
-    render: () => (
-      <div className="flex flex-wrap items-center gap-sm">
-        <ContentBadge type={ContentBadgeType.LESSON} />
-        <ContentBadge type={ContentBadgeType.APPLICATION} />
-        <DesktopBadge />
-      </div>
-    ),
-  },
-  {
-    id: 'application-card',
-    label: 'Application card',
-    group: 'cards',
-    cols: 3,
-    render: () => <ApplicationCard application={sampleApplication} />,
-  },
-  {
-    id: 'checkbox-radio',
-    label: 'Checkbox & radio',
-    group: 'forms',
-    cols: 2,
-    render: FormControls,
-  },
-  {
-    id: 'lesson-card-selected',
-    label: 'Lesson card — selected',
-    group: 'cards',
-    cols: 4,
-    render: () => (
-      <LessonCard lesson={lessonSingleApp} selectable selected onClick={noop} />
-    ),
-  },
-  {
-    id: 'launch-codes',
-    label: 'Launch codes',
-    group: 'badges',
-    cols: 2,
-    render: () => (
-      <div className="flex flex-wrap items-center gap-sm">
-        <LaunchCodeBadge text="FL-2481" />
-        <LaunchCodeBadge text="BD" />
-        <LaunchCodeBadge text="ZS-0097" />
-      </div>
-    ),
-  },
-  {
-    id: 'tab-bar',
-    label: 'Tab bar',
-    group: 'navigation',
-    cols: 2,
-    render: () => (
-      <TabBar
-        aria-label="Theme lab tabs"
-        tabs={[
-          { label: 'Home', to: '#/theme', icon: House },
-          { label: 'Lessons', to: '#/theme', icon: Layers },
-          { label: 'Apps', to: '#/theme', icon: Rocket },
-        ]}
-      />
-    ),
-  },
-  {
-    id: 'spinner',
-    label: 'Spinner',
-    group: 'feedback',
-    cols: 2,
-    render: () => (
-      <div className="flex items-center gap-sm">
-        <Spinner className="h-6 w-6 text-content-primary" />
-        <span className="text-body-md text-content-secondary">Loading…</span>
-      </div>
-    ),
-  },
-  {
-    id: 'collection-card',
-    label: 'Collection card',
-    group: 'cards',
-    cols: 3,
-    render: () => (
-      <CollectionCard title="Circuits and logic" lessonsCount={12}>
-        <div className="p-md">
-          <LessonCard lesson={andOrCircuits} compact onClick={noop} />
-        </div>
-      </CollectionCard>
-    ),
-  },
-  {
-    id: 'subject-chips',
-    label: 'Subject chips',
-    group: 'badges',
-    cols: 2,
-    render: () => (
-      <div className="flex flex-wrap items-center gap-sm">
-        <SubjectChip subject={physics} />
-        <SubjectChip subject={biology} />
-        <SubjectChip subject={chemistry} />
-      </div>
-    ),
-  },
-  {
-    id: 'pagination',
-    label: 'Pagination',
-    group: 'navigation',
-    cols: 2,
-    render: PaginationSpecimen,
-  },
-  {
-    id: 'tooltip',
-    label: 'Tooltip',
-    group: 'feedback',
-    cols: 1,
-    render: () => (
-      <Tooltip>
-        <TooltipTrigger asChild>
-          <BaseButton color="secondary">Hover me</BaseButton>
-        </TooltipTrigger>
-        <TooltipContent>Franklin&apos;s Lab not installed</TooltipContent>
-      </Tooltip>
-    ),
-  },
-  {
-    id: 'lesson-card-active',
-    label: 'Lesson card — open',
-    group: 'cards',
-    cols: 4,
-    render: () => <LessonCard lesson={bioDigitalHuman} active onClick={noop} />,
-  },
-  {
-    id: 'buttons-sizes',
-    label: 'Button sizes',
-    group: 'buttons',
-    cols: 2,
-    render: () => (
-      <div className="flex flex-wrap items-center gap-sm">
-        <BaseButton size="xs">Extra small</BaseButton>
-        <BaseButton size="sm">Small</BaseButton>
-        <BaseButton size="md">Medium</BaseButton>
-        <BaseButton size="lg">Large</BaseButton>
-      </div>
-    ),
-  },
-  {
-    id: 'accordion',
-    label: 'Accordion',
-    group: 'forms',
-    cols: 2,
-    render: () => (
-      <Accordion className="rounded-md border border-border-system-subtle">
-        <Accordion.Title className="flex items-center gap-xs bg-bg-surface-subtle p-md">
-          <span className="text-body-md font-medium text-content-primary">
-            Subjects
-          </span>
-        </Accordion.Title>
-        <Accordion.Content className="p-md">
-          <p className="text-body-md text-content-secondary">
-            Physics, Biology, Chemistry
-          </p>
-        </Accordion.Content>
-      </Accordion>
-    ),
-  },
-  {
-    id: 'skeleton',
-    label: 'Skeleton',
-    group: 'feedback',
-    cols: 2,
-    render: () => (
-      <div className="flex flex-col gap-xs">
-        <Skeleton className="h-6 w-full" />
-        <Skeleton className="h-6 w-2/3" />
-        <Skeleton className="h-20 w-full" />
-      </div>
-    ),
-  },
-  {
-    id: 'lesson-file-card',
-    label: 'Lesson file',
-    group: 'cards',
-    cols: 2,
-    render: () => (
-      <LessonFileCard
-        name="AND & OR Circuits — Lesson Plan.pdf"
-        link={{ url: 'https://example.com/plan.pdf' }}
-      />
-    ),
-  },
-  {
-    id: 'error-not-found',
-    label: 'Not found',
-    group: 'feedback',
-    cols: 2,
-    render: () => <NotFoundError />,
-  },
-  {
-    id: 'lesson-card-no-image',
-    label: 'Lesson card — no cover',
-    group: 'cards',
-    cols: 4,
-    render: () => <LessonCard lesson={franklinsLab} selectable onClick={noop} />,
-  },
-  {
-    id: 'buttons-filter',
-    label: 'Filter buttons',
-    group: 'buttons',
-    cols: 2,
-    render: () => (
-      <div className="flex flex-wrap items-center gap-sm">
-        <FilterButton>Subjects</FilterButton>
-        <FilterButton active>Physics</FilterButton>
-        <ClearButton>Clear all</ClearButton>
-      </div>
-    ),
-  },
-  {
-    id: 'subject-cards',
-    label: 'Subject cards',
-    group: 'cards',
-    cols: 2,
-    render: () => (
-      <div className="flex flex-wrap gap-sm">
-        <SubjectCard subject={physics} onClick={noop} />
-        <SubjectCard subject={biology} onClick={noop} />
-      </div>
-    ),
-  },
-  {
-    id: 'pagination-footer',
-    label: 'Pagination footer',
-    group: 'navigation',
-    cols: 3,
-    render: PaginationFooterSpecimen,
-  },
-  {
-    id: 'application-card-web',
-    label: 'Application card — web',
-    group: 'cards',
-    cols: 3,
-    render: () => <ApplicationCard application={webApplication} />,
-  },
-  {
-    id: 'buttons-icon',
-    label: 'Button with icon',
-    group: 'buttons',
-    cols: 2,
-    render: () => (
-      <BaseButton color="primary" leftIcon={<Rocket className="h-4 w-4" />}>
-        Launch in BioDigital Human
-      </BaseButton>
-    ),
-  },
-  {
-    id: 'select-sort',
-    label: 'Select — sort',
-    group: 'forms',
-    cols: 2,
-    render: () => (
-      <div className="flex flex-col gap-xs">
-        <Label htmlFor="theme-lab-sort">Sort by</Label>
-        <Select defaultValue="recent">
-          <SelectTrigger id="theme-lab-sort" className="w-full">
-            <SelectValue placeholder="Sort" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="recent">Most recent</SelectItem>
-            <SelectItem value="name">Name A–Z</SelectItem>
-          </SelectContent>
-        </Select>
-      </div>
-    ),
-  },
-  {
-    id: 'lesson-card-compact',
-    label: 'Lesson card — compact',
-    group: 'cards',
-    cols: 3,
-    render: () => (
-      <LessonCard lesson={lessonSingleApp} compact selectable onClick={noop} />
-    ),
-  },
-  {
-    id: 'selection-menu',
-    label: 'Selection menu',
-    group: 'navigation',
-    cols: 3,
-    render: () => (
-      <div className="relative h-[52px]">
-        {/* Fixed in the app; pinned here so it sits in its own cell. */}
-        <div className="[&>div]:!absolute [&>div]:!bottom-0 [&>div]:!left-1/2">
-          <SelectionMenu
-            count={3}
-            onAddToClass={noop}
-            onSelectAll={noop}
-            onDeselectAll={noop}
-          />
-        </div>
-      </div>
-    ),
-  },
-  {
-    id: 'error-bad-request',
-    label: 'Bad request',
-    group: 'feedback',
-    cols: 2,
-    render: () => <BadRequestError />,
-  },
-  {
-    id: 'lesson-file-card-doc',
-    label: 'Lesson file — doc',
-    group: 'cards',
-    cols: 2,
-    render: () => (
-      <LessonFileCard
-        name="Truth Table Worksheet.docx"
-        link={{ url: 'https://docs.google.com/document/d/abc123' }}
-      />
-    ),
-  },
+  { id: 'lesson-card', render: LessonCardSpecimen },
+  { id: 'filter', render: FilterSpecimen },
+  { id: 'global-search', render: GlobalSearchSpecimen },
+  { id: 'pagination', render: PaginationSpecimen },
+  { id: 'tab-bar', render: TabBarSpecimen },
 ]
