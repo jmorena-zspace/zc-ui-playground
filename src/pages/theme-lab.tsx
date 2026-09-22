@@ -1,5 +1,7 @@
 import { elementsUsingRole } from '@/theme-lab/highlight'
 import { RoleRail } from '@/theme-lab/role-rail'
+import { ALL_ELEMENTS } from '@/theme-lab/all-elements'
+import { MosaicBoard, MosaicItem } from '@/theme-lab/mosaic'
 import { SPECIMENS } from '@/theme-lab/specimens'
 import { serializeTheme } from '@/theme-lab/theme-css'
 import { useLightTheme } from '@/theme-lab/use-light-theme'
@@ -21,6 +23,7 @@ const FILE_NAME = 'zc-light-theme.css'
 export const ThemeLab: FC<{ onBack: () => void }> = ({ onBack }) => {
   const { theme, mode, setMode, setRole, resetRole, resetAll, importCss, guess } =
     useLightTheme()
+  const [view, setView] = useState<'components' | 'all'>('components')
   const [isolate, setIsolate] = useState(true)
   const [hoveredRole, setHoveredRole] = useState<string | null>(null)
   const canvasRef = useRef<HTMLDivElement>(null)
@@ -62,7 +65,7 @@ export const ThemeLab: FC<{ onBack: () => void }> = ({ onBack }) => {
     }
 
     return clear
-  }, [hoveredRole, isolate, theme, mode])
+  }, [hoveredRole, isolate, view, theme, mode])
 
   const onExport = () => {
     const blob = new Blob([serializeTheme(theme)], { type: 'text/css' })
@@ -111,6 +114,34 @@ export const ThemeLab: FC<{ onBack: () => void }> = ({ onBack }) => {
             <ArrowLeft className="h-4 w-4" />
             Back
           </button>
+
+          <div
+            role="group"
+            aria-label="View"
+            className="inline-flex overflow-hidden rounded-full border border-dark-600"
+          >
+            {(
+              [
+                ['components', 'Components'],
+                ['all', 'All UI elements'],
+              ] as const
+            ).map(([value, label]) => (
+              <button
+                key={value}
+                type="button"
+                onClick={() => setView(value)}
+                aria-pressed={view === value}
+                className={clsx(
+                  'cursor-pointer px-sm py-xxs text-body-sm',
+                  view === value
+                    ? 'bg-dark-400 text-neutral-white'
+                    : 'text-dark-200 hover:text-dark-50'
+                )}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
 
           <div
             role="group"
@@ -200,23 +231,42 @@ export const ThemeLab: FC<{ onBack: () => void }> = ({ onBack }) => {
           ref={canvasRef}
           data-theme-lab-canvas
           data-main-scroll-container
-          className="min-h-0 flex-1 overflow-auto bg-bg-surface-default p-lg"
+          // overflow-y-scroll, not auto: the mosaic's height depends on the
+          // measured spans, so a scrollbar that comes and goes changes the
+          // available width, rewraps the content, changes the spans again —
+          // a loop that leaves items overlapping. Reserving the gutter
+          // permanently keeps the width fixed.
+          className="min-h-0 flex-1 overflow-x-auto overflow-y-scroll bg-bg-surface-default p-lg"
         >
-          {/* Stacked at the same measure as the card playground, so the
-              components get the width they were designed for. */}
-          <div className="mx-auto flex max-w-[1080px] flex-col items-stretch gap-xxl">
-            {SPECIMENS.map((specimen) => (
-              <div
-                key={specimen.id}
-                data-specimen={specimen.id}
-                className={clsx('transition-opacity duration-200', {
-                  'self-start': specimen.fit,
-                })}
-              >
-                <specimen.render />
-              </div>
-            ))}
-          </div>
+          {view === 'components' ? (
+            // Stacked at the same measure as the card playground, so the
+            // components get the width they were designed for.
+            <div className="mx-auto flex max-w-[1080px] flex-col items-stretch gap-xxl">
+              {SPECIMENS.map((specimen) => (
+                <div
+                  key={specimen.id}
+                  data-specimen={specimen.id}
+                  className={clsx('transition-opacity duration-200', {
+                    'self-start': specimen.fit,
+                  })}
+                >
+                  <specimen.render />
+                </div>
+              ))}
+            </div>
+          ) : (
+            <MosaicBoard>
+              {ALL_ELEMENTS.map((element) => (
+                <MosaicItem
+                  key={element.id}
+                  cols={element.cols}
+                  specimenId={element.id}
+                >
+                  <element.render />
+                </MosaicItem>
+              ))}
+            </MosaicBoard>
+          )}
         </div>
       </div>
     </div>

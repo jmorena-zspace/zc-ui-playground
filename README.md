@@ -99,9 +99,14 @@ so they are inert (and still import FontAwesome).
 colour values (which render dark); the lab treats those as locked and lets you
 author a light set beside them.
 
-- The canvas stacks five real components at the app's own measure: a lesson
-  card, the filter bar with its dropdowns, global search results, pagination
-  and the tab bar. All content is hardcoded — the lab never calls an API.
+- **Components** stacks five real components at the app's own measure: a lesson
+  card, the filter bar with its dropdowns, global search (box and results),
+  pagination and the tab bar. All content is hardcoded — the lab never calls
+  an API.
+- **All UI elements** lays the whole catalogue out in wrapped rows, each item
+  at a width that suits it. `src/theme-lab/mosaic.tsx` explains why it wraps
+  rather than packing: measuring row spans for a dense grid feeds the layout
+  back into itself and goes bistable on this content.
 - The rail lists the **76 semantic roles the components actually reference**,
   grouped and searchable, each row showing one chip: the value for the mode you
   are in. Picking opens the palette from `index.css`. Dark rows are read-only.

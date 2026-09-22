@@ -53,7 +53,8 @@ export const QuickResultList: FC<QuickResultListProps> = ({
     <ul
       className={clsx('flex flex-col gap-3', {
         'pt-xs pb-xs': compact,
-        'pt-sm px-sm pb-md': !compact,
+        // Even 16px between the container and the cards inside it.
+        'p-md pb-sm': !compact,
       })}
       aria-label="Quick results list"
     >

@@ -20,6 +20,12 @@ export type QuickResultsProps = {
   total?: number;
   search: string;
   inline?: boolean;
+  /**
+   * Drops the list's horizontal padding. Defaults to `inline`, which is how
+   * the spotlight embeds it; pass `false` to keep the padding while still
+   * rendering in flow.
+   */
+  compact?: boolean;
   transparent?: boolean;
 } & FitToViewportOptions;
 
@@ -34,6 +40,7 @@ export const QuickResults = forwardRef<HTMLDivElement, QuickResultsProps>(
       onViewAllSearchResults,
       onLessonClick,
       inline = false,
+      compact = inline,
       transparent = false,
       ...fitOptions
     },
@@ -65,19 +72,19 @@ export const QuickResults = forwardRef<HTMLDivElement, QuickResultsProps>(
               <>
                 <QuickResultList
                   results={results}
-                  compact={inline}
+                  compact={compact}
                   invertedHover={transparent}
                   onLessonClick={onLessonClick}
                 />
                 <div
                   className={clsx({
-                    'px-sm pb-xs': inline,
-                    'px-lg pb-md pt-0': !inline,
+                    'px-md pb-md': compact || inline,
+                    'px-lg pb-md pt-0': !inline && !compact,
                   })}
                 >
                   <button
                     data-nav-item
-                    aria-label="{`View all ${total} results`} button"
+                    aria-label={`View all ${total} results`}
                     className="group relative inline-flex items-center gap-xs cursor-pointer"
                     onClick={onViewAllSearchResults}
                   >
@@ -91,11 +98,12 @@ export const QuickResults = forwardRef<HTMLDivElement, QuickResultsProps>(
                         {`View all ${total} results`}
                       </span>
                     </AnimatedTitle>
-                    <ArrowRight className={clsx(
-          'h-4 w-4',{
+                    <ArrowRight
+                      className={clsx('h-4 w-4', {
                         'text-content-inverse-primary': transparent,
                         'text-content-link-inline-default': !transparent,
-                      })} />
+                      })}
+                    />
                   </button>
                 </div>
               </>

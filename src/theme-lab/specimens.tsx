@@ -90,6 +90,7 @@ const GlobalSearchSpecimen: FC = () => {
       />
       <QuickResults
         inline
+        compact={false}
         showResults
         resultsHaveHits={results.length > 0}
         results={results}

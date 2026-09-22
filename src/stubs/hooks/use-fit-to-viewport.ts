@@ -21,6 +21,13 @@ export function useFitToViewport(
     if (!element) return;
 
     const fit = () => {
+      // Only a floating dropdown needs capping. Applied to in-flow content it
+      // just clips it, which pushed the results footer out of its container.
+      const { position } = getComputedStyle(element);
+      if (position !== 'absolute' && position !== 'fixed') {
+        element.style.maxHeight = '';
+        return;
+      }
       const top = element.getBoundingClientRect().top;
       const available = window.innerHeight - top - bottomOffset;
       element.style.maxHeight = `${Math.max(minHeight, available)}px`;
