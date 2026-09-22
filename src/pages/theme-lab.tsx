@@ -1,6 +1,7 @@
 import { elementsUsingRole } from '@/theme-lab/highlight'
 import { RoleRail } from '@/theme-lab/role-rail'
 import { ALL_ELEMENTS } from '@/theme-lab/all-elements'
+import { Inspector, type InspectorTarget } from '@/theme-lab/inspector'
 import { MosaicBoard, MosaicItem } from '@/theme-lab/mosaic'
 import { SPECIMENS } from '@/theme-lab/specimens'
 import { serializeTheme } from '@/theme-lab/theme-css'
@@ -10,12 +11,13 @@ import {
   ArrowLeft,
   Download,
   Moon,
+  MousePointerClick,
   RotateCcw,
   Sun,
   Target,
   Upload,
 } from 'lucide-react'
-import { useEffect, useRef, useState, type FC } from 'react'
+import { useEffect, useRef, useState, type FC, type MouseEvent } from 'react'
 import { toast } from 'sonner'
 
 const FILE_NAME = 'zc-light-theme.css'
@@ -25,6 +27,8 @@ export const ThemeLab: FC<{ onBack: () => void }> = ({ onBack }) => {
     useLightTheme()
   const [view, setView] = useState<'components' | 'all'>('components')
   const [isolate, setIsolate] = useState(true)
+  const [inspect, setInspect] = useState(true)
+  const [target, setTarget] = useState<InspectorTarget | null>(null)
   const [hoveredRole, setHoveredRole] = useState<string | null>(null)
   const canvasRef = useRef<HTMLDivElement>(null)
   const fileInput = useRef<HTMLInputElement>(null)
@@ -66,6 +70,28 @@ export const ThemeLab: FC<{ onBack: () => void }> = ({ onBack }) => {
 
     return clear
   }, [hoveredRole, isolate, view, theme, mode])
+
+  /**
+   * Captures the click before the component sees it, so inspecting a card does
+   * not also fire whatever the card does. Toggle inspect off to interact with
+   * the components normally.
+   */
+  const onCanvasClick = (event: MouseEvent<HTMLDivElement>) => {
+    if (!inspect) return
+    const host = (event.target as HTMLElement).closest<HTMLElement>(
+      '[data-specimen]'
+    )
+    if (!host) return
+    event.preventDefault()
+    event.stopPropagation()
+    setTarget({
+      id: host.dataset.specimen ?? '',
+      label: host.dataset.specimenLabel ?? host.dataset.specimen ?? 'Component',
+      element: host,
+      x: event.clientX,
+      y: event.clientY,
+    })
+  }
 
   const onExport = () => {
     const blob = new Blob([serializeTheme(theme)], { type: 'text/css' })
@@ -173,6 +199,22 @@ export const ThemeLab: FC<{ onBack: () => void }> = ({ onBack }) => {
 
           <button
             type="button"
+            onClick={() => setInspect((on) => !on)}
+            aria-pressed={inspect}
+            title="Click a component to list the colour roles it uses"
+            className={clsx(
+              'inline-flex cursor-pointer items-center gap-xxs rounded-full border px-sm py-xxs text-body-sm',
+              inspect
+                ? 'border-dark-400 bg-dark-400 text-neutral-white'
+                : 'border-dark-600 text-dark-200 hover:text-dark-50'
+            )}
+          >
+            <MousePointerClick className="h-3.5 w-3.5" />
+            Inspect
+          </button>
+
+          <button
+            type="button"
             onClick={() => setIsolate((on) => !on)}
             aria-pressed={isolate}
             title="Dim everything that does not use the role you are hovering"
@@ -231,6 +273,7 @@ export const ThemeLab: FC<{ onBack: () => void }> = ({ onBack }) => {
           ref={canvasRef}
           data-theme-lab-canvas
           data-main-scroll-container
+          onClickCapture={onCanvasClick}
           // overflow-y-scroll, not auto: the mosaic's height depends on the
           // measured spans, so a scrollbar that comes and goes changes the
           // available width, rewraps the content, changes the spans again —
@@ -246,6 +289,7 @@ export const ThemeLab: FC<{ onBack: () => void }> = ({ onBack }) => {
                 <div
                   key={specimen.id}
                   data-specimen={specimen.id}
+                  data-specimen-label={specimen.label}
                   className={clsx('transition-opacity duration-200', {
                     'self-start': specimen.fit,
                   })}
@@ -261,6 +305,7 @@ export const ThemeLab: FC<{ onBack: () => void }> = ({ onBack }) => {
                   key={element.id}
                   cols={element.cols}
                   specimenId={element.id}
+                  label={element.label}
                 >
                   <element.render />
                 </MosaicItem>
@@ -269,6 +314,17 @@ export const ThemeLab: FC<{ onBack: () => void }> = ({ onBack }) => {
           )}
         </div>
       </div>
+
+      {target && (
+        <Inspector
+          target={target}
+          theme={theme}
+          editable={mode === 'light'}
+          onChange={setRole}
+          onClose={() => setTarget(null)}
+          onHoverRole={setHoveredRole}
+        />
+      )}
     </div>
   )
 }

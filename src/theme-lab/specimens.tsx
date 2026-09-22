@@ -128,15 +128,16 @@ const TabBarSpecimen: FC = () => (
 
 export type Specimen = {
   id: string
+  label: string
   /** Keeps the component at its natural width instead of filling the column. */
   fit?: boolean
   render: FC
 }
 
 export const SPECIMENS: Specimen[] = [
-  { id: 'lesson-card', render: LessonCardSpecimen },
-  { id: 'filter', render: FilterSpecimen },
-  { id: 'global-search', render: GlobalSearchSpecimen },
-  { id: 'pagination', fit: true, render: PaginationSpecimen },
-  { id: 'tab-bar', render: TabBarSpecimen },
+  { id: 'lesson-card', label: 'Lesson card', render: LessonCardSpecimen },
+  { id: 'filter', label: 'Filter', render: FilterSpecimen },
+  { id: 'global-search', label: 'Global search', render: GlobalSearchSpecimen },
+  { id: 'pagination', label: 'Pagination', fit: true, render: PaginationSpecimen },
+  { id: 'tab-bar', label: 'Tab bar', render: TabBarSpecimen },
 ]

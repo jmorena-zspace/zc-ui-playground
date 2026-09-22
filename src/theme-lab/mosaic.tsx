@@ -22,9 +22,11 @@ export const MosaicItem: FC<{
   children: ReactNode
   /** Passed through so the hover highlight can dim whole specimens. */
   specimenId: string
-}> = ({ cols, children, specimenId }) => (
+  label: string
+}> = ({ cols, children, specimenId, label }) => (
   <div
     data-specimen={specimenId}
+    data-specimen-label={label}
     className="min-w-0 transition-opacity duration-200"
     style={{
       width: `min(100%, ${cols * COLUMN + (cols - 1) * GAP}px)`,

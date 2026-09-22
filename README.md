@@ -108,8 +108,15 @@ author a light set beside them.
   rather than packing: measuring row spans for a dense grid feeds the layout
   back into itself and goes bistable on this content.
 - The rail lists the **76 semantic roles the components actually reference**,
-  grouped and searchable, each row showing one chip: the value for the mode you
-  are in. Picking opens the palette from `index.css`. Dark rows are read-only.
+  in collapsible groups, searchable, and filterable to just the ones you have
+  changed or just the ones you have not. Each row is a chip and a text field —
+  type a palette name like `neutral-100` (the browser completes it) or a hex.
+  A value that names neither is rejected rather than stored. Dark rows are
+  read-only.
+- **Clicking a component** opens a floating panel listing the roles it paints
+  with, split into tabs by state — resting, hover, focus, and so on, worked out
+  from the variant on each Tailwind class — and editable in place. Toggle
+  *Inspect* off in the header to interact with the components instead.
 - **Isolate on hover** (on by default, toggleable): hovering a role dims every
   component that does not paint with it to 30% and rings the exact elements
   that do. It matches Tailwind's class names rather than computed styles,
