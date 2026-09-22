@@ -14,6 +14,7 @@ const queryClient = new QueryClient()
 import { useHashRoute } from '@/lib/use-hash-route'
 import { LessonCardPlayground } from '@pages/lesson-card-playground'
 import { FacetedFilters } from '@pages/faceted-filters'
+import { LessonPanelPreview } from '@pages/lesson-panel-preview'
 import { ThemeLab } from '@pages/theme-lab'
 
 const ENTRIES = [
@@ -31,6 +32,11 @@ const ENTRIES = [
     route: 'faceted-filters',
     title: 'Faceted filters',
     description: 'Drill into a three-level Subject/Pathway filter.',
+  },
+  {
+    route: 'lesson-panel',
+    title: 'Lesson side panel',
+    description: 'The drawer alone, centered on a dark canvas.',
   },
 ]
 
@@ -93,6 +99,8 @@ function App() {
           <ThemeLab onBack={() => navigate('')} />
         ) : route === 'faceted-filters' ? (
           <FacetedFilters onBack={() => navigate('')} />
+        ) : route === 'lesson-panel' ? (
+          <LessonPanelPreview onBack={() => navigate('')} />
         ) : (
           <Landing onOpen={navigate} />
         )}

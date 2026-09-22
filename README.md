@@ -166,6 +166,7 @@ Fonts: `font-body` (Inter, the default) and `font-display` (Lexend).
 | `#/lesson-card` | `LessonCard` |
 | `#/theme` | Theme lab — build the light mode against real components |
 | `#/faceted-filters` | Three-level Subject/Pathway filter that drills down |
+| `#/lesson-panel` | `LessonSidePanel` alone, centered on a dark canvas |
 
 One interactive instance per page, no variant galleries or explanatory copy —
 see CLAUDE.md.
