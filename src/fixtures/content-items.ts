@@ -171,6 +171,11 @@ export const andOrCircuits: Lesson = {
       fileUrl: 'https://example.com/truth-table-worksheet.docx',
     },
   ],
+  relatedCollections: [
+    { id: 'collection-digital-logic', name: 'Digital Logic Fundamentals', lessonsCount: 14 },
+    { id: 'collection-circuits-switches', name: 'Circuits and Switches', lessonsCount: 9 },
+    { id: 'collection-boolean-algebra', name: 'Boolean Algebra Basics', lessonsCount: 6 },
+  ],
 };
 
 /** Single app, single subject — the quiet baseline. */
@@ -183,6 +188,11 @@ export const lessonSingleApp: Lesson = {
   apps: [deepLinked(bioDigitalHumanApp, 'BD-5310')],
   summary:
     'A guided dissection of the amphibian heart, comparing its three chambers to the mammalian four.',
+  relatedCollections: [
+    { id: 'collection-amphibian-anatomy', name: 'Amphibian Anatomy', lessonsCount: 11 },
+    { id: 'collection-comparative-circulatory', name: 'Comparative Circulatory Systems', lessonsCount: 8 },
+    { id: 'collection-dissection-fundamentals', name: 'Dissection Fundamentals', lessonsCount: 15 },
+  ],
 };
 
 /** No image — falls back to ImagePlaceholder on the desktop layout. */
@@ -198,6 +208,11 @@ export const franklinsLab: Lesson = {
   ],
   summary:
     'Charge a Leyden jar, then measure how stored charge changes with plate area.',
+  relatedCollections: [
+    { id: 'collection-electrostatics', name: 'Electrostatics', lessonsCount: 10 },
+    { id: 'collection-capacitors', name: 'Capacitors and Charge Storage', lessonsCount: 7 },
+    { id: 'collection-classic-experiments', name: 'Classic Physics Experiments', lessonsCount: 12 },
+  ],
 };
 
 export const bioDigitalHuman: Lesson = {
@@ -209,6 +224,11 @@ export const bioDigitalHuman: Lesson = {
   apps: [deepLinked(bioDigitalHumanApp, 'BD-7742')],
   summary:
     'Trace a red blood cell from the right atrium to the capillary beds and back.',
+  relatedCollections: [
+    { id: 'collection-body-systems', name: 'Human Body Systems', lessonsCount: 18 },
+    { id: 'collection-cardiovascular-health', name: 'Cardiovascular Health', lessonsCount: 9 },
+    { id: 'collection-3d-anatomy', name: '3D Anatomy Explorers', lessonsCount: 13 },
+  ],
 };
 
 export const contentItems: ContentItem[] = [

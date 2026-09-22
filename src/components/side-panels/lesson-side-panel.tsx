@@ -1,9 +1,4 @@
-import {
-  ContentBadge,
-  ContentBadgeType,
-} from '@components/badges/content-badge';
 import { LessonSidePanelContent } from './lesson-side-panel-content';
-import { X } from 'lucide-react';
 import { getLessonByIdOfflineAware } from '@services/lessons';
 import { useQuery } from '@tanstack/react-query';
 import { useRouterState } from '@tanstack/react-router';
@@ -93,20 +88,6 @@ export const LessonSidePanel: FC = () => {
   const lesson = shown?.lesson;
   const isOffline = shown?.isOffline ?? false;
 
-  const panelHeader = (
-    <div className="flex items-center justify-between">
-      <ContentBadge type={ContentBadgeType.LESSON} />
-      <button
-        className="icon-btn icon-btn-on-surface text-content-primary"
-        aria-label="Close"
-        type="button"
-        onClick={onClose}
-      >
-        <X className="h-4 w-4" />
-      </button>
-    </div>
-  );
-
   return (
     <aside
       ref={panelRef}
@@ -145,7 +126,7 @@ export const LessonSidePanel: FC = () => {
           error={error}
           lesson={lesson}
           isOffline={isOffline}
-          panelHeader={panelHeader}
+          onClose={onClose}
         />
       </div>
     </aside>

@@ -64,6 +64,13 @@ export type LessonFile = {
   fileUrl: string;
 };
 
+/** A collection the lesson panel links out to, shown under "Related collections". */
+export type RelatedCollection = {
+  id: string;
+  name: string;
+  lessonsCount: number;
+};
+
 /** A lesson with the extra detail the side panel renders. */
 export type Lesson = ContentItem & {
   /** Required here, unlike on ContentItem: the side panel maps it unguarded. */
@@ -71,6 +78,7 @@ export type Lesson = ContentItem & {
   summary?: string;
   lessonPlans?: LessonFile[];
   supportingFiles?: LessonFile[];
+  relatedCollections?: RelatedCollection[];
 };
 
 export type RecentlyLaunchedApp = {

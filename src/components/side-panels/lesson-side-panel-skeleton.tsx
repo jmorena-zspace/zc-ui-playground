@@ -1,16 +1,29 @@
 import { Skeleton } from '@components/ui/skeleton';
-import { FC, ReactNode } from 'react';
+import { X } from 'lucide-react';
+import { FC } from 'react';
 
 type LessonSidePanelSkeletonProps = {
-  header: ReactNode;
+  onClose: () => void;
 };
 
 export const LessonSidePanelSkeleton: FC<LessonSidePanelSkeletonProps> = ({
-  header,
+  onClose,
 }) => {
   return (
-    <div className="flex flex-col gap-md bg-bg-surface-default p-md md:p-0">
-      {header}
+    <div className="relative flex flex-col gap-md bg-bg-surface-default p-md md:p-0">
+      {/*
+        `relative` lives on this same padded box, not a wrapping element, so
+        `top-0 right-0` lines up with the title skeleton's edge the same way
+        it lines up with the real title once the lesson has loaded.
+      */}
+      <button
+        type="button"
+        onClick={onClose}
+        aria-label="Close"
+        className="icon-btn icon-btn-on-surface absolute right-0 top-0 z-1 text-content-primary"
+      >
+        <X className="h-4 w-4" />
+      </button>
 
       {/* Title */}
       <Skeleton className="h-6 w-3/4" />

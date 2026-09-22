@@ -41,7 +41,7 @@ export const LessonPanelPreview: FC<{ onBack: () => void }> = ({ onBack }) => {
           possible to center it here at all without touching the component.
         */}
         <div
-          className="relative h-full w-full max-w-[1024px] overflow-hidden rounded-lg border border-dark-600 bg-bg-surface-default shadow-2xl"
+          className="relative h-full w-full max-w-[470px] overflow-hidden rounded-lg border border-dark-600 bg-bg-surface-default shadow-2xl"
           style={{ transform: 'translateZ(0)' }}
         >
           <LessonSidePanel />
