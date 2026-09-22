@@ -78,7 +78,7 @@ export const RescanContentModal: FC<RescanContentModalProps> = ({
       >
         <div className="flex items-center justify-between border-b border-border-system-subtle pb-md">
           <div className="flex items-center gap-sm">
-            <RefreshCw className="text-content-primary text-[24px]" />
+            <RefreshCw className="h-6 w-6 text-content-primary " />
             <h2 className="text-body-lg font-bold text-content-primary">
               Rescanning content
             </h2>

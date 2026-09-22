@@ -57,11 +57,13 @@ export const MobileNavbar: FC = () => {
                 }
                 onClick={toggleSearch}
               >
-                <Search className={clsx(animatedSearchIconClassname, {
+                <Search className={clsx(
+          'h-4 w-4',animatedSearchIconClassname, {
                     'opacity-0 scale-50 rotate-90': searchOpen,
                     'opacity-100 scale-100 rotate-0': !searchOpen,
                   })} />
-                <X className={clsx(animatedSearchIconClassname, {
+                <X className={clsx(
+          'h-4 w-4',animatedSearchIconClassname, {
                     'opacity-100 scale-100 rotate-0': searchOpen,
                     'opacity-0 scale-50 -rotate-90': !searchOpen,
                   })} />
@@ -80,7 +82,7 @@ export const MobileNavbar: FC = () => {
               className="icon-btn icon-btn-on-dark text-content-action-on-primary-default"
               aria-label="Help page"
             >
-              <CircleHelp />
+              <CircleHelp className="h-4 w-4" />
             </Link>
           </div>
         </div>

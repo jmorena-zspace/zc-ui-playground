@@ -98,7 +98,7 @@ function SelectTrigger({
     >
       {children}
       <SelectPrimitive.Icon asChild>
-        <ChevronDown className="text-body-sm transition-transform duration-200 ease-in-out in-data-[state=open]:rotate-180" />
+        <ChevronDown className="h-3 w-3 transition-transform duration-200 ease-in-out in-data-[state=open]:rotate-180" />
       </SelectPrimitive.Icon>
     </SelectPrimitive.Trigger>
   );
@@ -189,7 +189,7 @@ function SelectItem({
         className="absolute right-2 flex size-3.5 items-center justify-center"
       >
         <SelectPrimitive.ItemIndicator>
-          <Check className="text-xs" />
+          <Check className="h-3 w-3 " />
         </SelectPrimitive.ItemIndicator>
       </span>
       <SelectPrimitive.ItemText>{children}</SelectPrimitive.ItemText>
@@ -226,7 +226,7 @@ function SelectScrollUpButton({
       )}
       {...props}
     >
-      <ChevronUp className="text-body-sm" />
+      <ChevronUp className="h-3 w-3 " />
     </SelectPrimitive.ScrollUpButton>
   );
 }
@@ -244,7 +244,7 @@ function SelectScrollDownButton({
       )}
       {...props}
     >
-      <ChevronDown className="text-body-sm" />
+      <ChevronDown className="h-3 w-3 " />
     </SelectPrimitive.ScrollDownButton>
   );
 }

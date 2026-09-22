@@ -28,7 +28,7 @@ export const AppLauncherButton: FC<AppLauncherButtonProps> = ({
       <span className="text-body-md font-medium text-text-default-secondary">
         {launchCode}
       </span>
-      <ChevronDown className="text-body-sm text-icon-brand-default" />
+      <ChevronDown className="h-3 w-3 text-icon-brand-default" />
     </BaseButton>
   );
 };

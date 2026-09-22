@@ -92,10 +92,12 @@ export function FilterMultiSelectInput<T>({
           renderTrigger={(isOpen) => (
             <FilterButton
               rightIcon={
-                <ChevronDown className={clsx(
-                    'transition-transform duration-200 ease-in-out',
+                <ChevronDown
+                  className={clsx(
+                    'h-4 w-4 transition-transform duration-200 ease-in-out',
                     { 'rotate-180': isOpen }
-                  )} />
+                  )}
+                />
               }
               active={isOpen}
             >

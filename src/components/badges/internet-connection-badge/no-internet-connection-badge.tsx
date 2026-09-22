@@ -14,7 +14,7 @@ export const NoInternetConnectionBadge: FC<NoInternetConnectionBadgeProps> = ({
       type="button"
       className="flex items-center gap-xxs px-xs py-xxs rounded-full bg-bg-surface-status-negative-strong border border-border-input-status-negative-strong text-content-on-status-negative-strong cursor-pointer"
     >
-      <Unplug className="text-xl" />
+      <Unplug className="h-4 w-4 text-xl" />
       <span className="text-body-md font-medium ">
         Offline
       </span>

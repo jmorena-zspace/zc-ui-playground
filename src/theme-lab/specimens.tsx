@@ -1,6 +1,7 @@
 import { LessonCard } from '@components/cards/lesson-card/lesson-card'
 import { Filter } from '@components/filter/filter'
 import { FilterInputType, type FiltersData } from '@components/filter/types'
+import { SearchInput } from '@components/inputs/search-input'
 import { Pagination } from '@components/pagination/pagination'
 import { QuickResults } from '@components/quick-results/quick-results'
 import { TabBar } from '@components/tab-bar/tab-bar'
@@ -73,18 +74,33 @@ const FilterSpecimen: FC = () => (
   />
 )
 
-const GlobalSearchSpecimen: FC = () => (
-  <QuickResults
-    inline
-    showResults
-    resultsHaveHits
-    results={SEARCH_RESULTS}
-    total={SEARCH_RESULTS.length}
-    search="circuits"
-    onViewAllSearchResults={noop}
-    onLessonClick={noop}
-  />
-)
+/** The search box and its results together, as the modal composes them. */
+const GlobalSearchSpecimen: FC = () => {
+  const [query, setQuery] = useState('circuits')
+  const results = SEARCH_RESULTS.filter((result) =>
+    result.name.toLowerCase().includes(query.trim().toLowerCase())
+  )
+
+  return (
+    <div className="flex flex-col gap-md">
+      <SearchInput
+        value={query}
+        onChange={(event) => setQuery(event.target.value)}
+        showEscHint
+      />
+      <QuickResults
+        inline
+        showResults
+        resultsHaveHits={results.length > 0}
+        results={results}
+        total={results.length}
+        search={query}
+        onViewAllSearchResults={noop}
+        onLessonClick={noop}
+      />
+    </div>
+  )
+}
 
 const PaginationSpecimen: FC = () => {
   const [page, setPage] = useState(3)
@@ -109,12 +125,17 @@ const TabBarSpecimen: FC = () => (
   />
 )
 
-export type Specimen = { id: string; render: FC }
+export type Specimen = {
+  id: string
+  /** Keeps the component at its natural width instead of filling the column. */
+  fit?: boolean
+  render: FC
+}
 
 export const SPECIMENS: Specimen[] = [
   { id: 'lesson-card', render: LessonCardSpecimen },
   { id: 'filter', render: FilterSpecimen },
   { id: 'global-search', render: GlobalSearchSpecimen },
-  { id: 'pagination', render: PaginationSpecimen },
+  { id: 'pagination', fit: true, render: PaginationSpecimen },
   { id: 'tab-bar', render: TabBarSpecimen },
 ]

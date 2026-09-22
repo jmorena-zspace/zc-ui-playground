@@ -189,7 +189,7 @@ export const SpotlightShortcutModal: FC<SpotlightShortcutModalProps> = ({
       <div className="flex flex-col gap-lg bg-bg-surface-default border border-border-system-subtle rounded-sm p-md shadow-lg outline-none">
         <div className="flex items-center justify-between border-b border-border-system-subtle pb-md">
           <div className="flex items-center gap-sm">
-            <Keyboard className="text-content-primary text-[24px]" />
+            <Keyboard className="h-6 w-6 text-content-primary " />
             <h2 className="text-body-lg font-bold text-content-primary">
               Set the spotlight shortcut
             </h2>

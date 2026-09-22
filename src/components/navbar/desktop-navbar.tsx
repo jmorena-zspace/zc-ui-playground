@@ -107,7 +107,7 @@ export const DesktopNavbar: FC = () => {
                 className="icon-btn icon-btn-on-dark text-content-action-on-primary-default"
                 aria-label="Help page"
               >
-                <CircleHelp />
+                <CircleHelp className="h-4 w-4" />
               </Link>
             </div>
           </div>

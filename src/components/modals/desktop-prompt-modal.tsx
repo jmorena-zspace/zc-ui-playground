@@ -43,7 +43,7 @@ export const DesktopPromptModal: FC = () => {
       >
         <div className="flex items-center justify-between border-b border-border-system-subtle pb-md">
           <div className="flex items-center gap-sm">
-            <Unplug className="text-content-primary text-[24px]" />
+            <Unplug className="h-6 w-6 text-content-primary " />
             <h2 className="text-body-lg font-bold text-content-primary">
               Open in the desktop app?
             </h2>

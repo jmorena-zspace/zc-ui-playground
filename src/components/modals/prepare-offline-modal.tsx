@@ -95,7 +95,7 @@ export const PrepareOfflineModal: FC<PrepareOfflineModalProps> = ({
       >
         <div className="flex items-center justify-between border-b border-border-system-subtle pb-md">
           <div className="flex items-center gap-sm">
-            <Download className="text-content-primary text-[24px]" />
+            <Download className="h-6 w-6 text-content-primary " />
             <h2 className="text-body-lg font-bold text-content-primary">
               Preparing offline content
             </h2>

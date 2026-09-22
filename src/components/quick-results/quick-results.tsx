@@ -91,7 +91,8 @@ export const QuickResults = forwardRef<HTMLDivElement, QuickResultsProps>(
                         {`View all ${total} results`}
                       </span>
                     </AnimatedTitle>
-                    <ArrowRight className={clsx({
+                    <ArrowRight className={clsx(
+          'h-4 w-4',{
                         'text-content-inverse-primary': transparent,
                         'text-content-link-inline-default': !transparent,
                       })} />

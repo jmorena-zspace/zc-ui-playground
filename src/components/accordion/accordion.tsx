@@ -61,6 +61,7 @@ function AccordionTitle({
 
   const arrowIcon = (
     <ChevronDown className={clsx(
+          'h-4 w-4',
         'transition-transform duration-300 ease-out text-content-primary',
         {
           'rotate-180': isOpen,

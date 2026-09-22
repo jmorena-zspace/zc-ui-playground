@@ -68,7 +68,7 @@ export function FilterQueryInput({
       )}
       onClick={(e) => e.stopPropagation()}
     >
-      <Search className="text-content-placeholder pointer-events-none absolute left-sm top-1/2 -translate-y-1/2" />
+      <Search className="h-4 w-4 text-content-placeholder pointer-events-none absolute left-sm top-1/2 -translate-y-1/2" />
       <input
         aria-label="Query input"
         type="text"
@@ -93,7 +93,7 @@ export function FilterQueryInput({
           onClick={handleClear}
           tabIndex={-1}
         >
-          <X className="text-body-sm" />
+          <X className="h-3 w-3 " />
         </button>
       )}
     </div>

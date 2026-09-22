@@ -64,7 +64,7 @@ export const LanguageOption: FC<LanguageOptionProps> = ({
           </span>
         </div>
         {isCurrentLanguage && (
-          <Check className="text-content-secondary"
+          <Check className="h-4 w-4 text-content-secondary"
             aria-hidden="true" />
         )}
       </div>

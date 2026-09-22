@@ -64,16 +64,17 @@ export function FilterSortInput<T>({
     }
 
     return (
-      <ArrowUp size="sm"
+      <ArrowUp
         className={clsx(
-          'text-content-primary transition-transform duration-200 ease-in-out',
+          'h-4 w-4 text-content-primary transition-transform duration-200 ease-in-out',
           {
             'rotate-180': showDescending,
             'rotate-0': !showDescending,
             'opacity-100': isSelected,
             'opacity-0': !isSelected,
           }
-        )} />
+        )}
+      />
     );
   };
 
@@ -106,12 +107,14 @@ export function FilterSortInput<T>({
           variant="menu"
           renderTrigger={(isOpen) => (
             <FilterButton
-              leftIcon={<ArrowUpDown />}
+              leftIcon={<ArrowUpDown className="h-4 w-4" />}
               rightIcon={
-                <ChevronDown className={clsx(
-                    'transition-transform duration-200 ease-in-out',
+                <ChevronDown
+                  className={clsx(
+                    'h-4 w-4 transition-transform duration-200 ease-in-out',
                     { 'rotate-180': isOpen }
-                  )} />
+                  )}
+                />
               }
               active={isOpen}
             >

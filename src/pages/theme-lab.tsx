@@ -204,12 +204,14 @@ export const ThemeLab: FC<{ onBack: () => void }> = ({ onBack }) => {
         >
           {/* Stacked at the same measure as the card playground, so the
               components get the width they were designed for. */}
-          <div className="mx-auto flex max-w-[1080px] flex-col gap-xxl">
+          <div className="mx-auto flex max-w-[1080px] flex-col items-stretch gap-xxl">
             {SPECIMENS.map((specimen) => (
               <div
                 key={specimen.id}
                 data-specimen={specimen.id}
-                className="transition-opacity duration-200"
+                className={clsx('transition-opacity duration-200', {
+                  'self-start': specimen.fit,
+                })}
               >
                 <specimen.render />
               </div>
