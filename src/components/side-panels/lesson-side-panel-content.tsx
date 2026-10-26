@@ -12,6 +12,7 @@ import {
 } from '@components/ui/tooltip';
 import { LessonSidePanelSkeleton } from './lesson-side-panel-skeleton';
 import { Copy, Rocket, X } from 'lucide-react';
+import { LessonSidePanelControls } from './lesson-side-panel-controls';
 import { useLaunch } from '@hooks/launch';
 import { Lesson, LessonApplication } from '@zcentral-v2/types';
 import clsx from 'clsx';
@@ -32,18 +33,19 @@ function isNotFoundError(error: unknown): boolean {
  * in the row below the cover image and in the launch-options modal, so the
  * two never drift apart.
  */
-const LaunchOption: FC<{
+export const LaunchOption: FC<{
   lesson: Lesson;
   app: LessonApplication;
   className?: string;
-}> = ({ lesson, app, className }) => {
+  size?: 'xs' | 'sm';
+}> = ({ lesson, app, className, size = 'sm' }) => {
   const { canLaunchLesson, launchLesson } = useLaunch();
   const isLaunchable = canLaunchLesson(lesson, app);
 
   const button = (
     <BaseButton
       color="secondary"
-      size="sm"
+      size={size}
       disabled={!isLaunchable}
       onClick={() => {
         launchLesson(lesson, app).catch((launchError) => {
@@ -94,6 +96,7 @@ type LessonSidePanelContentProps = {
   lesson: Lesson | undefined;
   isOffline: boolean;
   onClose: () => void;
+  onMaximize?: () => void;
 };
 
 export const LessonSidePanelContent: FC<LessonSidePanelContentProps> = ({
@@ -104,6 +107,7 @@ export const LessonSidePanelContent: FC<LessonSidePanelContentProps> = ({
   lesson,
   isOffline,
   onClose,
+  onMaximize,
 }) => {
   const [showLaunchModal, setShowLaunchModal] = useState(false);
   const { canLaunchLesson } = useLaunch();
@@ -193,18 +197,11 @@ export const LessonSidePanelContent: FC<LessonSidePanelContentProps> = ({
   // padded box as its own title placeholder, rather than a wrapper with
   // different padding around it.
   const closeButton = (
-    <button
-      type="button"
-      onClick={onClose}
-      aria-label="Close"
-      className="icon-btn icon-btn-on-surface absolute right-0 top-0 z-1 text-content-primary"
-    >
-      <X className="h-4 w-4" />
-    </button>
+    <LessonSidePanelControls onClose={onClose} onMaximize={onMaximize} />
   );
 
   if (isLoading) {
-    return <LessonSidePanelSkeleton onClose={onClose} />;
+    return <LessonSidePanelSkeleton onClose={onClose} onMaximize={onMaximize} />;
   }
 
   if (isError || !lesson) {
@@ -233,7 +230,12 @@ export const LessonSidePanelContent: FC<LessonSidePanelContentProps> = ({
   return (
     <div className="relative flex flex-col gap-md bg-bg-surface-default p-md md:p-0">
       {closeButton}
-      <h1 className="pr-xl text-lg text-content-primary font-medium">
+      <h1
+        className={clsx(
+          'text-lg text-content-primary font-medium',
+          onMaximize ? 'pr-[64px]' : 'pr-xl'
+        )}
+      >
         {lesson.name}
         {deepLinkingLaunchCodes && deepLinkingLaunchCodes.length > 0 && (
           // Plain text-node siblings inside the h1, not a flex row: an

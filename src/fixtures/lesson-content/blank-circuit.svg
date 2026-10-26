@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 200" fill="none" font-family="Inter, sans-serif">
+  <rect x="8" y="8" width="464" height="184" rx="12" stroke="#a7a3cb" stroke-width="2" stroke-dasharray="6 8"/>
+  <g stroke="#29274d" stroke-width="1">
+    <path d="M60 8V192M120 8V192M180 8V192M240 8V192M300 8V192M360 8V192M420 8V192"/>
+    <path d="M8 50H472M8 100H472M8 150H472"/>
+  </g>
+  <text x="240" y="106" text-anchor="middle" fill="#a7a3cb" font-size="14">Sketch your circuit here</text>
+</svg>

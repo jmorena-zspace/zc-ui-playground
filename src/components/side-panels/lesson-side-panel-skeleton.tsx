@@ -1,13 +1,15 @@
 import { Skeleton } from '@components/ui/skeleton';
-import { X } from 'lucide-react';
+import { LessonSidePanelControls } from './lesson-side-panel-controls';
 import { FC } from 'react';
 
 type LessonSidePanelSkeletonProps = {
   onClose: () => void;
+  onMaximize?: () => void;
 };
 
 export const LessonSidePanelSkeleton: FC<LessonSidePanelSkeletonProps> = ({
   onClose,
+  onMaximize,
 }) => {
   return (
     <div className="relative flex flex-col gap-md bg-bg-surface-default p-md md:p-0">
@@ -16,14 +18,7 @@ export const LessonSidePanelSkeleton: FC<LessonSidePanelSkeletonProps> = ({
         `top-0 right-0` lines up with the title skeleton's edge the same way
         it lines up with the real title once the lesson has loaded.
       */}
-      <button
-        type="button"
-        onClick={onClose}
-        aria-label="Close"
-        className="icon-btn icon-btn-on-surface absolute right-0 top-0 z-1 text-content-primary"
-      >
-        <X className="h-4 w-4" />
-      </button>
+      <LessonSidePanelControls onClose={onClose} onMaximize={onMaximize} />
 
       {/* Title */}
       <Skeleton className="h-6 w-3/4" />

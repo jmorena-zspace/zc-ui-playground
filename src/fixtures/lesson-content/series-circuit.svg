@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 220" fill="none" stroke="#a7a3cb" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" font-family="Inter, sans-serif">
+  <path d="M60 50H130M175 50H250M295 50H420V95M420 125V170H60V113M60 105V50"/>
+  <circle cx="130" cy="50" r="3.5" fill="#a7a3cb"/><circle cx="175" cy="50" r="3.5" fill="#a7a3cb"/>
+  <path d="M130 50L168 30" stroke="#3598e9"/>
+  <circle cx="250" cy="50" r="3.5" fill="#a7a3cb"/><circle cx="295" cy="50" r="3.5" fill="#a7a3cb"/>
+  <path d="M250 50L288 30" stroke="#3598e9"/>
+  <circle cx="420" cy="110" r="15" stroke="#ffde5c"/>
+  <path d="M410 100L430 120M430 100L410 120" stroke="#ffde5c" stroke-width="2"/>
+  <path d="M46 105H74M52 113H68" stroke="#e6e5f7" stroke-width="3"/>
+  <g fill="#a7a3cb" stroke="none" font-size="12">
+    <text x="128" y="24">Switch A</text>
+    <text x="248" y="24">Switch B</text>
+    <text x="394" y="114" text-anchor="end">Lamp</text>
+    <text x="78" y="112">Battery</text>
+  </g>
+</svg>

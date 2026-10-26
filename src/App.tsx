@@ -7,6 +7,7 @@ import {
   FolderClosed,
   LayoutGrid,
   type LucideIcon,
+  Maximize2,
   MessageCircleHeart,
   Palette,
   PanelRight,
@@ -20,6 +21,7 @@ const queryClient = new QueryClient()
 import { useHashRoute } from '@/lib/use-hash-route'
 import { CollectionsPage } from '@pages/collections'
 import { FeedbackDashboard } from '@pages/feedback-dashboard'
+import { FullScreenLessons } from '@pages/full-screen-lessons'
 import { LessonCardPlayground } from '@pages/lesson-card-playground'
 import { FacetedFilters } from '@pages/faceted-filters'
 import { LessonPanelPreview } from '@pages/lesson-panel-preview'
@@ -73,6 +75,12 @@ const ENTRIES: {
     title: 'Feedback dashboard',
     description: 'Sort, filter, and chart what people are saying.',
     icon: BarChart3,
+  },
+  {
+    route: 'full-screen-lessons',
+    title: 'Full screen lessons',
+    description: 'Expand the lesson panel into a resizable window.',
+    icon: Maximize2,
   },
 ]
 
@@ -159,6 +167,8 @@ function App() {
           <UserFeedbackPage onBack={() => navigate('')} />
         ) : route === 'feedback-dashboard' ? (
           <FeedbackDashboard onBack={() => navigate('')} />
+        ) : route === 'full-screen-lessons' ? (
+          <FullScreenLessons onBack={() => navigate('')} />
         ) : (
           <Landing onOpen={navigate} />
         )}

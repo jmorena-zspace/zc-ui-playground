@@ -1,4 +1,5 @@
 import { LessonSidePanelContent } from './lesson-side-panel-content';
+import { removeLessonParam } from './lesson-param';
 import { getLessonByIdOfflineAware } from '@services/lessons';
 import { useQuery } from '@tanstack/react-query';
 import { useRouterState } from '@tanstack/react-router';
@@ -6,16 +7,17 @@ import clsx from 'clsx';
 import type { Lesson } from '@zcentral-v2/types';
 import { FC, useCallback, useEffect, useRef, useState } from 'react';
 
-function removeLessonParam() {
-  const url = new URL(window.location.href);
-  url.searchParams.delete('lesson');
-  window.history.replaceState(window.history.state, '', url.toString());
-  window.dispatchEvent(
-    new PopStateEvent('popstate', { state: window.history.state })
-  );
-}
+type LessonSidePanelProps = {
+  /** Shows a maximize button; the owner decides what maximizing does. */
+  onMaximize?: () => void;
+  /** Slides the panel out while keeping the lesson open, e.g. behind a maximized view. */
+  hidden?: boolean;
+};
 
-export const LessonSidePanel: FC = () => {
+export const LessonSidePanel: FC<LessonSidePanelProps> = ({
+  onMaximize,
+  hidden = false,
+}) => {
 
   const lessonId = useRouterState({
     select: (state) => {
@@ -24,7 +26,7 @@ export const LessonSidePanel: FC = () => {
     },
   });
 
-  const isOpen = lessonId != null;
+  const isOpen = lessonId != null && !hidden;
   const panelRef = useRef<HTMLDivElement>(null);
 
   // Suppresses the transition on first paint only: a panel that mounts
@@ -52,7 +54,7 @@ export const LessonSidePanel: FC = () => {
   }, []);
 
   useEffect(() => {
-    if (!lessonId) return;
+    if (!isOpen) return;
 
     panelRef.current?.focus();
 
@@ -66,7 +68,7 @@ export const LessonSidePanel: FC = () => {
 
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [lessonId, onClose]);
+  }, [isOpen, onClose]);
 
   const { data, error, isError, isLoading } = useQuery({
     queryKey: ['lesson', lessonId],
@@ -127,6 +129,7 @@ export const LessonSidePanel: FC = () => {
           lesson={lesson}
           isOffline={isOffline}
           onClose={onClose}
+          onMaximize={onMaximize}
         />
       </div>
     </aside>
