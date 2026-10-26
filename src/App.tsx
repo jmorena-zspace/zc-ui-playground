@@ -2,10 +2,12 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import clsx from 'clsx'
 import {
   ArrowRight,
+  BarChart3,
   Filter,
   FolderClosed,
   LayoutGrid,
   type LucideIcon,
+  MessageCircleHeart,
   Palette,
   PanelRight,
 } from 'lucide-react'
@@ -17,10 +19,12 @@ import { TooltipProvider } from '@components/ui/tooltip'
 const queryClient = new QueryClient()
 import { useHashRoute } from '@/lib/use-hash-route'
 import { CollectionsPage } from '@pages/collections'
+import { FeedbackDashboard } from '@pages/feedback-dashboard'
 import { LessonCardPlayground } from '@pages/lesson-card-playground'
 import { FacetedFilters } from '@pages/faceted-filters'
 import { LessonPanelPreview } from '@pages/lesson-panel-preview'
 import { ThemeLab } from '@pages/theme-lab'
+import { UserFeedbackPage } from '@pages/user-feedback'
 
 const ENTRIES: {
   route: string
@@ -57,6 +61,18 @@ const ENTRIES: {
     title: 'Collection folders',
     description: 'Career pathways as folders that tip open on hover.',
     icon: FolderClosed,
+  },
+  {
+    route: 'user-feedback',
+    title: 'User feedback',
+    description: 'A quick survey that pops up from the corner.',
+    icon: MessageCircleHeart,
+  },
+  {
+    route: 'feedback-dashboard',
+    title: 'Feedback dashboard',
+    description: 'Sort, filter, and chart what people are saying.',
+    icon: BarChart3,
   },
 ]
 
@@ -139,6 +155,10 @@ function App() {
           <LessonPanelPreview onBack={() => navigate('')} />
         ) : route === 'collections' ? (
           <CollectionsPage onBack={() => navigate('')} />
+        ) : route === 'user-feedback' ? (
+          <UserFeedbackPage onBack={() => navigate('')} />
+        ) : route === 'feedback-dashboard' ? (
+          <FeedbackDashboard onBack={() => navigate('')} />
         ) : (
           <Landing onOpen={navigate} />
         )}
