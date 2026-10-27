@@ -35,6 +35,7 @@ import {
   useState,
 } from 'react';
 import { toast } from 'sonner';
+import { type LessonWindowTab } from './lesson-param';
 import { LessonLaunchCodes } from './lesson-launch-codes';
 import { LaunchOption } from './lesson-side-panel-content';
 
@@ -109,7 +110,7 @@ const TABS = [
   { value: 'worksheet', label: 'Worksheet', icon: ClipboardList },
   { value: 'standards', label: 'Standards & collections', icon: Library },
 ] as const;
-type TabValue = (typeof TABS)[number]['value'];
+type TabValue = LessonWindowTab;
 
 const StandardRow: FC<{ standard: LessonStandard }> = ({ standard }) => (
   <li className="flex items-start gap-md rounded-xs border border-border-system-subtle bg-bg-surface-subtle p-sm">
@@ -162,6 +163,8 @@ const TabPanel: FC<{ children: ReactNode; className?: string }> = ({
 
 type LessonWindowProps = {
   lessonId: string;
+  /** Tab shown first; defaults to the lesson plan. */
+  initialTab?: LessonWindowTab;
   /** Back to the side panel. */
   onRestore: () => void;
   /** Closes the lesson entirely. */
@@ -176,6 +179,7 @@ type LessonWindowProps = {
  */
 export const LessonWindow: FC<LessonWindowProps> = ({
   lessonId,
+  initialTab = 'lesson-plan',
   onRestore,
   onClose,
 }) => {
@@ -188,7 +192,7 @@ export const LessonWindow: FC<LessonWindowProps> = ({
   const { canLaunchLesson } = useLaunch();
 
   const [rect, setRect] = useState<Rect>(defaultRect);
-  const [tab, setTab] = useState<TabValue>('lesson-plan');
+  const [tab, setTab] = useState<TabValue>(initialTab);
   const [showBar, setShowBar] = useState(false);
   const windowRef = useRef<HTMLDivElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);

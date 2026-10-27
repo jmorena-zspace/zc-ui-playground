@@ -1,10 +1,11 @@
 import { Skeleton } from '@components/ui/skeleton';
 import { LessonSidePanelControls } from './lesson-side-panel-controls';
 import { FC } from 'react';
+import { type LessonWindowTab } from './lesson-param';
 
 type LessonSidePanelSkeletonProps = {
   onClose: () => void;
-  onMaximize?: () => void;
+  onMaximize?: (tab?: LessonWindowTab) => void;
 };
 
 export const LessonSidePanelSkeleton: FC<LessonSidePanelSkeletonProps> = ({

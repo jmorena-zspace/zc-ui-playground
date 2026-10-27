@@ -17,6 +17,7 @@ import { Lesson, LessonApplication } from '@zcentral-v2/types';
 import clsx from 'clsx';
 import { FC, useState } from 'react';
 import { toast } from 'sonner';
+import { type LessonWindowTab } from './lesson-param';
 import { LessonLaunchCodes } from './lesson-launch-codes';
 
 function isNotFoundError(error: unknown): boolean {
@@ -96,7 +97,7 @@ type LessonSidePanelContentProps = {
   lesson: Lesson | undefined;
   isOffline: boolean;
   onClose: () => void;
-  onMaximize?: () => void;
+  onMaximize?: (tab?: LessonWindowTab) => void;
 };
 
 export const LessonSidePanelContent: FC<LessonSidePanelContentProps> = ({
@@ -140,6 +141,7 @@ export const LessonSidePanelContent: FC<LessonSidePanelContentProps> = ({
             key={file.id}
             name={file.name}
             link={{ url: file.fileUrl }}
+            onOpen={onMaximize && (() => onMaximize('lesson-plan'))}
           />
         ))}
       </section>
@@ -159,6 +161,7 @@ export const LessonSidePanelContent: FC<LessonSidePanelContentProps> = ({
             key={file.id}
             name={file.name}
             link={{ url: file.fileUrl }}
+            onOpen={onMaximize && (() => onMaximize('worksheet'))}
           />
         ))}
       </section>

@@ -1,5 +1,5 @@
 import { BaseButton } from '@components/buttons/base-button/base-button'
-import { removeLessonParam } from '@components/side-panels/lesson-param'
+import { removeLessonParam, type LessonWindowTab } from '@components/side-panels/lesson-param'
 import { LessonSidePanel } from '@components/side-panels/lesson-side-panel'
 import { LessonWindow } from '@components/side-panels/lesson-window'
 import { andOrCircuits } from '@fixtures/content-items'
@@ -19,6 +19,7 @@ function setLessonParam(id: string | undefined) {
 
 export const FullScreenLessons: FC<{ onBack: () => void }> = ({ onBack }) => {
   const [maximized, setMaximized] = useState(false)
+  const [initialTab, setInitialTab] = useState<LessonWindowTab>('lesson-plan')
   const lessonId = useRouterState({
     select: (state) =>
       new URLSearchParams(state.location.searchStr).get('lesson') ?? undefined,
@@ -53,13 +54,17 @@ export const FullScreenLessons: FC<{ onBack: () => void }> = ({ onBack }) => {
         </BaseButton>
       </div>
 
-      <LessonSidePanel hidden={maximized} onMaximize={() => setMaximized(true)} />
+      <LessonSidePanel hidden={maximized} onMaximize={(tab = 'lesson-plan') => {
+          setInitialTab(tab)
+          setMaximized(true)
+        }} />
 
       <AnimatePresence>
         {maximized && lessonId && (
           <LessonWindow
             key={lessonId}
             lessonId={lessonId}
+            initialTab={initialTab}
             onRestore={() => setMaximized(false)}
             onClose={() => {
               setMaximized(false)

@@ -10,3 +10,6 @@ export function removeLessonParam() {
     new PopStateEvent('popstate', { state: window.history.state })
   );
 }
+
+/** Tabs of the maximized lesson window; the side panel can ask to open one. */
+export type LessonWindowTab = 'lesson-plan' | 'worksheet' | 'standards';

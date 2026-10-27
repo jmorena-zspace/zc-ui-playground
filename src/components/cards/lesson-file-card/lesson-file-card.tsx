@@ -16,6 +16,8 @@ export type LessonFileLink = {
 export type LessonFileCardProps = {
   name: string;
   link: LessonFileLink;
+  /** Makes the file name a button, e.g. to open the file's contents. */
+  onOpen?: () => void;
   className?: string;
 };
 
@@ -40,6 +42,7 @@ const FileLink: FC<FileLinkProps> = ({ href, label, icon: Icon }) => (
 export const LessonFileCard: FC<LessonFileCardProps> = ({
   name,
   link,
+  onOpen,
   className,
 }) => {
   const docsBaseUrl = normalizeGoogleDocsUrl(link.url);
@@ -59,9 +62,19 @@ export const LessonFileCard: FC<LessonFileCardProps> = ({
         <div className="flex items-center p-xxs shrink-0">
           <File className="w-3 h-3 text-content-tertiary" />
         </div>
-        <p className="text-body-md font-medium leading-body-md text-content-secondary line-clamp-2 min-w-0">
-          {name}
-        </p>
+        {onOpen ? (
+          <button
+            type="button"
+            onClick={onOpen}
+            className="cursor-pointer text-left text-body-md font-medium leading-body-md text-content-secondary line-clamp-2 min-w-0 transition-colors hover:text-content-primary hover:underline"
+          >
+            {name}
+          </button>
+        ) : (
+          <p className="text-body-md font-medium leading-body-md text-content-secondary line-clamp-2 min-w-0">
+            {name}
+          </p>
+        )}
       </div>
 
       <div

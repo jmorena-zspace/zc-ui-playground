@@ -1,5 +1,5 @@
 import { LessonSidePanelContent } from './lesson-side-panel-content';
-import { removeLessonParam } from './lesson-param';
+import { removeLessonParam, type LessonWindowTab } from './lesson-param';
 import { getLessonByIdOfflineAware } from '@services/lessons';
 import { useQuery } from '@tanstack/react-query';
 import { useRouterState } from '@tanstack/react-router';
@@ -9,7 +9,7 @@ import { FC, useCallback, useEffect, useRef, useState } from 'react';
 
 type LessonSidePanelProps = {
   /** Shows a maximize button; the owner decides what maximizing does. */
-  onMaximize?: () => void;
+  onMaximize?: (tab?: LessonWindowTab) => void;
   /** Slides the panel out while keeping the lesson open, e.g. behind a maximized view. */
   hidden?: boolean;
 };

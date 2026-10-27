@@ -1,10 +1,11 @@
 import { Maximize2, X } from 'lucide-react';
 import { FC } from 'react';
+import { LessonWindowTab } from './lesson-param';
 
 type LessonSidePanelControlsProps = {
   onClose: () => void;
   /** When given, a maximize button sits to the left of close. */
-  onMaximize?: () => void;
+  onMaximize?: (tab?: LessonWindowTab) => void;
 };
 
 /**
@@ -20,7 +21,7 @@ export const LessonSidePanelControls: FC<LessonSidePanelControlsProps> = ({
     {onMaximize && (
       <button
         type="button"
-        onClick={onMaximize}
+        onClick={() => onMaximize()}
         aria-label="Maximize"
         className="icon-btn icon-btn-on-surface"
       >
