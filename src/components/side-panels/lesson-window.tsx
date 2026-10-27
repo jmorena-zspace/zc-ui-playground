@@ -13,7 +13,15 @@ import { useLaunch } from '@hooks/launch';
 import { getLessonByIdOfflineAware } from '@services/lessons';
 import { useQuery } from '@tanstack/react-query';
 import clsx from 'clsx';
-import { Download, Minimize2, X } from 'lucide-react';
+import {
+  BookOpen,
+  ClipboardList,
+  Download,
+  Library,
+  Minimize2,
+  Search,
+  X,
+} from 'lucide-react';
 import { AnimatePresence, motion } from 'motion/react';
 import { Tabs } from 'radix-ui';
 import {
@@ -95,9 +103,9 @@ const HANDLES: { edge: Edge; className: string }[] = [
 ];
 
 const TABS = [
-  { value: 'lesson-plan', label: 'Lesson plan' },
-  { value: 'worksheet', label: 'Worksheet' },
-  { value: 'standards', label: 'Standards & collections' },
+  { value: 'lesson-plan', label: 'Lesson plan', icon: BookOpen },
+  { value: 'worksheet', label: 'Worksheet', icon: ClipboardList },
+  { value: 'standards', label: 'Standards & collections', icon: Library },
 ] as const;
 type TabValue = (typeof TABS)[number]['value'];
 
@@ -109,6 +117,9 @@ const StandardRow: FC<{ standard: LessonStandard }> = ({ standard }) => (
       </span>
       <span className="text-body-sm text-content-tertiary">
         {standard.framework}
+      </span>
+      <span className="text-body-sm text-content-tertiary">
+        {standard.grade}
       </span>
     </div>
     <p className="text-body-md text-content-secondary">
@@ -130,7 +141,7 @@ const DownloadPdfButton: FC<{ document: string }> = ({ document }) => (
   </div>
 );
 
-const panelClass = 'max-w-[820px] pb-xl outline-none';
+const panelClass = 'pb-xl outline-none';
 
 /** Fades and lifts into place each time its tab is selected (inactive tabs unmount). */
 const TabPanel: FC<{ children: ReactNode; className?: string }> = ({
@@ -256,13 +267,24 @@ export const LessonWindow: FC<LessonWindowProps> = ({
     [lesson, canLaunchLesson]
   );
 
+  const [standardsQuery, setStandardsQuery] = useState('');
+
+  const filteredStandards = useMemo(() => {
+    const terms = standardsQuery.toLowerCase().split(/\s+/).filter(Boolean);
+    return (content?.standards ?? []).filter((s) => {
+      const haystack =
+        `${s.code} ${s.description} ${s.grade} ${s.state} ${s.framework}`.toLowerCase();
+      return terms.every((t) => haystack.includes(t));
+    });
+  }, [content, standardsQuery]);
+
   const standardsByState = useMemo(() => {
     const groups = new Map<string, LessonStandard[]>();
-    for (const s of content?.standards ?? []) {
+    for (const s of filteredStandards) {
       groups.set(s.state, [...(groups.get(s.state) ?? []), s]);
     }
     return Array.from(groups.entries()).sort(([a], [b]) => a.localeCompare(b));
-  }, [content]);
+  }, [filteredStandards]);
 
   const empty = (what: string) => (
     <p className="text-body-md text-content-tertiary">
@@ -352,11 +374,11 @@ export const LessonWindow: FC<LessonWindowProps> = ({
             <div className="flex flex-col gap-lg p-lg @3xl:p-xl">
               <section
                 ref={headerRef}
-                className="grid gap-lg @2xl:grid-cols-2 @2xl:items-start"
+                className="grid gap-lg @2xl:grid-cols-[160px_minmax(0,1fr)] @2xl:items-start"
               >
                 {isLoading || !lesson ? (
                   <>
-                    <Skeleton className="aspect-[16/10] w-full rounded-sm" />
+                    <Skeleton className="aspect-[16/10] w-40 rounded-sm" />
                     <div className="flex flex-col gap-md">
                       <Skeleton className="h-8 w-3/4" />
                       <Skeleton className="h-10 w-full rounded-full" />
@@ -369,18 +391,18 @@ export const LessonWindow: FC<LessonWindowProps> = ({
                       <img
                         src={lesson.imageUrl}
                         alt={`Cover image for ${lesson.name}`}
-                        className="aspect-[16/10] w-full rounded-sm border border-border-system-subtle object-cover"
+                        className="aspect-[16/10] w-40 rounded-sm border border-border-system-subtle object-cover"
                       />
                     ) : (
-                      <ImagePlaceholder className="aspect-[16/10] w-full rounded-sm border border-border-system-subtle text-content-tertiary" />
+                      <ImagePlaceholder className="aspect-[16/10] w-40 rounded-sm border border-border-system-subtle text-content-tertiary" />
                     )}
                     <div className="flex flex-col gap-md @2xl:pr-[72px]">
                       <h1 className="font-display text-display-sm text-content-primary">
                         {lesson.name}
                       </h1>
-                      <div className="flex flex-col items-stretch gap-xs">
+                      <div className="flex flex-wrap items-center gap-xs">
                         {sortedApps.map((app) => (
-                          <LaunchOption key={app.id} lesson={lesson} app={app} />
+                          <LaunchOption key={app.id} lesson={lesson} app={app} className="inline-flex" />
                         ))}
                       </div>
                       {lesson.subjects.length > 0 && (
@@ -405,25 +427,32 @@ export const LessonWindow: FC<LessonWindowProps> = ({
               >
                 <Tabs.List
                   aria-label="Lesson sections"
-                  className="sticky top-16 z-[5] flex gap-lg border-b border-border-system-subtle bg-bg-surface-default"
+                  className="sticky top-16 z-[5] flex gap-xl border-b border-border-system-subtle bg-bg-surface-default"
                 >
-                  {TABS.map(({ value, label }) => (
+                  {TABS.map(({ value, label, icon: Icon }) => (
                     <Tabs.Trigger
                       key={value}
                       value={value}
                       className={clsx(
-                        'relative cursor-pointer py-sm text-body-md outline-none transition-colors',
+                        'relative flex cursor-pointer items-center gap-sm py-md text-body-lg font-medium outline-none transition-colors',
                         tab === value
                           ? 'text-content-primary'
                           : 'text-content-tertiary hover:text-content-primary'
                       )}
                     >
+                      <Icon
+                        className={clsx(
+                          'h-5 w-5',
+                          tab === value && 'text-content-brand-default'
+                        )}
+                        aria-hidden="true"
+                      />
                       {label}
                       {tab === value && (
                         <motion.span
                           layoutId="lesson-window-tab-underline"
                           transition={{ duration: 0.25, ease: EASE_IN_OUT }}
-                          className="absolute inset-x-0 -bottom-px h-0.5 rounded-full bg-bg-surface-brand-strong"
+                          className="absolute inset-x-0 -bottom-px h-[3px] rounded-full bg-bg-surface-brand-strong"
                         />
                       )}
                     </Tabs.Trigger>
@@ -486,8 +515,30 @@ export const LessonWindow: FC<LessonWindowProps> = ({
                       <h2 className="text-body-lg font-medium text-content-primary">
                         {`Related standards (${content?.standards.length ?? 0})`}
                       </h2>
+                      {content && (
+                        <label className="flex w-full max-w-[360px] items-center gap-xs rounded-full border border-border-system-subtle bg-bg-surface-subtle px-md py-xs focus-within:border-border-system-strong">
+                          <Search
+                            className="h-4 w-4 shrink-0 text-content-tertiary"
+                            aria-hidden="true"
+                          />
+                          <input
+                            type="search"
+                            value={standardsQuery}
+                            onChange={(e) => setStandardsQuery(e.target.value)}
+                            placeholder="Search by name, grade or state"
+                            aria-label="Search standards"
+                            className="w-full bg-transparent text-body-md text-content-primary outline-none placeholder:text-content-tertiary"
+                          />
+                        </label>
+                      )}
                       {standardsByState.length === 0
-                        ? empty('standards alignment')
+                        ? content
+                          ? (
+                              <p className="text-body-md text-content-tertiary">
+                                No standards match your search.
+                              </p>
+                            )
+                          : empty('standards alignment')
                         : standardsByState.map(([state, standards]) => (
                             <div key={state} className="flex flex-col gap-xs">
                               <h3 className="text-body-md font-medium text-content-secondary">

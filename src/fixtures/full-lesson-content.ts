@@ -7,6 +7,8 @@ export type LessonStandard = {
   state: string;
   framework: string;
   code: string;
+  /** Grade band the standard applies to, e.g. "Grades 9–12". */
+  grade: string;
   description: string;
 };
 
@@ -36,6 +38,8 @@ const std = (
   state,
   framework,
   code,
+  // Every sample is high school except the NGSS middle-school codes.
+  grade: code.startsWith('MS-') ? 'Grades 6–8' : 'Grades 9–12',
   description,
 });
 
