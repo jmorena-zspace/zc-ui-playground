@@ -5,21 +5,20 @@ import clsx from 'clsx';
 import { FC, useEffect, useState } from 'react';
 import { RATING_SCALE } from './rating-scale';
 
-type Step = 'rating' | 'comment' | 'thanks';
+type Step = 'form' | 'thanks';
 
 // Tailwind's `ease-in-out`, reused here so motion's easing matches the CSS
 // transitions elsewhere in this app rather than a spring's overshoot.
 const EASE_IN_OUT = [0.4, 0, 0.2, 1] as const;
 
 const STEP_TITLE: Record<Step, string> = {
-  rating: 'How is your experience so far?',
-  comment: 'Anything you’d like to add?',
+  form: 'How is your experience so far?',
   thanks: 'Thank you!',
 };
 
 export const UserFeedbackWidget: FC = () => {
   const [open, setOpen] = useState(false);
-  const [step, setStep] = useState<Step>('rating');
+  const [step, setStep] = useState<Step>('form');
   const [rating, setRating] = useState<number | null>(null);
   const [comment, setComment] = useState('');
 
@@ -28,7 +27,7 @@ export const UserFeedbackWidget: FC = () => {
     const timeout = setTimeout(() => {
       setOpen(false);
       setTimeout(() => {
-        setStep('rating');
+        setStep('form');
         setRating(null);
         setComment('');
       }, 300);
@@ -38,14 +37,10 @@ export const UserFeedbackWidget: FC = () => {
 
   const close = () => setOpen(false);
 
-  const selectRating = (value: number) => {
-    setRating(value);
-    setStep('comment');
+  const send = () => {
+    if (rating == null) return;
+    setStep('thanks');
   };
-
-  const send = () => setStep('thanks');
-
-  const selectedRating = RATING_SCALE.find((r) => r.value === rating);
 
   return (
     <div className="pointer-events-none fixed inset-0 z-10">
@@ -102,47 +97,45 @@ export const UserFeedbackWidget: FC = () => {
                   exit={{ opacity: 0, x: -48 }}
                   transition={{ duration: 0.3, ease: EASE_IN_OUT }}
                 >
-                  {step === 'rating' && (
-                    <div className="flex items-center justify-between">
-                      {RATING_SCALE.map(({ value, icon: Icon, label }) => (
-                        <motion.button
-                          key={value}
-                          type="button"
-                          onClick={() => selectRating(value)}
-                          aria-label={label}
-                          whileHover={{ scale: 1.25, y: -4 }}
-                          whileTap={{ scale: 0.9 }}
-                          transition={{
-                            type: 'spring',
-                            stiffness: 420,
-                            damping: 15,
-                          }}
-                          className={clsx(
-                            'flex h-11 w-11 items-center justify-center rounded-full text-content-tertiary',
-                            'transition-colors hover:bg-bg-surface-hover hover:text-content-primary',
-                            'cursor-pointer'
-                          )}
-                        >
-                          <motion.span layout="position" className="flex">
-                            <Icon className="h-6 w-6" />
-                          </motion.span>
-                        </motion.button>
-                      ))}
-                    </div>
-                  )}
-
-                  {step === 'comment' && (
-                    <div className="flex flex-col gap-sm">
-                      {selectedRating && (
-                        <div className="flex items-center gap-xs text-content-tertiary">
-                          <selectedRating.icon className="h-4 w-4" />
-                          <span className="text-body-sm">
-                            Thanks for rating us
-                          </span>
-                        </div>
-                      )}
+                  {step === 'form' && (
+                    <div className="flex flex-col gap-md">
+                      <div
+                        role="radiogroup"
+                        aria-label="Rating"
+                        className="flex items-center justify-between"
+                      >
+                        {RATING_SCALE.map(({ value, icon: Icon, label }) => {
+                          const selected = rating === value;
+                          return (
+                            <motion.button
+                              key={value}
+                              type="button"
+                              role="radio"
+                              aria-checked={selected}
+                              onClick={() => setRating(value)}
+                              aria-label={label}
+                              whileHover={{ scale: 1.25, y: -4 }}
+                              whileTap={{ scale: 0.9 }}
+                              transition={{
+                                type: 'spring',
+                                stiffness: 420,
+                                damping: 15,
+                              }}
+                              className={clsx(
+                                'flex h-11 w-11 cursor-pointer items-center justify-center rounded-full transition-colors',
+                                selected
+                                  ? 'bg-bg-surface-strong text-content-primary'
+                                  : 'text-content-tertiary hover:bg-bg-surface-hover hover:text-content-primary'
+                              )}
+                            >
+                              <motion.span layout="position" className="flex">
+                                <Icon className="h-6 w-6" />
+                              </motion.span>
+                            </motion.button>
+                          );
+                        })}
+                      </div>
                       <textarea
-                        autoFocus
                         value={comment}
                         onChange={(e) => setComment(e.target.value)}
                         placeholder="Tell us more... (optional)"
@@ -154,11 +147,13 @@ export const UserFeedbackWidget: FC = () => {
                           'focus:border-border-input-active'
                         )}
                       />
-                      <div className="flex justify-end gap-xs">
-                        <BaseButton color="secondary" size="sm" onClick={send}>
-                          Skip
-                        </BaseButton>
-                        <BaseButton color="primary" size="sm" onClick={send}>
+                      <div className="flex justify-end">
+                        <BaseButton
+                          color="primary"
+                          size="sm"
+                          disabled={rating == null}
+                          onClick={send}
+                        >
                           Send
                         </BaseButton>
                       </div>

@@ -1,5 +1,4 @@
 import { ImagePlaceholder } from '@assets/image-placeholder';
-import { LaunchCodeBadge } from '@components/badges/launch-code-badge';
 import { BaseButton } from '@components/buttons/base-button/base-button';
 import { LessonFileCard } from '@components/cards/lesson-file-card/lesson-file-card';
 import { RelatedCollectionCard } from '@components/cards/related-collection-card/related-collection-card';
@@ -11,13 +10,14 @@ import {
   TooltipTrigger,
 } from '@components/ui/tooltip';
 import { LessonSidePanelSkeleton } from './lesson-side-panel-skeleton';
-import { Copy, Rocket, X } from 'lucide-react';
+import { Rocket, X } from 'lucide-react';
 import { LessonSidePanelControls } from './lesson-side-panel-controls';
 import { useLaunch } from '@hooks/launch';
 import { Lesson, LessonApplication } from '@zcentral-v2/types';
 import clsx from 'clsx';
 import { FC, useState } from 'react';
 import { toast } from 'sonner';
+import { LessonLaunchCodes } from './lesson-launch-codes';
 
 function isNotFoundError(error: unknown): boolean {
   return (
@@ -237,32 +237,7 @@ export const LessonSidePanelContent: FC<LessonSidePanelContentProps> = ({
         )}
       >
         {lesson.name}
-        {deepLinkingLaunchCodes && deepLinkingLaunchCodes.length > 0 && (
-          // Plain text-node siblings inside the h1, not a flex row: an
-          // inline-flex button is an atomic inline box, so it flows in the
-          // wrapped title's line box like a word and lands right after
-          // wherever the text ends, whether that is line 1 or line 2.
-          <span className="inline-flex flex-wrap items-center gap-xxs align-middle">
-            {deepLinkingLaunchCodes.map((code) => (
-              <button
-                key={code}
-                type="button"
-                aria-label="Copy launch code"
-                onClick={() => toast('Copied to clipboard')}
-                className="group/copy ml-xs inline-flex cursor-pointer items-center gap-xxs align-middle"
-              >
-                <LaunchCodeBadge text={code} />
-                <Copy
-                  className={clsx(
-                    'h-3 w-3 shrink-0 text-content-tertiary',
-                    'opacity-0 -translate-x-1 transition-all duration-200 ease-out',
-                    'group-hover/copy:opacity-100 group-hover/copy:translate-x-0'
-                  )}
-                />
-              </button>
-            ))}
-          </span>
-        )}
+        <LessonLaunchCodes codes={deepLinkingLaunchCodes ?? []} />
       </h1>
 
 {/*       <hr className="border-border-system-subtle" /> */}

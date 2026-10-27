@@ -19,6 +19,7 @@ import {
   Download,
   Library,
   Minimize2,
+  Plus,
   Search,
   X,
 } from 'lucide-react';
@@ -34,6 +35,7 @@ import {
   useState,
 } from 'react';
 import { toast } from 'sonner';
+import { LessonLaunchCodes } from './lesson-launch-codes';
 import { LaunchOption } from './lesson-side-panel-content';
 
 type Rect = { x: number; y: number; w: number; h: number };
@@ -255,6 +257,14 @@ export const LessonWindow: FC<LessonWindowProps> = ({
     },
   });
 
+  const launchCodes = useMemo(
+    () =>
+      (lesson?.apps ?? [])
+        .map((a) => a.deepLinkingLaunchCode)
+        .filter((code): code is string => !!code),
+    [lesson]
+  );
+
   const sortedApps = useMemo(
     () =>
       lesson
@@ -399,12 +409,22 @@ export const LessonWindow: FC<LessonWindowProps> = ({
                     <div className="flex flex-col gap-md @2xl:pr-[72px]">
                       <h1 className="font-display text-display-sm text-content-primary">
                         {lesson.name}
+                        <LessonLaunchCodes codes={launchCodes} />
                       </h1>
                       <div className="flex flex-wrap items-center gap-xs">
                         {sortedApps.map((app) => (
                           <LaunchOption key={app.id} lesson={lesson} app={app} className="inline-flex" />
                         ))}
                       </div>
+                      <BaseButton
+                        color="secondary"
+                        size="sm"
+                        leftIcon={<Plus className="h-4 w-4" />}
+                        className="self-start"
+                        onClick={() => toast('Added to class')}
+                      >
+                        Add to class
+                      </BaseButton>
                       {lesson.subjects.length > 0 && (
                         <div className="flex flex-wrap items-center gap-xxs">
                           {lesson.subjects.map((subject) => (
